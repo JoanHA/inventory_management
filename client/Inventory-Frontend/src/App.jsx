@@ -5,12 +5,22 @@ import Welcome from "./assets/pages/welcome";
 function App() {
   return (
   <>
-      <BrowserRouter>
+  
+  <BrowserRouter>
       <Header/>
-          <Routes>
+      <div className="">
+      <Routes>
+            
             <Route path="/" element={<Welcome/>}/>
+          
+           
           </Routes>
+
+      </div>
+         
         </BrowserRouter>
+ 
+   
   </>
   
   )

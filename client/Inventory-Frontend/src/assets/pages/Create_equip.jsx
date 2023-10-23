@@ -1,34 +1,72 @@
 import "../css/create.css";
 import add from "../../../public/img/add.svg";
 import { useForm } from "react-hook-form";
-import {Link }from "react-router-dom"
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-function Create_equip() { 
+import axios from "axios";
+function Create_equip() {
   //Use form para obtener los datos del formulario
-  const { register, handleSubmit ,formState:{errors} } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   //Method to save the data un the DB
-  const onSubmit =(values)=>{
-    console.log(values)
-  }
-  const [marks,setMarks]=useState()
-  const [type,setType]=useState()
-  const [disk,SetDisk]=useState()
-  const [ram,setRam]=useState()
+  const onSubmit = (values) => {
+    console.log(values);
+  };
+  const [marks, setMarks] = useState([]);
+  const [type, setType] = useState([]);
+  const [disk, SetDisk] = useState([]);
+  const [ram, setRam] = useState([]);
 
-  useEffect(()=>{
-    // axios
-    // .get(url)
-    // .then((res) => {     
-    //   // setDatos(res.data); // Update the state with the received data
-    // })
-    // .catch((error) => {
-    //   console.error("An error occurred:", error);
-    // });
+  const url = "http://localhost:4000/utils";
+  useEffect(() => {
+    var marcas = [];
+    var rams = [];
+    var equipos = [];
+    var discos = [];
 
+    axios
+      .get(url)
+      .then((res) => {
+        const datos = res.data;
+        setRam(res.data);
+        datos.map((dato) => {
+          //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
 
-  },[])
+          switch (dato.paramtype_id) {
+            case 201:
+              marcas.push(dato.name);
+              break;
+            case 203:
+              discos.push(dato.name);
+              break;
+            case 204:
+              rams.push(dato.name);
+              break;
+            case 208:
+              equipos.push(dato.name);
+              break;
+            default:
+              break;
+          }
+        });
+
+        // setMarks(marcas);
+        // setRam(rams);
+        // setType(equipos);
+        // SetDisk(discos);
+
+        // setDatos(res.data); // Update the state with the received data
+      })
+      .catch((error) => {
+        console.error("An error occurred:", error);
+      });
+
+    console.log(ram);
+  }, []);
   return (
     <div className="px-4">
       <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -44,8 +82,8 @@ function Create_equip() {
               placeholder="Nombre del producto..."
             />
             {errors.name?.type === "required" && (
-             <p className="errorMsg">name is required.</p>
-)}
+              <p className="errorMsg">name is required.</p>
+            )}
           </div>
           <div className=" col-12 col-sm-6 col-md-6">
             <label htmlFor=""> Responsable</label>
@@ -122,7 +160,9 @@ function Create_equip() {
               {...register("equip_type", { required: true })}
             >
               <option value="">Selecciona el tipo...</option>
-              <option value="Impresoras">Impresoras</option>
+              {type.forEach((name) => {
+                <option value="">{name}</option>;
+              })}
             </select>
           </div>
           {/* Quinta fila */}
@@ -142,9 +182,8 @@ function Create_equip() {
                 className="form-select md-3"
                 style={{ width: "80px" }}
                 {...register("formatRam", { required: true })}
-
               >
-               <option value="GB">GB</option>
+                <option value="GB">GB</option>
                 <option value="TB">TB</option>
               </select>
             </div>
@@ -237,15 +276,16 @@ function Create_equip() {
               placeholder="Antivirus"
             />
           </div>
-        
+
           {/* Boton de envio */}
           <div className="col-md-6">
-            <button
-              className=" btn btn-primary text-center my-3"  >
+            <button className=" btn btn-primary text-center my-3">
               Agregar
               <img src={add} alt="" style={{ marginLeft: "10px" }} />
             </button>
-            <Link className="btn btn-success mx-3 " to={"/equipments"}>Ver todo</Link>
+            <Link className="btn btn-success mx-3 " to={"/equipments"}>
+              Ver todo
+            </Link>
           </div>
         </div>
       </form>

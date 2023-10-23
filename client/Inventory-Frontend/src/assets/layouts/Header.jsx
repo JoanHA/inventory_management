@@ -10,25 +10,23 @@ function Header() {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav">
+         
           <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="#">Equipos</a>
+            <a className="nav-link" href="/events">Eventos</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">Eventos</a>
+            <a className="nav-link" href="login">Inicio de sesión</a>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Inicio de sesión</a>
-          </li>
-          {/* <li className="nav-item dropdown">
+          <li className="nav-item dropdown">
             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown link
+           Equipos
             </a>
             <ul className="dropdown-menu">
-              <li><a className="dropdown-item" href="#">Action</a></li>
-              <li><a className="dropdown-item" href="#">Another action</a></li>
-              <li><a className="dropdown-item" href="#">Something else here</a></li>
+              <li><a className="dropdown-item" href="/create">Registrar Equipo</a></li>
+              <li><a className="dropdown-item" href="/equipments">Ver equipos</a></li>
+              <li><a className="dropdown-item" href="/create_event">Registrar eventos</a></li>
             </ul>
-          </li> */}
+          </li>
         </ul>
       </div>
     </div>

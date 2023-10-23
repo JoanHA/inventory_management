@@ -1,135 +1,254 @@
 import "../css/create.css";
-import add from"../../../public/img/add.svg"
-function Create_equip() {
+import add from "../../../public/img/add.svg";
+import { useForm } from "react-hook-form";
+import {Link }from "react-router-dom"
+import { useEffect, useState } from "react";
+
+function Create_equip() { 
+  //Use form para obtener los datos del formulario
+  const { register, handleSubmit ,formState:{errors} } = useForm();
+
+  //Method to save the data un the DB
+  const onSubmit =(values)=>{
+    console.log(values)
+  }
+  const [marks,setMarks]=useState()
+  const [type,setType]=useState()
+  const [disk,SetDisk]=useState()
+  const [ram,setRam]=useState()
+
+  useEffect(()=>{
+    // axios
+    // .get(url)
+    // .then((res) => {     
+    //   // setDatos(res.data); // Update the state with the received data
+    // })
+    // .catch((error) => {
+    //   console.error("An error occurred:", error);
+    // });
+
+
+  },[])
   return (
     <div className="px-4">
-      <div className="row" id="Equip-row">
-        {/* Primera fila */}
-        <div className="col-12 col-sm-6  col-md-6 ">
-          <label htmlFor=""> Nombre del equipo</label>
-          <input type="text" name="name" id="" className="form-control" placeholder="Nombre del producto..." />
-        </div>
-        <div className=" col-12 col-sm-6 col-md-6">
-          <label htmlFor=""> Responsable</label>
-          <input type="text" name="reference" id="" className="form-control" placeholder="Referencia..." />
-        </div>
-        {/* Segunda fila */}
-        <div className=" col-6 col-sm-6 col-md-6">
-          <label htmlFor=""> Modelo</label>
-          <input type="text" name="model" id="" className="form-control" placeholder="Modelo..." />
-        </div>
-        <div className=" col-6 col-sm-6 col-md-6">
-          <label htmlFor=""> Oficina</label>
-          <input type="text" name="office" id="" className="form-control" placeholder="Oficina..." />
-        </div>
-        {/* Tercera fila */}
-        <div className="col-md-12">
-          <label htmlFor="">Descripcion</label>
-          <textarea
-            name="description"
-            id=""
-            cols="30"
-            className="form-control"
-            style={{ resize: "none" }}
-            placeholder="Descripción..."
-          ></textarea>
-        </div>
-        {/* cuarta fila */}
-        <div className=" col-4 col-sm-4 col-md-4">
-          <label htmlFor="">Serial</label>
-          <input type="text" name="serial" id="" className="form-control" placeholder="Código de serie" />
-        </div>
+      <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <div className="row" id="Equip-row">
+          {/* Primera fila */}
+          <div className="col-12 col-sm-6  col-md-6 ">
+            <label htmlFor=""> Nombre del equipo</label>
+            <input
+              type="text"
+              {...register("name", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Nombre del producto..."
+            />
+            {errors.name?.type === "required" && (
+             <p className="errorMsg">name is required.</p>
+)}
+          </div>
+          <div className=" col-12 col-sm-6 col-md-6">
+            <label htmlFor=""> Responsable</label>
+            <input
+              type="text"
+              {...register("user", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Responsable..."
+            />
+          </div>
+          {/* Segunda fila */}
+          <div className=" col-6 col-sm-6 col-md-6">
+            <label htmlFor=""> Modelo</label>
+            <input
+              type="text"
+              {...register("model", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Modelo..."
+            />
+          </div>
+          <div className=" col-6 col-sm-6 col-md-6">
+            <label htmlFor=""> Oficina</label>
+            <input
+              type="text"
+              {...register("office", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Oficina..."
+            />
+          </div>
+          {/* Tercera fila */}
+          <div className="col-md-12">
+            <label htmlFor="">Descripcion</label>
+            <textarea
+              {...register("description", { required: true })}
+              id=""
+              cols="30"
+              className="form-control"
+              style={{ resize: "none" }}
+              placeholder="Descripción..."
+            ></textarea>
+          </div>
+          {/* cuarta fila */}
+          <div className=" col-4 col-sm-4 col-md-4">
+            <label htmlFor="">Serial</label>
+            <input
+              type="text"
+              {...register("serial", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Código de serie"
+            />
+          </div>
 
-        <div className=" col-4 col-sm-4 col-md-4">
-          <label htmlFor="">Marca</label>
-          <select name="equipment_type" id="" className="form-select">
-            <option value="">Selecciona una marca...</option>
-          </select>
-        </div>
-        <div className=" col-4 col-sm-4col-md-4">
-          <label htmlFor="">Tipo de equipo</label>
-          <select name="" id="" className="form-select">
-            <option value="">Selecciona el tipo...</option>
-          </select>
-        </div>
-        {/* Quinta fila */}
-        <div className="col-6 col-sm-6 col-md-3 ">
-          <label htmlFor="">Cantidad de ram</label>
-          <div className="d-flex align-item-center justify-content-center">
-            <input type="number" name="ram" id="" className="form-control GB-TB" placeholder="0" />
+          <div className=" col-4 col-sm-4 col-md-4">
+            <label htmlFor="">Marca</label>
+            <select
+              id=""
+              {...register("mark", { required: true })}
+              className="form-select"
+            >
+              <option value="">Selecciona una marca...</option>
+              <option value="HP">HP</option>
+            </select>
+          </div>
+          <div className=" col-4 col-sm-4col-md-4">
+            <label htmlFor="">Tipo de equipo</label>
             <select
               name=""
               id=""
-              className="form-select md-3"
-              style={{ width: "80px" }}
+              className="form-select"
+              {...register("equip_type", { required: true })}
             >
-              <option value="">GB</option>
-              <option value="">TB</option>
+              <option value="">Selecciona el tipo...</option>
+              <option value="Impresoras">Impresoras</option>
             </select>
           </div>
-        </div>
+          {/* Quinta fila */}
+          <div className="col-6 col-sm-6 col-md-3 ">
+            <label htmlFor="">Cantidad de ram</label>
+            <div className="d-flex align-item-center justify-content-center">
+              <input
+                type="number"
+                {...register("ram", { required: true })}
+                id=""
+                className="form-control GB-TB"
+                placeholder="0"
+              />
+              <select
+                name=""
+                id=""
+                className="form-select md-3"
+                style={{ width: "80px" }}
+                {...register("formatRam", { required: true })}
 
-        <div className=" col-6  col-sm-6 col-md-3 ">
-          <label htmlFor="">Cantidad de disco duro</label>
-          <div className="d-flex justify-content-center">
-            <input type="number" name="hard_disk" id="" className="form-control"  placeholder="0"/>
+              >
+               <option value="GB">GB</option>
+                <option value="TB">TB</option>
+              </select>
+            </div>
+          </div>
+
+          <div className=" col-6  col-sm-6 col-md-3 ">
+            <label htmlFor="">Cantidad de disco duro</label>
+            <div className="d-flex justify-content-center">
+              <input
+                type="number"
+                {...register("hard_disk", { required: true })}
+                id=""
+                className="form-control"
+                placeholder="0"
+              />
+              <select
+                name=""
+                id=""
+                className="form-select md-3 GB-TB"
+                style={{ width: "80px" }}
+                {...register("formatDisk", { required: true })}
+              >
+                <option value="GB">GB</option>
+                <option value="TB">TB</option>
+              </select>
+            </div>
+          </div>
+          <div className=" col-6 col-sm-6 col-md-3">
+            <label htmlFor="">Tipo de ram</label>
             <select
-              name=""
               id=""
-              className="form-select md-3 GB-TB"
-              style={{ width: "80px" }}
+              {...register("ram_type", { required: true })}
+              className="form-select"
             >
-              <option value="">GB</option>
-              <option value="">TB</option>
+              <option value="">Tipo de ram</option>
+              <option value="DDR4">DDR4</option>
             </select>
           </div>
+          <div className=" col-6 col-sm-6 col-md-3">
+            <label htmlFor="">Tipo de disco duro</label>
+            <select
+              {...register("hard_type", { required: true })}
+              id=""
+              className="form-select"
+            >
+              <option value="">Tipo disco duro</option>
+              <option value="SSD">SSD</option>
+            </select>
+          </div>
+          {/* Sexta fila */}
+          <div className="col-md-3">
+            <label htmlFor="">Procesador</label>
+            <input
+              type="text"
+              {...register("proccesor", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Nombre de procesador"
+            />
+          </div>
+          <div className="col-md-4">
+            <label htmlFor="">Sistema operativo</label>
+            <input
+              type="text"
+              {...register("system", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Nombre del sistema operativo"
+            />
+          </div>
+          {/* Septima fila */}
+          <div className="col-md-2">
+            <label htmlFor="">Almacenados</label>
+            <input
+              type="number"
+              {...register("stock", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="0"
+            />
+          </div>
+          <div className="col-md-3 ">
+            <label htmlFor="">Antivirus</label>
+            <input
+              type="text"
+              name="antivirus"
+              {...register("antivirus", { required: true })}
+              id=""
+              className="form-control"
+              placeholder="Antivirus"
+            />
+          </div>
+        
+          {/* Boton de envio */}
+          <div className="col-md-6">
+            <button
+              className=" btn btn-primary text-center my-3"  >
+              Agregar
+              <img src={add} alt="" style={{ marginLeft: "10px" }} />
+            </button>
+            <Link className="btn btn-success mx-3 " to={"/equipments"}>Ver todo</Link>
+          </div>
         </div>
-        <div className=" col-6 col-sm-6 col-md-3">
-          <label htmlFor="">Tipo de ram</label>
-          <select name="ram_type " id="" className="form-select">
-            <option value="">Tipo de ram</option>
-          </select>
-        </div>
-        <div className=" col-6 col-sm-6 col-md-3">
-          <label htmlFor="">Tipo de disco duro</label>
-          <select name="hard_type" id="" className="form-select">
-            <option value="">Tipo disco duro</option>
-          </select>
-        </div>
-        {/* Sexta fila */}
-        <div className="col-md-6">
-          <label htmlFor="">Procesador</label>
-          <input type="text" name="proccesor" id="" className="form-control" placeholder="Nombre de procesador" />
-        </div>
-        <div className="col-md-6">
-          <label htmlFor="">Sistema operativo</label>
-          <input type="text" name="system" id="" className="form-control"  placeholder="Nombre del sistema operativo"/>
-        </div>
-        {/* Septima fila */}
-        <div className="col-md-2">
-          <label htmlFor="">Cantidad almacenada</label>
-          <input type="number" name="stock" id="" className="form-control"  placeholder="0"/>
-        </div>
-        <div className="col-md-5">
-          <label htmlFor="">Antivirus</label>
-          <input type="number" name="antivirus" id="" className="form-control"  placeholder="Antivirus"/>
-        </div>
-        <div className="col-md-5">
-          <label htmlFor="">Mantenimiento</label>
-          <select name="maintenance" id="" className="form-select">
-            <option>Ya fue realizado?</option>
-            <option value="">Si</option>
-            <option value="">No</option>
-          </select>
-        </div>
-        {/* Boton de envio */}
-        <div className="col-md-6">
-          <button className=" btn btn-primary text-center" style={{ marginTop: "10px" }}>
-            Agregar
-            <img src={add} alt=""  style={{marginLeft:"10px"}}/>
-          </button>
-        </div>
-      </div>
+      </form>
     </div>
   );
 }

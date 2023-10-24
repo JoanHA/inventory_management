@@ -1,5 +1,5 @@
 import "../css/create.css";
-import add from "../../../public/img/add.svg";
+import add from "./../img/add.svg";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -9,19 +9,34 @@ function Create_equip() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+  
+  const url = "http://localhost:4000/";
 
   //Method to save the data un the DB
   const onSubmit = (values) => {
     console.log(values);
+    axios.post(url+"api/equip",values).then(res =>{
+      console.log(res.data.status)
+      if (res.data.status == 204) {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'El equipo de registro exitosamente!',
+          showConfirmButton: true,
+          timer: 3000
+        }).then(()=>{reset()})
+        
+      }
+    })
   };
   const [marks, setMarks] = useState([]);
   const [type, setType] = useState([]);
   const [disk, SetDisk] = useState([]);
   const [ram, setRam] = useState([]);
 
-  const url = "http://localhost:4000/utils";
   useEffect(() => {
     var marcas = [];
     var rams = [];
@@ -29,43 +44,41 @@ function Create_equip() {
     var discos = [];
 
     axios
-      .get(url)
+      .get(url+"utils")
       .then((res) => {
-        const datos = res.data;
-        setRam(res.data);
+        const datos = res.data; // datos 
+
         datos.map((dato) => {
           //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
 
           switch (dato.paramtype_id) {
             case 201:
-              marcas.push(dato.name);
+              marcas.push([dato.id, dato.name]);
               break;
             case 203:
-              discos.push(dato.name);
+              discos.push([dato.id, dato.name]);
               break;
             case 204:
-              rams.push(dato.name);
+              rams.push([dato.id, dato.name]);
               break;
             case 208:
-              equipos.push(dato.name);
+              equipos.push([dato.id, dato.name]);
               break;
             default:
               break;
           }
         });
 
-        // setMarks(marcas);
-        // setRam(rams);
-        // setType(equipos);
-        // SetDisk(discos);
-
-        // setDatos(res.data); // Update the state with the received data
+        ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
+        setMarks(marcas);
+        setRam(rams);
+        setType(equipos);
+        SetDisk(discos);
       })
       .catch((error) => {
         console.error("An error occurred:", error);
       });
 
-    console.log(ram);
   }, []);
   return (
     <div className="px-4">
@@ -148,7 +161,10 @@ function Create_equip() {
               className="form-select"
             >
               <option value="">Selecciona una marca...</option>
-              <option value="HP">HP</option>
+           
+              {marks.map((object) => (
+                <option value={object[0]}>{object[1]}</option>
+              ))}
             </select>
           </div>
           <div className=" col-4 col-sm-4col-md-4">
@@ -160,9 +176,9 @@ function Create_equip() {
               {...register("equip_type", { required: true })}
             >
               <option value="">Selecciona el tipo...</option>
-              {type.forEach((name) => {
-                <option value="">{name}</option>;
-              })}
+              {type.map((object) => (
+                <option value={object[0]}>{object[1]}</option>
+              ))}
             </select>
           </div>
           {/* Quinta fila */}
@@ -219,7 +235,10 @@ function Create_equip() {
               className="form-select"
             >
               <option value="">Tipo de ram</option>
-              <option value="DDR4">DDR4</option>
+              <option value="">Selecciona el tipo...</option>
+              {ram.map((object) => (
+                <option value={object[0]}>{object[1]}</option>
+              ))}
             </select>
           </div>
           <div className=" col-6 col-sm-6 col-md-3">
@@ -229,8 +248,11 @@ function Create_equip() {
               id=""
               className="form-select"
             >
-              <option value="">Tipo disco duro</option>
-              <option value="SSD">SSD</option>
+      
+              <option value="">Selecciona el tipo...</option>
+              {disk.map((object) => (
+                <option value={object[0]}>{object[1]}</option>
+              ))}
             </select>
           </div>
           {/* Sexta fila */}

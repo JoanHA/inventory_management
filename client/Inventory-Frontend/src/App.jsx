@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./assets/layouts/header";
 import Create_equip from "./assets/pages/Create_equip";
 import Welcome from "./assets/pages/welcome";
-import View_equip from "./assets/pages/view_equip";
+import View_equip from "./assets/pages/View_equip";
 import ViewAllEquip from "./assets/pages/ViewAllEquip";
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
           <Route path="/register" element={<h1>register</h1>} />
           <Route path="/create" element={<Create_equip />} />
           <Route path="/equipments" element={<ViewAllEquip/>} />
-          <Route path="/edit/:id" element={<h1>editar equipo</h1>} />
+          <Route path="/edit/:id" element={<View_equip/>} />
           <Route path="/events" element={<h1>eventos</h1>} />
           <Route path="/create_event" element={<h1>crear evento</h1>} />
           <Route path="/edit_event/:id" element={<h1>editar evento</h1>} />

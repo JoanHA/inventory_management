@@ -3,6 +3,8 @@ const morgan = require("morgan")
 require("dotenv").config();
 const equip = require("./routes/equip.js")
 const router = express.Router();
+const util = require("./routes/utilities.js")
+
 //initialize
 const app = express();
 const cors = require("cors")
@@ -17,6 +19,7 @@ app.use(express.urlencoded({extended:true}))
 
 //Routes
 app.use("/api",equip); //Route for equipment
+app.use("/utils",util)
 
 
 //Server listening

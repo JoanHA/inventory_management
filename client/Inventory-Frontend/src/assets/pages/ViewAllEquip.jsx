@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 function ViewAllEquip() {
   const url = "http://localhost:4000/api/equip";
   const [datos, setDatos] = useState([]);
@@ -33,15 +33,15 @@ function ViewAllEquip() {
         </tr>
 
         {datos.map((data) => (
-          <tr className="table-primary">
-            <td className="table-primary">{data.id}</td>
+          <tr className="table-primary" >
+            <td className="table-primary" >{data.id}</td>
             <td className="table-primary">{data.name}</td>
             <td className="table-primary">{data.model}</td>
             <td className="table-primary">{data.serial}</td>
             <td className="table-primary">{data.paramName}</td>
             <td className="table-primary">{data.stock}</td>
             <td className="table-primary">{data.user}</td>
-            <td className="table-primary"><button className="btn btn-primary btn-sm">Ver</button></td>
+            <td className="table-primary"><Link to={`/edit/${data.id}`} className="btn btn-primary btn-sm">Ver</Link></td>
             <td className="table-primary"> <button className="btn btn-success btn-sm">Crear evento</button></td>
           </tr>
         ))}

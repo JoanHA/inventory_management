@@ -1,0 +1,19 @@
+.back{
+    background-color: rgba(83, 83, 83, 0.6);;
+    z-index: 9999;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  
+}
+.formContainer{
+    height: 250px;
+    width: 45%;
+    opacity: 1 !important;
+}
+.inactive{
+    display: none;
+}

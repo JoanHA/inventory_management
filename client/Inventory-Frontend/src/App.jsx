@@ -4,13 +4,14 @@ import Create_equip from "./assets/pages/Create_equip";
 import Welcome from "./assets/pages/welcome";
 import View_equip from "./assets/pages/View_equip";
 import ViewAllEquip from "./assets/pages/ViewAllEquip";
+import Add from "./assets/components/add";
 function App() {
   return (
     <>
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<h1>Welcome</h1>} />
+          <Route path="/" element={<Add />} />
           <Route path="/login" element={<h1>login</h1>} />
           <Route path="/register" element={<h1>register</h1>} />
           <Route path="/create" element={<Create_equip />} />

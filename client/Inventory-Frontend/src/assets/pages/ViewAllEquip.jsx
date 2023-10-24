@@ -5,11 +5,10 @@ function ViewAllEquip() {
   const url = "http://localhost:4000/api/equip";
   const [datos, setDatos] = useState([]);
 
-  
   useEffect(() => {
     axios
       .get(url)
-      .then((res) => {     
+      .then((res) => {
         setDatos(res.data); // Update the state with the received data
       })
       .catch((error) => {
@@ -19,30 +18,37 @@ function ViewAllEquip() {
 
   return (
     <div style={{ marginTop: "0px" }} className="px-5">
-      <table className="table table-primary table-striped table-hover py-3 px-3 mt-3 " style={{backgroundColor:"beige"}}>
+      <table className="table table-striped  table-hover py-3 px-3 mt-3 ">
         <tr>
-        <th className="table-primary">ID</th>
-          <th className=" table-primary">Equipo</th>
-          <th className=" table-primary">Modelo</th>
-          <th className=" table-primary">Serial</th>
-          <th className=" table-primary">Marca</th>
-          <th className=" table-primary">Almacenados</th>
-          <th className=" table-primary">Responsable</th>
-          <th >Ver</th>
-          <th >evento</th>
+          <th className="">ID</th>
+          <th className=" ">Equipo</th>
+          <th className=" ">Modelo</th>
+          <th className=" ">Serial</th>
+          <th className=" ">Marca</th>
+          <th className=" ">Estado del equipo</th>
+          <th className=" ">Responsable</th>
+          <th>Ver</th>
+          <th>evento</th>
         </tr>
 
         {datos.map((data) => (
-          <tr className="table-primary" >
-            <td className="table-primary" >{data.id}</td>
-            <td className="table-primary">{data.name}</td>
-            <td className="table-primary">{data.model}</td>
-            <td className="table-primary">{data.serial}</td>
-            <td className="table-primary">{data.paramName}</td>
-            <td className="table-primary">{data.stock}</td>
-            <td className="table-primary">{data.user}</td>
-            <td className="table-primary"><Link to={`/edit/${data.id}`} className="btn btn-primary btn-sm">Ver</Link></td>
-            <td className="table-primary"> <button className="btn btn-success btn-sm">Crear evento</button></td>
+          <tr className="" key={data.id}>
+            <td className="">{data.id}</td>
+            <td className="">{data.name}</td>
+            <td className="">{data.model}</td>
+            <td className="">{data.serial}</td>
+            <td className="">{data.paramName}</td>
+            <td className="">{data.status==1?"Activo":"Inactivo"}</td>
+            <td className="">{data.user}</td>
+            <td className="">
+              <Link to={`/edit/${data.id}`} className="btn btn-primary btn-sm">
+                Ver
+              </Link>
+            </td>
+            <td className="">
+              {" "}
+              <button className="btn btn-success btn-sm">Crear evento</button>
+            </td>
           </tr>
         ))}
       </table>

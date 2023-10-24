@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { URI } from "../../../config";
 import { onDelete } from "../lib/Ondelete";
+import { update } from "../lib/updateEquip.js";
 
 function View_equip() {
   //Use form para obtener los datos del formulario
@@ -20,9 +21,6 @@ function View_equip() {
   const [diskQty, setdiskQty] = useState("");
 
   //Method to save the data un the DB
-  const onSubmit = (values) => {
-    console.log(values);
-  };
 
   //llenado de datos del equipo
   useEffect(() => {
@@ -46,8 +44,6 @@ function View_equip() {
           name: equipData.name,
           model: equipData.model,
           serial: equipData.serial,
-          paramName: equipData.paramName,
-          stock: equipData.stock,
           user: equipData.user,
           office: equipData.office,
           description: equipData.description,
@@ -65,16 +61,24 @@ function View_equip() {
 
   const {
     register,
-    handleSubmit,
     reset,
     watch,
     formState: { errors },
   } = useForm();
-  // console.log(watch())
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const data = watch();
+
+    async function updateEquips() {
+      update(params.id, data);
+    }
+    updateEquips();
+  };
 
   return (
     <div className="px-4">
-      <form action="" onSubmit={handleSubmit(onSubmit)}>
+      <form action="" onSubmit={onSubmit}>
         <div className="row" id="Equip-row">
           {/* Primera fila */}
           <div className="col-12 col-sm-6  col-md-6 ">
@@ -145,34 +149,43 @@ function View_equip() {
 
           <div className=" col-4 col-sm-4 col-md-4">
             <label htmlFor="">Marca</label>
-            <select
-              id=""
-              {...register("mark", { required: true })}
-              className="form-select"
-              disabled
-            >
-              <option value="">Selecciona una marca...</option>
-              <option value="" selected>
-                {" "}
-                {equip.mark_name}
-              </option>
-            </select>
+            <div className="d-flex flex-row">
+              <select
+                id=""
+                {...register("mark", { required: true })}
+                className="form-select"
+              >
+                <option value="">Selecciona una marca...</option>
+                <option value={equip.mark} selected>
+                  {" "}
+                  {equip.mark_name}
+                </option>
+              </select>
+              <button type="button" className="btn btn-secondary addBtn">
+                +
+              </button>
+            </div>
           </div>
+
           <div className=" col-4 col-sm-4col-md-4">
             <label htmlFor="">Tipo de equipo</label>
-            <select
-              name=""
-              id=""
-              className="form-select"
-              {...register("equip_type", { required: true })}
-              disabled
-            >
-              <option value="">Selecciona el tipo...</option>
-              <option value="" selected>
-                {" "}
-                {equip.equipment_type_name}
-              </option>
-            </select>
+            <div className="d-flex flex-row">
+              <select
+                name=""
+                id=""
+                className="form-select"
+                {...register("equip_type", { required: true })}
+              >
+                <option value="">Selecciona el tipo...</option>
+                <option value={equip.equipment_type} selected>
+                  {" "}
+                  {equip.equipment_type_name}
+                </option>
+              </select>
+              <button type="button" className="btn btn-secondary addBtn">
+                +
+              </button>
+            </div>
           </div>
           {/* Quinta fila */}
           <div className="col-6 col-sm-6 col-md-3 ">
@@ -238,7 +251,7 @@ function View_equip() {
             >
               <option value="">Tipo de ram</option>
 
-              <option value="" selected>
+              <option value={equip.ram_type} selected>
                 {" "}
                 {equip.ram_type_name}
               </option>
@@ -253,7 +266,7 @@ function View_equip() {
               className="form-select"
             >
               <option value="">Selecciona el tipo...</option>
-              <option value="" selected>
+              <option value={equip.hard_type} selected>
                 {" "}
                 {equip.hard_type_name}
               </option>
@@ -282,14 +295,21 @@ function View_equip() {
           </div>
           {/* Septima fila */}
           <div className="col-md-2">
-            <label htmlFor="">Almacenados</label>
-            <input
-              type="number"
-              {...register("stock", { required: true })}
+            <label htmlFor="">Estado equipo</label>
+
+            <select
+              name=""
               id=""
-              className="form-control"
-              placeholder="0"
-            />
+              className="form-select"
+              {...register("status", { required: true })}
+            >
+              <option value="1" selected={equip.status == 1 ? true : false}>
+                Activo
+              </option>
+              <option value="2" selected={equip.status == 2 ? true : false}>
+                Inactivo
+              </option>
+            </select>
           </div>
           <div className="col-md-3 ">
             <label htmlFor="">Antivirus</label>
@@ -312,7 +332,7 @@ function View_equip() {
             <Link className="btn btn-success mx-3 " to={"/"}>
               agregar evento
             </Link>
-            <button
+            <Link
               className="btn btn-danger"
               onSubmit={(e) => {
                 e.preventDefault();
@@ -322,10 +342,9 @@ function View_equip() {
               }}
             >
               Eliminar
-            </button>
+            </Link>
           </div>
         </div>
-        <button>Enviar</button>
       </form>
     </div>
   );

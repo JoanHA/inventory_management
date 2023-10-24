@@ -5,3 +5,8 @@
     border-bottom-left-radius: 0px;
 
 }
+.addBtn{
+    border-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

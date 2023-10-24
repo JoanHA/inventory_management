@@ -1,5 +1,6 @@
-/* body{
+body{
     background-color: #202020;
     color:white;
-    justify-content: end ;
-} */
+   
+}
+.errorMsg{color: #b22222;}

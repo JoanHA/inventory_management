@@ -12,7 +12,7 @@ router.use((req, res, next) => {
 //Get all
 router.get("/equip", (req, res) => {
   const sql =
-    "SELECT equipments.*, params.name as paramName FROM equipments INNER JOIN params on params.id = equipments.mark where status =1;";
+    "SELECT equipments.*, params.name as paramName FROM equipments INNER JOIN params on params.id = equipments.mark ;";
   db.query(sql, (err, result) => {
     res.send(result);
   });
@@ -36,7 +36,7 @@ router.post("/equip", (req, res) => {
     hard_type,
     proccesor,
     system,
-    stock,
+    status,
     antivirus,
   } = req.body;
 
@@ -57,13 +57,12 @@ router.post("/equip", (req, res) => {
     hard_type,
     proccesor,
     system,
-    stock,
     antivirus,
 
-    status: 1,
+    status
   };
   db.query(
-    `INSERT INTO equipments(name,user,model,office,description,serial,mark,equipment_type,ram,hard_disk,ram_type,hard_type,proccesor,system,stock,antivirus,status) VALUES('${datos.name}','${datos.user}','${datos.model}','${datos.office}','${datos.description}','${datos.serial}',${datos.mark},${datos.equipment_type},'${datos.ram}','${datos.hard_disk}',${datos.ram_type},${datos.hard_type},'${datos.proccesor}','${datos.system}',${datos.stock},'${datos.antivirus}',${datos.status})`,
+    `INSERT INTO equipments(name,user,model,office,description,serial,mark,equipment_type,ram,hard_disk,ram_type,hard_type,proccesor,system,antivirus,status) VALUES('${datos.name}','${datos.user}','${datos.model}','${datos.office}','${datos.description}','${datos.serial}',${datos.mark},${datos.equipment_type},'${datos.ram}','${datos.hard_disk}',${datos.ram_type},${datos.hard_type},'${datos.proccesor}','${datos.system}','${datos.antivirus}',${datos.status})`,
     (error, result) => {
       if (error) {
         console.log(error);
@@ -77,7 +76,7 @@ router.post("/equip", (req, res) => {
 //Delete equip
 router.delete("/equip/:id", (req, res) => {
   try {
-    const sql = `UPDATE equipments SET  status = 2 WHERE equipments.id = ${req.params.id}`;
+    const sql = `DELETE FROM equipments  WHERE equipments.id = ${req.params.id}`;
     db.query(sql, (error, result) => {
       if (result.affectedRows <= 0) {
         res.send({
@@ -117,7 +116,7 @@ router.put("/equip/:id", (req, res) => {
       hard_type,
       proccesor,
       system,
-      stock,
+    status,
       antivirus,
     } = req.body;
   
@@ -138,9 +137,8 @@ router.put("/equip/:id", (req, res) => {
       hard_type,
       proccesor,
       system,
-      stock,
       antivirus,
-      status: 1,
+      status
     };
     const sql = `UPDATE equipments
   SET 
@@ -157,7 +155,6 @@ router.put("/equip/:id", (req, res) => {
     hard_type = ${datos.hard_type},
     proccesor = '${datos.proccesor}',
     system = '${datos.system}',
-    stock = ${datos.stock},
     antivirus = '${datos.antivirus}',
     status = ${datos.status},
     serial = '${datos.serial}'
@@ -165,9 +162,11 @@ router.put("/equip/:id", (req, res) => {
   
     db.query(sql, (error, result) => {
       if (result.affectedRows < 1) {
+        console.log(error)
         res.send({ status: 404, message: "Equipo no encontrado" });
         return;
       }
+      console.log({ status: 200, message: "Equipo Actualizado correctamente" })
       res.send({ status: 200, message: "Equipo Actualizado correctamente" });
     });
   } catch (error) {

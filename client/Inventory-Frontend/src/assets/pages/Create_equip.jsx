@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Add from "../components/add";
+import { createEquip } from "../lib/updateEquip";
+import { URI } from "../../../config";
+
 function Create_equip() {
   //Use form para obtener los datos del formulario
   const {
@@ -25,24 +28,11 @@ function Create_equip() {
 
   //Method to save the data un the DB
   const onSubmit = (values) => {
-    console.log(values);
-    axios.post(url + "api/equip", values).then((res) => {
-      console.log(res.data.status);
-      if (res.data.status == 204) {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "El equipo de registro exitosamente!",
-          showConfirmButton: true,
-          timer: 3000,
-        }).then(() => {
-          reset();
-        });
-      }
-    });
+    createEquip(values)
   };
-  const openView = (value) => {
-    setParametro(value);
+  const openView = (value,id) => {
+    setParametro([value,id]);
+  
     document.querySelector("#addModal").classList.remove("inactive");
   };
 
@@ -54,7 +44,7 @@ function Create_equip() {
     var discos = [];
 
     axios
-      .get(url + "utils")
+      .get(URI + "utils")
       .then((res) => {
         const datos = res.data; // datos
         datos.map((dato) => {
@@ -90,7 +80,7 @@ function Create_equip() {
   }, []);
   return (
     <>
-      <div> {parametro && <Add param={parametro} />}</div>
+      <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
       <div className="px-4 py-3">
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
@@ -204,7 +194,7 @@ function Create_equip() {
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Marca");
+                    openView("Marca","201");
                   }}
                 >
                   +
@@ -230,7 +220,7 @@ function Create_equip() {
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Tipo de equipo");
+                    openView("Tipo de equipo","208");
                   }}
                 >
                   +
@@ -296,7 +286,7 @@ function Create_equip() {
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Tipo de ram");
+                    openView("Tipo de ram","204");
                   }}
                 >
                   +
@@ -320,7 +310,7 @@ function Create_equip() {
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Tipo de disco duro");
+                    openView("Tipo de disco duro","203");
                   }}
                 >
                   +

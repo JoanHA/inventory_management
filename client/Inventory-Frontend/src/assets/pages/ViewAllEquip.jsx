@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+
 function ViewAllEquip() {
   const url = "http://localhost:4000/api/equip";
+
   const [datos, setDatos] = useState([]);
 
   useEffect(() => {
@@ -17,8 +19,8 @@ function ViewAllEquip() {
   }, []);
 
   return (
-    <div style={{ marginTop: "0px" }} className="px-5">
-      <table className="table table-striped  table-hover py-3 px-3 mt-3 ">
+    <div style={{ marginTop: "0px" }} className="px-5 card table-responsive">
+      <table className="table table-success table-bordered border-dark table-hover py-3 px-3 mt-3 ">
         <tr>
           <th className="">ID</th>
           <th className=" ">Equipo</th>
@@ -31,8 +33,8 @@ function ViewAllEquip() {
           <th>evento</th>
         </tr>
 
-        {datos.map((data) => (
-          <tr className="" key={data.id}>
+        {  datos.length > 0 ?  (datos.map((data) => (
+            <tr className="" key={data.id}>
             <td className="">{data.id}</td>
             <td className="">{data.name}</td>
             <td className="">{data.model}</td>
@@ -47,10 +49,11 @@ function ViewAllEquip() {
             </td>
             <td className="">
               {" "}
-              <button className="btn btn-success btn-sm">Crear evento</button>
+              <Link  to={`/create_event/${data.id}`} className="btn btn-success btn-sm">Añadir Evento</Link>
             </td>
           </tr>
-        ))}
+
+        ))):   <tr><td colSpan={9}>No hay datos aún...</td></tr> }
       </table>
     </div>
   );

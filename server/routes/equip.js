@@ -11,11 +11,19 @@ router.use((req, res, next) => {
 
 //Get all
 router.get("/equip", (req, res) => {
-  const sql =
-    "SELECT equipments.*, params.name as paramName FROM equipments INNER JOIN params on params.id = equipments.mark ;";
+
+  try {
+    const sql =
+    "SELECT equipments.*, params.name as paramName FROM equipments INNER JOIN params on params.id = equipments.mark;";
   db.query(sql, (err, result) => {
+    
     res.send(result);
   });
+  } catch (error) {
+    console.log(error)
+    
+  }
+
 });
 //Create equip
 router.post("/equip", (req, res) => {

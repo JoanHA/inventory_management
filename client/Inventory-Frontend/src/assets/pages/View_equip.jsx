@@ -6,7 +6,7 @@ import axios from "axios";
 import { URI } from "../../../config";
 import { onDelete } from "../lib/Ondelete";
 import { update } from "../lib/updateEquip.js";
-
+import Add from "../components/add";
 function View_equip() {
   //Use form para obtener los datos del formulario
 
@@ -19,6 +19,13 @@ function View_equip() {
   const [equip, setEquip] = useState({});
   const [ramQty, setramQty] = useState("");
   const [diskQty, setdiskQty] = useState("");
+
+  const [marks, setMarks] = useState([]);
+  const [type, setType] = useState([]);
+  const [disk, SetDisk] = useState([]);
+  const [ram, setRam] = useState([]);
+
+  const [parametro, setParametro] = useState();
 
   //Method to save the data un the DB
 
@@ -58,26 +65,73 @@ function View_equip() {
         console.log(error);
       });
   }, []);
+  useEffect(() => {
+    var marcas = [];
+    var rams = [];
+    var equipos = [];
+    var discos = [];
+
+    axios
+      .get(URI + "utils")
+      .then((res) => {
+        const datos = res.data; // datos
+        datos.map((dato) => {
+          //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
+
+          switch (dato.paramtype_id) {
+            case 201:
+              marcas.push([dato.id, dato.name]);
+              break;
+            case 203:
+              discos.push([dato.id, dato.name]);
+              break;
+            case 204:
+              rams.push([dato.id, dato.name]);
+              break;
+            case 208:
+              equipos.push([dato.id, dato.name]);
+              break;
+            default:
+              break;
+          }
+        });
+
+        ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
+        setMarks(marcas);
+        setRam(rams);
+        setType(equipos);
+        SetDisk(discos);
+      })
+      .catch((error) => {
+        console.error("An error occurred:", error);
+      });
+  }, []);
+  const openView = (value,id) => {
+    setParametro([value,id]);
+  
+    document.querySelector("#addModal").classList.remove("inactive");
+  };
 
   const {
     register,
     reset,
     watch,
+    clearErrors,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (e) => {
     e.preventDefault();
     const data = watch();
-
+    console.log(data);
     async function updateEquips() {
       update(params.id, data);
     }
-    updateEquips();
+    // updateEquips();
   };
 
   return (
-    <div className="px-4">
+    <><div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div><div className="px-4">
       <form action="" onSubmit={onSubmit}>
         <div className="row" id="Equip-row">
           {/* Primera fila */}
@@ -88,8 +142,7 @@ function View_equip() {
               {...register("name", { required: true })}
               id=""
               className="form-control"
-              placeholder="Nombre del producto..."
-            />
+              placeholder="Nombre del producto..." />
           </div>
           <div className=" col-12 col-sm-6 col-md-6">
             <label htmlFor=""> Responsable</label>
@@ -98,8 +151,7 @@ function View_equip() {
               {...register("user", { required: true })}
               id=""
               className="form-control"
-              placeholder="Responsable..."
-            />
+              placeholder="Responsable..." />
           </div>
           {/* Segunda fila */}
           <div className=" col-6 col-sm-6 col-md-6">
@@ -110,7 +162,7 @@ function View_equip() {
               id=""
               className="form-control"
               placeholder="Modelo..."
-            />
+              disabled />
           </div>
           <div className=" col-6 col-sm-6 col-md-6">
             <label htmlFor=""> Oficina</label>
@@ -119,8 +171,7 @@ function View_equip() {
               {...register("office", { required: true })}
               id=""
               className="form-control"
-              placeholder="Oficina..."
-            />
+              placeholder="Oficina..." />
           </div>
           {/* Tercera fila */}
           <div className="col-md-12">
@@ -143,8 +194,7 @@ function View_equip() {
               id=""
               className="form-control"
               placeholder="Código de serie"
-              disabled
-            />
+              disabled />
           </div>
 
           <div className=" col-4 col-sm-4 col-md-4">
@@ -156,12 +206,22 @@ function View_equip() {
                 className="form-select"
               >
                 <option value="">Selecciona una marca...</option>
-                <option value={equip.mark} selected>
-                  {" "}
-                  {equip.mark_name}
-                </option>
+                {marks.map((object) => (
+                  <option
+                    value={object[0]}
+                    selected={equip.mark_name == object[1] ? true : false}
+                  >
+                    {object[1]}
+                  </option>
+                ))}
               </select>
-              <button type="button" className="btn btn-secondary addBtn">
+              <button
+                type="button"
+                className="btn btn-secondary addBtn"
+                onClick={() => {
+                  openView("Marca", "201");
+                } }
+              >
                 +
               </button>
             </div>
@@ -177,12 +237,22 @@ function View_equip() {
                 {...register("equip_type", { required: true })}
               >
                 <option value="">Selecciona el tipo...</option>
-                <option value={equip.equipment_type} selected>
-                  {" "}
-                  {equip.equipment_type_name}
-                </option>
+                {type.map((object) => (
+                  <option
+                    value={object[0]}
+                    selected={equip.equipment_type_name == object[1] ? true : false}
+                  >
+                    {object[1]}
+                  </option>
+                ))}
               </select>
-              <button type="button" className="btn btn-secondary addBtn">
+              <button
+                type="button"
+                className="btn btn-secondary addBtn"
+                onClick={() => {
+                  openView("Tipo de equipo", "208");
+                } }
+              >
                 +
               </button>
             </div>
@@ -196,8 +266,7 @@ function View_equip() {
                 {...register("ram", { required: true })}
                 id=""
                 className="form-control GB-TB"
-                placeholder="0"
-              />
+                placeholder="0" />
               <select
                 name=""
                 id=""
@@ -223,8 +292,7 @@ function View_equip() {
                 {...register("hard_disk", { required: true })}
                 id=""
                 className="form-control"
-                placeholder="0"
-              />
+                placeholder="0" />
               <select
                 name=""
                 id=""
@@ -244,33 +312,60 @@ function View_equip() {
           </div>
           <div className=" col-6 col-sm-6 col-md-3">
             <label htmlFor="">Tipo de ram</label>
-            <select
-              id=""
-              {...register("ram_type", { required: true })}
-              className="form-select"
-            >
-              <option value="">Tipo de ram</option>
+            <div className="d-flex flex-row">
+              <select
+                id=""
+                {...register("ram_type", { required: true })}
+                className="form-select"
+              >
+                <option value="">Tipo de ram</option>
 
-              <option value={equip.ram_type} selected>
-                {" "}
-                {equip.ram_type_name}
-              </option>
-              {}
-            </select>
+                {ram.map((object) => (
+                  <option
+                    value={object[0]}
+                    selected={equip.ram_type_name == object[1] ? true : false}
+                  >
+                    {object[1]}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="btn btn-secondary addBtn"
+                onClick={() => {
+                  openView("Tipo de ram", "204");
+                } }
+              >
+                +
+              </button>
+            </div>
+
           </div>
           <div className=" col-6 col-sm-6 col-md-3">
             <label htmlFor="">Tipo de disco duro</label>
-            <select
-              {...register("hard_type", { required: true })}
-              id=""
-              className="form-select"
-            >
-              <option value="">Selecciona el tipo...</option>
-              <option value={equip.hard_type} selected>
-                {" "}
-                {equip.hard_type_name}
-              </option>
-            </select>
+            <div className="d-flex flex-row">
+              <select
+                {...register("hard_type", { required: true })}
+                id=""
+                className="form-select"
+              >
+                <option value="">Selecciona el tipo...</option>
+
+                {disk.map((object) => (
+                  <option value={object[0]} selected={equip.hard_type_name == object[1] ? true : false}>{object[1]}</option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="btn btn-secondary addBtn"
+                onClick={() => {
+                  openView("Tipo de disco duro", "203");
+                } }
+              >
+                +
+              </button>
+            </div>
+
           </div>
           {/* Sexta fila */}
           <div className="col-md-3">
@@ -280,8 +375,7 @@ function View_equip() {
               {...register("proccesor", { required: true })}
               id=""
               className="form-control"
-              placeholder="Nombre de procesador"
-            />
+              placeholder="Nombre de procesador" />
           </div>
           <div className="col-md-4">
             <label htmlFor="">Sistema operativo</label>
@@ -290,8 +384,7 @@ function View_equip() {
               {...register("system", { required: true })}
               id=""
               className="form-control"
-              placeholder="Nombre del sistema operativo"
-            />
+              placeholder="Nombre del sistema operativo" />
           </div>
           {/* Septima fila */}
           <div className="col-md-2">
@@ -319,8 +412,7 @@ function View_equip() {
               {...register("antivirus", { required: true })}
               id=""
               className="form-control"
-              placeholder="Antivirus"
-            />
+              placeholder="Antivirus" />
           </div>
 
           {/* Boton de envio */}
@@ -329,24 +421,27 @@ function View_equip() {
               Editar
               {/* <img src={add} alt="" style={{ marginLeft: "10px" }} /> */}
             </button>
-            <Link className="btn btn-success mx-3 " to={"/"}>
-              agregar evento
+            <Link
+              className="btn btn-success mx-3 "
+              to={`/create_event/${params.id}`}
+            >
+              Añadir evento
             </Link>
             <Link
               className="btn btn-danger"
               onSubmit={(e) => {
                 e.preventDefault();
-              }}
+              } }
               onClick={() => {
                 onDelete(params.id);
-              }}
+              } }
             >
               Eliminar
             </Link>
           </div>
         </div>
       </form>
-    </div>
+    </div></>
   );
 }
 

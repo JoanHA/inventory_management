@@ -24,7 +24,7 @@ function Header() {
             <ul className="dropdown-menu">
               <li><a className="dropdown-item" href="/create">Registrar Equipo</a></li>
               <li><a className="dropdown-item" href="/equipments">Ver equipos</a></li>
-              <li><a className="dropdown-item" href="/create_event">Registrar eventos</a></li>
+             
             </ul>
           </li>
         </ul>

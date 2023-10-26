@@ -6,6 +6,8 @@ import View_equip from "./assets/pages/View_equip";
 import ViewAllEquip from "./assets/pages/ViewAllEquip";
 import Add from "./assets/components/add";
 import Create_event from "./assets/pages/events/Create_event";
+import Register from "./authViews/register";
+import Login from "./authViews/login";
 function App() {
   return (
     <>
@@ -14,8 +16,8 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={"/"} />
-          <Route path="/login" element={<h1>login</h1>} />
-          <Route path="/register" element={<h1>register</h1>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
           <Route path="/create" element={<Create_equip />} />
           <Route path="/equipments" element={<ViewAllEquip/>} />
           <Route path="/edit/:id" element={<View_equip/>} />

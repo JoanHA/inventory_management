@@ -1,0 +1,35 @@
+/* body{
+    background-color: #202020;
+    color:white;
+   
+} */
+.errorMsg{color: #b22222;}
+
+.colBlack{
+    background-color: #777;
+
+}
+.colwhite{
+    background-color: #667;
+}
+.inputs{
+    border: none;
+    border-bottom: 1px solid lightgray;
+}
+.signUpHeader{
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+}
+.initLink{
+    color: #666;
+    text-decoration: none;
+}
+.initLink:hover{
+    color:  #242424;
+}
+#form-container{
+    box-shadow: 0px 1px 7px  gray;
+    border-radius: 30px;
+}

@@ -4,23 +4,59 @@ import logo from "../assets/img/grupo-carval-Logo-Bioart.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { URI } from "../../config";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 function Register() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (values) => {
-    console.log(values);
-    axios.post(URI+"login",values)
+  const { signup } = useAuth();
+
+  const onSubmit =  async (values) => {
+    const signed =  await signup(values)
+    console.log(signed)
+    if(signed.data.status == 200){
+      Swal.fire({
+        position: 'center',
+        showClass: {
+            popup: 'Swal animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          },
+        icon: 'success',
+        title: 'Usuario creado!',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      .then(()=>{navigate("/equipments")})
+      
+    }else{
+      Swal.fire({
+        position: 'center',
+        showClass: {
+            popup: 'Swal animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          },
+        icon: 'error',
+        title: signed.data.message,
+        showConfirmButton: false,
+        timer: 3000
+      })
+    }
   };
   return (
     <div>
       <div className="d-flex justify-content-center align-items-center px-5">
         <div
           id="form-container"
-          className=" gap-3 py-3 px-3 mx-auto mt-5"
+          className=" gap-3 py-3 px-3 mx-auto mt-2"
           style={{ width: "40%" }}
         >
           <div className="d-flex justify-content-center flex-column align-items-center">

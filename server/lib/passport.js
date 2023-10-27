@@ -2,6 +2,11 @@
  const localStrategy = require("passport-local").Strategy
  const helper  = require("../lib/helpers.js")
  const jwt = require("jsonwebtoken")
+/**
+ * Don't use passport just hash the password and save the token in a cookie, instead use a normal route 
+ * 
+ * 
+ */
 
 const createToken = require("../controllers/others/CreateToken.js")
 const db = require("../db.js")

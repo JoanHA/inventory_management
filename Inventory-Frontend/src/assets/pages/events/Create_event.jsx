@@ -14,6 +14,12 @@ function Create_event() {
   const [serial, setSerial] = useState();
   const [client, setClient] = useState();
   const params = useParams();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
   useEffect(() => {
     const id = params.id;
     axios.get(URI + `api/equip/${id}`).then((res) => {
@@ -24,18 +30,12 @@ function Create_event() {
     });
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
- 
-  });
   //Functions
+  
   //function for submitting the form
   const onSubmit = (values) => {
-      values.client = client
-     SaveEvent(values);                          
+    values.client = client;
+    SaveEvent(values);
   };
 
   //function to open the add view
@@ -105,7 +105,7 @@ function Create_event() {
               id="form-event"
               className="container"
               onSubmit={handleSubmit(onSubmit)}
-              enctype="multipart/form-data"
+              encType="multipart/form-data"
             >
               <div className="inputGroup w-100 container  d-flex flex-row flex-wrap ">
                 <div className="input-group d-flex flex-column mb-2 w-50 flex-wrap mb-2">
@@ -117,7 +117,7 @@ function Create_event() {
                     style={{ width: "90% " }}
                     {...register("name", { required: true })}
                   />
-                  {errors.name?.type =="required" && (
+                  {errors.name?.type == "required" && (
                     <p className="errorMsg mb-0">Este campo es requerido</p>
                   )}
                 </div>
@@ -139,9 +139,8 @@ function Create_event() {
                           {event.name}
                         </option>
                       ))}
-
                     </select>
-                  
+
                     <button
                       className="btn btn-secondary btn-sm"
                       type="button"
@@ -151,9 +150,9 @@ function Create_event() {
                     >
                       +
                     </button>
-                    {errors.event_type?.type =="required" && (
-                    <p className="errorMsg mb-0">Este campo es requerido</p>
-                  )}
+                    {errors.event_type?.type == "required" && (
+                      <p className="errorMsg mb-0">Este campo es requerido</p>
+                    )}
                   </div>
                 </div>
 
@@ -166,7 +165,7 @@ function Create_event() {
                     style={{ width: "90% " }}
                     {...register("date", { required: true })}
                   />
-                    {errors.date?.type =="required" && (
+                  {errors.date?.type == "required" && (
                     <p className="errorMsg mb-0">Este campo es requerido</p>
                   )}
                 </div>
@@ -186,7 +185,7 @@ function Create_event() {
                     <option value="237">Normal</option>
                     <option value="238">Alta</option>
                   </select>
-                  {errors.importance?.type =="required" && (
+                  {errors.importance?.type == "required" && (
                     <p className="errorMsg mb-0">Este campo es requerido</p>
                   )}
                 </div>
@@ -203,7 +202,7 @@ function Create_event() {
                     <option value="240">Incidente</option>
                     <option value="241">Requerimiento</option>
                   </select>
-                  {errors.event_reason?.type =="required" && (
+                  {errors.event_reason?.type == "required" && (
                     <p className="errorMsg mb-0">Este campo es requerido</p>
                   )}
                 </div>
@@ -225,8 +224,10 @@ function Create_event() {
                     className="form-control form-control-sm "
                     placeholder="Responsable"
                     style={{ width: "95% ", height: "20px" }}
-                 value={client}
-                 onChange={(e)=>{setClient(e.target.value)}}
+                    value={client}
+                    onChange={(e) => {
+                      setClient(e.target.value);
+                    }}
                   />
                 </div>
                 <div className="input-group d-flex flex-column  mb-2 flex-wrap w-100">
@@ -237,18 +238,15 @@ function Create_event() {
                     rows="3"
                     className="form-control form-control-sm"
                     placeholder="Descripcion del evento"
-                    style={{ width: "95%",maxHeight:"100px" }}
+                    style={{ width: "95%", maxHeight: "100px" }}
                     {...register("description", { required: true })}
                   ></textarea>
-                  {errors.description?.type =="required" && (
+                  {errors.description?.type == "required" && (
                     <p className="errorMsg mb-0">Este campo es requerido</p>
                   )}
                 </div>
 
-               
-
                 <div className="mt-3">
-    
                   <button className="btn btn-success btn-sm">Registrar </button>
                 </div>
               </div>

@@ -10,15 +10,18 @@ import Register from "./authViews/register";
 import Login from "./authViews/login";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./authViews/ProtectedRoute";
+import { useAuth } from "./context/AuthContext";
+import View_events from "./assets/pages/events/View_events";
 function App() {
+
   return (
     <>
       <AuthProvider>
         <div className="d-flex flex-row">
           {/* <div className="sideBar">
               <div style={{height:"100%", background:"black", width:"150px"}} ></div>
-          </div> */}
-          {/* This will go on a component to make the sidebar */}
+          </div>  */}
+          {/* {/* This will go on a component to make the sidebar */}
           <BrowserRouter>
             <div className="w-100">
               <Header />
@@ -30,7 +33,7 @@ function App() {
                   <Route path="/create" element={<Create_equip />} />
                   <Route path="/equipments" element={<ViewAllEquip />} />
                   <Route path="/edit/:id" element={<View_equip />} />
-                  <Route path="/events" element={<h1>eventos</h1>} />
+                  <Route path="/events" element={<View_events/>} />
                   <Route path="/create_event/:id" element={<Create_event />} />
                   <Route path="/edit_event/:id" element={<h1>Editar </h1>} />
                 </Route>

@@ -33,7 +33,9 @@ function Login() {
           showConfirmButton: false,
           timer: 2000,
         }).then(() => {
+         
           navigate("/equipments");
+          location.reload()
         });
         return;
       }else{
@@ -63,18 +65,18 @@ function Login() {
   return (
     <div>
       {errores && showError()}
-      <div className="d-flex justify-content-center align-items-center px-5">
+      <div className="d-flex  align-items-center ">
         <div
           id="form-container"
-          className="  gap-3 py-3 px-3 mx-auto mt-4"
-          style={{ width: "40%" }}
+          className="  gap-3 py-3 mx-auto mt-4"
+          style={{ width: "40%", maxWidth:"25rem" }}
         >
           <div className="d-flex justify-content-center flex-column align-items-center">
             <div className="signUpHeader">
-              <h4>Iniciar sesión</h4>
+              <h4 >Iniciar sesión</h4>
             </div>
             <div
-              className="bg-light   d-flex align-items-center px-3"
+              className="d-flex align-items-center px-3"
               style={{ height: "80px", borderRadius: "200px" }}
             >
               <img src={logo} alt="" width={200} />

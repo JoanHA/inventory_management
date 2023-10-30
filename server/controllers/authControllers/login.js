@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
         return;
       }
       if (!result[0]) {
-        res.status(404).json({ message: "Ese usuario no existe" });
+        res.send({status:404, message: "Ese usuario no existe" });
         return;
       }
 

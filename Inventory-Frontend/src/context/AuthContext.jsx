@@ -20,10 +20,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setisAuthenticated(isAuthenticated);
-  }, [isAuthenticated]);
-
+ 
   const logOut = () => {
     Cookies.remove("token");
     setUser(null);
@@ -33,10 +30,12 @@ export const AuthProvider = ({ children }) => {
   const GetIn = async (data) => {
     try {
       const res = await Login(data);
+      console.log(res)
       if (res.status === 200) {
         setisAuthenticated(true);
-        setUser(res.data.user);
-        Cookies.set("token", res.data.token);
+        setUser(res.data.data.user);
+        console.log(res.data.data.token);
+        Cookies.set("token", res.data.data.token);
         setLoading(false);
         return res;
       }
@@ -48,10 +47,11 @@ export const AuthProvider = ({ children }) => {
   const signup = async (user) => {
     try {
       const res = await SignUp(user);
+      console.log(res.data)
       if (res) {
-        if (res.status === 200) {
-          setUser(res.data);
-          Cookies.set("token", res.data.token);
+        if (res.data.status === 200) {
+          setUser(res.data.message);
+          Cookies.set("token", res.data.message.token);
           setisAuthenticated(true);
           setLoading(false);
           return res;
@@ -74,9 +74,16 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-      
+        const res = await verifyToken({ token: cookies.token });
+        console.log(res.data)
+        if(!res.data){
+          setisAuthenticated(false);
+          return;
+        }
         setisAuthenticated(true);
-        setLoading(false);
+        setUser(res.data.user);
+        setLoading(false)
+       
         // const res  =await verifyToken(cookies.token)
       } catch (error) {
         console.log(error);

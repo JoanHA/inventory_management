@@ -1,5 +1,5 @@
 import "../css/create.css";
-import add from "./../img/add.svg";
+import add from "./../img/icons/add.svg";
 
 import {useForm} from "react-hook-form"
 import { Link } from "react-router-dom";
@@ -82,7 +82,9 @@ function Create_equip() {
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
+      <div className="event_header">Editar equipo</div>
       <div className="px-4 py-3">
+     
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
             {/* Primera fila */}
@@ -92,12 +94,12 @@ function Create_equip() {
                 type="text"
                 {...register("name", { required: true })}
                 id=""
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Nombre del producto..."
               />
               {errors.name?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                  name is required.
+                  Este campo es requerido
                 </p>
               )}
             </div>
@@ -107,12 +109,12 @@ function Create_equip() {
                 type="text"
                 {...register("user", { required: true })}
                 id=""
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Responsable..."
               />
               {errors.user?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                  Responsable is required.
+              Este campo es requerido
                 </p>
               )}
             </div>
@@ -123,12 +125,12 @@ function Create_equip() {
                 type="text"
                 {...register("model", { required: true })}
                 id=""
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Modelo..."
               />
               {errors.model?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                  Modelo is required.
+                 Este campo es requerido
                 </p>
               )}
             </div>
@@ -138,12 +140,12 @@ function Create_equip() {
                 type="text"
                 {...register("office", { required: true })}
                 id=""
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Oficina..."
               />{" "}
               {errors.office?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                  oficina is required.
+               Este campo es requerido
                 </p>
               )}
             </div>
@@ -154,13 +156,13 @@ function Create_equip() {
                 {...register("description", { required: true })}
                 id=""
                 cols="30"
-                className="form-control"
+                className="form-control form-control-sm"
                 style={{ resize: "none" }}
                 placeholder="Descripción..."
               ></textarea>
               {errors.description?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                  descripción is required.
+                Este campo es requerido
                 </p>
               )}
             </div>
@@ -171,12 +173,12 @@ function Create_equip() {
                 type="text"
                 {...register("serial", { required: true })}
                 id=""
-                className="form-control"
+                className="form-control form-control-sm"
                 placeholder="Código de serie"
               />
               {errors.serial?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                  serial is required.
+               Este campo es requerido
                 </p>
               )}
             </div>
@@ -184,7 +186,7 @@ function Create_equip() {
             <div className=" col-4 col-sm-4 col-md-4">
               <label htmlFor="">Marca</label>
               <div className="d-flex flex-row">
-                <select id="" {...register("mark")} className="form-select">
+                <select id="" {...register("mark")} className="form-select form-select-sm">
                   <option value="">Selecciona una marca...</option>
 
                   {marks.map((object) => (
@@ -209,7 +211,7 @@ function Create_equip() {
                 <select
                   name=""
                   id=""
-                  className="form-select"
+                  className="form-select form-select-sm"
                   {...register("equip_type")}
                 >
                   <option value="">Selecciona el tipo...</option>
@@ -242,7 +244,7 @@ function Create_equip() {
                 <select
                   name=""
                   id=""
-                  className="form-select md-3"
+                  className="form-select form-select-sm md-3"
                   style={{ width: "80px" }}
                   {...register("formatRam")}
                 >
@@ -265,7 +267,7 @@ function Create_equip() {
                 <select
                   name=""
                   id=""
-                  className="form-select md-3 GB-TB"
+                  className="form-select form-select-sm md-3 GB-TB"
                   style={{ width: "80px" }}
                   {...register("formatDisk")}
                 >
@@ -277,7 +279,7 @@ function Create_equip() {
             <div className=" col-6 col-sm-6 col-md-3">
               <label htmlFor="">Tipo de ram</label>
               <div className="d-flex flex-row">
-                <select id="" {...register("ram_type")} className="form-select">
+                <select id="" {...register("ram_type")} className="form-select form-select-sm">
                   <option value="">Tipo de ram</option>
                   {ram.map((object) => (
                     <option value={object[0]}>{object[1]}</option>
@@ -300,7 +302,7 @@ function Create_equip() {
                 <select
                   {...register("hard_type")}
                   id=""
-                  className="form-select"
+                  className="form-select form-select-sm"
                 >
                   <option value="">Selecciona el tipo...</option>
                   {disk.map((object) => (
@@ -345,7 +347,7 @@ function Create_equip() {
               <select
                 name=""
                 id=""
-                className="form-select"
+                className="form-select form-select-sm"
                 {...register("status")}
               >
                 <option value="1">Activo</option>

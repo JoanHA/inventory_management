@@ -7,6 +7,10 @@ import { URI } from "../../../config";
 import { onDelete } from "../lib/Ondelete";
 import { update } from "../lib/updateEquip.js";
 import Add from "../components/add";
+import edit from "../img/icons/edit.svg"
+
+import addBtn from "../img/icons/add.svg"
+import del from "../img/icons/delete.svg"
 function View_equip() {
   //Use form para obtener los datos del formulario
 
@@ -106,9 +110,9 @@ function View_equip() {
         console.error("An error occurred:", error);
       });
   }, []);
-  const openView = (value,id) => {
-    setParametro([value,id]);
-  
+  const openView = (value, id) => {
+    setParametro([value, id]);
+
     document.querySelector("#addModal").classList.remove("inactive");
   };
 
@@ -125,323 +129,351 @@ function View_equip() {
     const data = watch();
     console.log(data);
     async function updateEquips() {
-      update(params.id, data);
+     const res  = await update(params.id, data);
     }
     // updateEquips();
   };
 
   return (
-    <><div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div><div className="px-4">
-      <form action="" onSubmit={onSubmit}>
-        <div className="row" id="Equip-row">
-          {/* Primera fila */}
-          <div className="col-12 col-sm-6  col-md-6 ">
-            <label htmlFor=""> Nombre del equipo</label>
-            <input
-              type="text"
-              {...register("name", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Nombre del producto..." />
-          </div>
-          <div className=" col-12 col-sm-6 col-md-6">
-            <label htmlFor=""> Responsable</label>
-            <input
-              type="text"
-              {...register("user", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Responsable..." />
-          </div>
-          {/* Segunda fila */}
-          <div className=" col-6 col-sm-6 col-md-6">
-            <label htmlFor=""> Modelo</label>
-            <input
-              type="text"
-              {...register("model", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Modelo..."
-              disabled />
-          </div>
-          <div className=" col-6 col-sm-6 col-md-6">
-            <label htmlFor=""> Oficina</label>
-            <input
-              type="text"
-              {...register("office", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Oficina..." />
-          </div>
-          {/* Tercera fila */}
-          <div className="col-md-12">
-            <label htmlFor="">Descripcion</label>
-            <textarea
-              {...register("description", { required: true })}
-              id=""
-              cols="30"
-              className="form-control"
-              style={{ resize: "none" }}
-              placeholder="Descripción..."
-            ></textarea>
-          </div>
-          {/* cuarta fila */}
-          <div className=" col-4 col-sm-4 col-md-4">
-            <label htmlFor="">Serial</label>
-            <input
-              type="text"
-              {...register("serial", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Código de serie"
-              disabled />
-          </div>
-
-          <div className=" col-4 col-sm-4 col-md-4">
-            <label htmlFor="">Marca</label>
-            <div className="d-flex flex-row">
-              <select
-                id=""
-                {...register("mark", { required: true })}
-                className="form-select"
-              >
-                <option value="">Selecciona una marca...</option>
-                {marks.map((object) => (
-                  <option
-                    value={object[0]}
-                    selected={equip.mark_name == object[1] ? true : false}
-                  >
-                    {object[1]}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="btn btn-secondary addBtn"
-                onClick={() => {
-                  openView("Marca", "201");
-                } }
-              >
-                +
-              </button>
-            </div>
-          </div>
-
-          <div className=" col-4 col-sm-4col-md-4">
-            <label htmlFor="">Tipo de equipo</label>
-            <div className="d-flex flex-row">
-              <select
-                name=""
-                id=""
-                className="form-select"
-                {...register("equip_type", { required: true })}
-              >
-                <option value="">Selecciona el tipo...</option>
-                {type.map((object) => (
-                  <option
-                    value={object[0]}
-                    selected={equip.equipment_type_name == object[1] ? true : false}
-                  >
-                    {object[1]}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="btn btn-secondary addBtn"
-                onClick={() => {
-                  openView("Tipo de equipo", "208");
-                } }
-              >
-                +
-              </button>
-            </div>
-          </div>
-          {/* Quinta fila */}
-          <div className="col-6 col-sm-6 col-md-3 ">
-            <label htmlFor="">Cantidad de ram</label>
-            <div className="d-flex align-item-center justify-content-center">
+    <>
+      <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
+      <div className="event_header">Editar equipo</div>
+      <div className="px-4 py-2">
+     
+        <form action="" onSubmit={onSubmit}>
+          <div className="row" id="Equip-row">
+            {/* Primera fila */}
+            <div className="col-12 col-sm-6  col-md-6 ">
+              <label htmlFor=""> Nombre del equipo</label>
               <input
-                type="number"
-                {...register("ram", { required: true })}
+                type="text"
+                {...register("name", { required: true })}
                 id=""
-                className="form-control GB-TB"
-                placeholder="0" />
-              <select
-                name=""
-                id=""
-                className="form-select md-3"
-                style={{ width: "80px" }}
-                {...register("formatRam", { required: true })}
-              >
-                <option value="GB" selected={ramQty == "GB" ? true : false}>
-                  GB
-                </option>
-                <option value="TB" selected={ramQty == "TB" ? true : false}>
-                  TB
-                </option>
-              </select>
+                className="form-control form-control-sm "
+                placeholder="Nombre del producto..."
+              />
             </div>
-          </div>
-
-          <div className=" col-6  col-sm-6 col-md-3 ">
-            <label htmlFor="">Cantidad de disco duro</label>
-            <div className="d-flex justify-content-center">
+            <div className=" col-12 col-sm-6 col-md-6">
+              <label htmlFor=""> Responsable</label>
               <input
-                type="number"
-                {...register("hard_disk", { required: true })}
+                type="text"
+                {...register("user", { required: true })}
                 id=""
-                className="form-control"
-                placeholder="0" />
+                className="form-control form-control-sm"
+                placeholder="Responsable..."
+              />
+            </div>
+            {/* Segunda fila */}
+            <div className=" col-6 col-sm-6 col-md-6">
+              <label htmlFor=""> Modelo</label>
+              <input
+                type="text"
+                {...register("model", { required: true })}
+                id=""
+                className="form-control form-control-sm"
+                placeholder="Modelo..."
+                disabled
+              />
+            </div>
+            <div className=" col-6 col-sm-6 col-md-6">
+              <label htmlFor=""> Oficina</label>
+              <input
+                type="text"
+                {...register("office", { required: true })}
+                id=""
+                className="form-control form-control-sm"
+                placeholder="Oficina..."
+              />
+            </div>
+            {/* Tercera fila */}
+            <div className="col-md-12">
+              <label htmlFor="">Descripcion</label>
+              <textarea
+                {...register("description", { required: true })}
+                id=""
+                cols="30"
+                className="form-control form-control-sm"
+                style={{ resize: "none" }}
+                placeholder="Descripción..."
+              ></textarea>
+            </div>
+            {/* cuarta fila */}
+            <div className=" col-4 col-sm-4 col-md-4">
+              <label htmlFor="">Serial</label>
+              <input
+                type="text"
+                {...register("serial", { required: true })}
+                id=""
+                className="form-control form-control-sm"
+                placeholder="Código de serie"
+                disabled
+              />
+            </div>
+
+            <div className=" col-4 col-sm-4 col-md-4">
+              <label htmlFor="">Marca</label>
+              <div className="d-flex flex-row">
+                <select
+                  id=""
+                  {...register("mark", { required: true })}
+                  className="form-select form-select-sm"
+                >
+                  <option value="">Selecciona una marca...</option>
+                  {marks.map((object) => (
+                    <option
+                      key={object[0]}
+                      value={object[0]}
+                      selected={equip.mark_name == object[1] ? true : false}
+                    >
+                      {object[1]}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="btn btn-secondary addBtn"
+                  onClick={() => {
+                    openView("Marca", "201");
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <div className=" col-4 col-sm-4col-md-4">
+              <label htmlFor="">Tipo de equipo</label>
+              <div className="d-flex flex-row">
+                <select
+                  name=""
+                  id=""
+                  className="form-select form-select-sm"
+                  {...register("equip_type", { required: true })}
+                >
+                  <option value="">Selecciona el tipo...</option>
+                  {type.map((object) => (
+                    <option
+                      key={object[0]}
+                      value={object[0]}
+                      selected={
+                        equip.equipment_type_name == object[1] ? true : false
+                      }
+                    >
+                      {object[1]}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="btn btn-secondary addBtn"
+                  onClick={() => {
+                    openView("Tipo de equipo", "208");
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            {/* Quinta fila */}
+            <div className="col-6 col-sm-6 col-md-3 ">
+              <label htmlFor="">Cantidad de ram</label>
+              <div className="d-flex align-item-center justify-content-center">
+                <input
+                  type="number"
+                  {...register("ram", { required: true })}
+                  id=""
+                  className="form-control form-control-sm GB-TB"
+                  placeholder="0"
+                />
+                <select
+                  name=""
+                  id=""
+                  className="form-select form-select-sm md-3"
+                  style={{ width: "80px" }}
+                  {...register("formatRam", { required: true })}
+                >
+                  <option value="GB" selected={ramQty == "GB" ? true : false}>
+                    GB
+                  </option>
+                  <option value="TB" selected={ramQty == "TB" ? true : false}>
+                    TB
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div className=" col-6  col-sm-6 col-md-3 ">
+              <label htmlFor="">Cantidad de disco duro</label>
+              <div className="d-flex justify-content-center">
+                <input
+                  type="number"
+                  {...register("hard_disk", { required: true })}
+                  id=""
+                  className="form-control form-control-sm"
+                  placeholder="0"
+                />
+                <select
+                  name=""
+                  id=""
+                  className="form-select form-select-sm md-3 GB-TB"
+                  style={{ width: "80px" }}
+                  {...register("formatDisk", { required: true })}
+                >
+                  <option value="GB" selected={diskQty == "GB" ? true : false}>
+                    GB
+                  </option>
+                  <option value="TB" selected={diskQty == "TB" ? true : false}>
+                    {" "}
+                    TB
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div className=" col-6 col-sm-6 col-md-3">
+              <label htmlFor="">Tipo de ram</label>
+              <div className="d-flex flex-row">
+                <select
+                  id=""
+                  {...register("ram_type", { required: true })}
+                  className="form-select form-select-sm"
+                >
+                  <option value="">Tipo de ram</option>
+
+                  {ram.map((object) => (
+                    <option
+                      key={object[0]}
+                      value={object[0]}
+                      selected={equip.ram_type_name == object[1] ? true : false}
+                    >
+                      {object[1]}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="btn btn-secondary addBtn"
+                  onClick={() => {
+                    openView("Tipo de ram", "204");
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div className=" col-6 col-sm-6 col-md-3">
+              <label htmlFor="">Tipo de disco duro</label>
+              <div className="d-flex flex-row">
+                <select
+                  {...register("hard_type", { required: true })}
+                  id=""
+                  className="form-select form-select-sm"
+                >
+                  <option value="">Selecciona el tipo...</option>
+
+                  {disk.map((object) => (
+                    <option
+                      value={object[0]}
+                      selected={
+                        equip.hard_type_name == object[1] ? true : false
+                      }
+                    >
+                      {object[1]}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="btn btn-secondary addBtn"
+                  onClick={() => {
+                    openView("Tipo de disco duro", "203");
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            {/* Sexta fila */}
+            <div className="col-md-3">
+              <label htmlFor="">Procesador</label>
+              <input
+                type="text"
+                {...register("proccesor", { required: true })}
+                id=""
+                className="form-control form-control-sm"
+                placeholder="Nombre de procesador"
+              />
+            </div>
+            <div className="col-md-4">
+              <label htmlFor="">Sistema operativo</label>
+              <input
+                type="text"
+                {...register("system", { required: true })}
+                id=""
+                className="form-control  form-control-sm"
+                placeholder="Nombre del sistema operativo"
+              />
+            </div>
+            {/* Septima fila */}
+            <div className="col-md-2">
+              <label htmlFor="">Estado equipo</label>
+
               <select
                 name=""
                 id=""
-                className="form-select md-3 GB-TB"
-                style={{ width: "80px" }}
-                {...register("formatDisk", { required: true })}
+                className="form-select form-select-sm"
+                {...register("status", { required: true })}
               >
-                <option value="GB" selected={diskQty == "GB" ? true : false}>
-                  GB
+                <option value="1" selected={equip.status == 1 ? true : false}>
+                  Activo
                 </option>
-                <option value="TB" selected={diskQty == "TB" ? true : false}>
-                  {" "}
-                  TB
+                <option value="2" selected={equip.status == 2 ? true : false}>
+                  Inactivo
                 </option>
               </select>
             </div>
-          </div>
-          <div className=" col-6 col-sm-6 col-md-3">
-            <label htmlFor="">Tipo de ram</label>
-            <div className="d-flex flex-row">
-              <select
+            <div className="col-md-3 ">
+              <label htmlFor="">Antivirus</label>
+              <input
+                type="text"
+                name="antivirus"
+                {...register("antivirus", { required: true })}
                 id=""
-                {...register("ram_type", { required: true })}
-                className="form-select"
-              >
-                <option value="">Tipo de ram</option>
-
-                {ram.map((object) => (
-                  <option
-                    value={object[0]}
-                    selected={equip.ram_type_name == object[1] ? true : false}
-                  >
-                    {object[1]}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="btn btn-secondary addBtn"
-                onClick={() => {
-                  openView("Tipo de ram", "204");
-                } }
-              >
-                +
-              </button>
+                className="form-control form-control-sm"
+                placeholder="Antivirus"
+              />
             </div>
 
-          </div>
-          <div className=" col-6 col-sm-6 col-md-3">
-            <label htmlFor="">Tipo de disco duro</label>
-            <div className="d-flex flex-row">
-              <select
-                {...register("hard_type", { required: true })}
-                id=""
-                className="form-select"
-              >
-                <option value="">Selecciona el tipo...</option>
-
-                {disk.map((object) => (
-                  <option value={object[0]} selected={equip.hard_type_name == object[1] ? true : false}>{object[1]}</option>
-                ))}
-              </select>
-              <button
-                type="button"
-                className="btn btn-secondary addBtn"
-                onClick={() => {
-                  openView("Tipo de disco duro", "203");
-                } }
-              >
-                +
+            {/* Boton de envio */}
+            <div className="col-md-6">
+              <button className=" btn btn-primary text-center my-3">
+                <img src={edit} alt="" />
+                <span className="px-1">Editar</span>
+                {/* <img src={add} alt="" style={{ marginLeft: "10px" }} /> */}
               </button>
+              <Link
+                className="btn btn-success mx-3 "
+                to={`/create_event/${params.id}`}
+              >
+                <span className="px-1">Añadir evento </span>
+                <img src={addBtn} alt="" />
+                
+              </Link>
+              <Link
+                className="btn btn-danger"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                }}
+                onClick={() => {
+                  onDelete(params.id);
+                }}
+              >
+               <img src={del} alt="" />
+              </Link>
             </div>
-
           </div>
-          {/* Sexta fila */}
-          <div className="col-md-3">
-            <label htmlFor="">Procesador</label>
-            <input
-              type="text"
-              {...register("proccesor", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Nombre de procesador" />
-          </div>
-          <div className="col-md-4">
-            <label htmlFor="">Sistema operativo</label>
-            <input
-              type="text"
-              {...register("system", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Nombre del sistema operativo" />
-          </div>
-          {/* Septima fila */}
-          <div className="col-md-2">
-            <label htmlFor="">Estado equipo</label>
-
-            <select
-              name=""
-              id=""
-              className="form-select"
-              {...register("status", { required: true })}
-            >
-              <option value="1" selected={equip.status == 1 ? true : false}>
-                Activo
-              </option>
-              <option value="2" selected={equip.status == 2 ? true : false}>
-                Inactivo
-              </option>
-            </select>
-          </div>
-          <div className="col-md-3 ">
-            <label htmlFor="">Antivirus</label>
-            <input
-              type="text"
-              name="antivirus"
-              {...register("antivirus", { required: true })}
-              id=""
-              className="form-control"
-              placeholder="Antivirus" />
-          </div>
-
-          {/* Boton de envio */}
-          <div className="col-md-6">
-            <button className=" btn btn-primary text-center my-3">
-              Editar
-              {/* <img src={add} alt="" style={{ marginLeft: "10px" }} /> */}
-            </button>
-            <Link
-              className="btn btn-success mx-3 "
-              to={`/create_event/${params.id}`}
-            >
-              Añadir evento
-            </Link>
-            <Link
-              className="btn btn-danger"
-              onSubmit={(e) => {
-                e.preventDefault();
-              } }
-              onClick={() => {
-                onDelete(params.id);
-              } }
-            >
-              Eliminar
-            </Link>
-          </div>
-        </div>
-      </form>
-    </div></>
+        </form>
+      </div>
+    </>
   );
 }
 

@@ -7,19 +7,30 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { SaveEvent } from "../../lib/saveEvent";
 import { saveParam } from "../../lib/saveParams";
+import { useAuth } from "../../../context/AuthContext";
+import { Link } from "react-router-dom";
+
 function Create_event() {
+  //Data from the equipment
   const [event_type, setEventType] = useState([]);
   const [parametro, setParametro] = useState();
   const [nombre, setNombre] = useState();
   const [serial, setSerial] = useState();
   const [client, setClient] = useState();
-  const params = useParams();
+  const [user1, setUser] = useState();
+  const [id, setId] = useState(); //Equipment's id
+  const params = useParams(); //params
+  const { user } = useAuth(); //context
+
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
+  //UseEffect for getting the equipment's data
   useEffect(() => {
     const id = params.id;
     axios.get(URI + `api/equip/${id}`).then((res) => {
@@ -27,15 +38,37 @@ function Create_event() {
       setNombre(equipo.name);
       setSerial(equipo.serial);
       setClient(equipo.user);
+      setId(equipo.id);
     });
   }, []);
 
   //Functions
-  
+
   //function for submitting the form
-  const onSubmit = (values) => {
-    values.client = client;
-    SaveEvent(values);
+  const onSubmit = async (values) => {
+    Swal.fire({
+      title: "Quieres guardar los cambios?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      denyButtonText: `Don't save`,
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        values.client = client;
+        values.fileAdjunt = values.fileAdjunt[0];
+        values.equip = id;
+        values.user = user.id;
+        const res = await SaveEvent(values);
+        if (res.status == 200) {
+          Swal.fire("Saved!", "", "success").then(() => {
+            reset();
+          });
+        }
+      } else if (result.isDenied) {
+        Swal.fire("Lo cambios no han sido guardados", "", "info");
+      }
+    });
   };
 
   //function to open the add view
@@ -55,6 +88,8 @@ function Create_event() {
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
+
+   
       <div className="card vh-100 w-100 py-1 px-2" style={{ border: "None" }}>
         <div className="contenedor">
           <div className="event_header">Nuevo evento</div>
@@ -201,6 +236,7 @@ function Create_event() {
                     <option> Razon del evento</option>
                     <option value="240">Incidente</option>
                     <option value="241">Requerimiento</option>
+                    <option value="242">Mantenimiento</option>
                   </select>
                   {errors.event_reason?.type == "required" && (
                     <p className="errorMsg mb-0">Este campo es requerido</p>
@@ -211,10 +247,9 @@ function Create_event() {
                   <input
                     type="file"
                     className="form-control form-control-sm "
-                    name=""
                     style={{ width: "90% " }}
                     id=""
-                    {...register("file")}
+                    {...register("fileAdjunt")}
                   />
                 </div>
                 <div className="input-group d-flex flex-column  w-100  mb-2 flex-wrap">
@@ -248,6 +283,7 @@ function Create_event() {
 
                 <div className="mt-3">
                   <button className="btn btn-success btn-sm">Registrar </button>
+                  <Link className="btn btn-danger btn-sm mx-2" to={"/equipments"}> Cancelar</Link>
                 </div>
               </div>
             </form>

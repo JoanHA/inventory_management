@@ -154,9 +154,10 @@ function Create_event() {
 
             <form
               id="form-event"
-              className="container"
+              className="container px-0 py-0"
               onSubmit={handleSubmit(onSubmit)}
               encType="multipart/form-data"
+
             >
               <div className="inputGroup w-100 container  d-flex flex-row flex-wrap ">
                 <div className="input-group d-flex flex-column mb-2 w-50 flex-wrap mb-2">

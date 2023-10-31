@@ -55,16 +55,32 @@ function Create_event() {
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+     
         values.client = client;
-        values.fileAdjunt = values.fileAdjunt[0];
         values.equip = id;
         values.user = user.id;
-        const res = await SaveEvent(values);
-        if (res.status == 200) {
+        values.file = values.file[0]
+
+        //Saving data for the backend
+        const formData = new FormData()
+        formData.append('file', values.file)
+        formData.append('name', values.name)
+        formData.append('serial', values.serial)
+        formData.append('description', values.description)
+        formData.append('client', values.client)
+        formData.append('equip', values.equip)
+        formData.append('user', values.user)
+        formData.append('date', values.date)
+        formData.append("event_type",values.event_type)
+        formData.append("event_reason",values.event_reason)
+        formData.append("importance",values.importance)
+
+        const res = await SaveEvent(formData); //this the one that call tthe function in the backend
+       if (res.status == 200) {
           Swal.fire("Saved!", "", "success").then(() => {
             reset();
           });
-        }
+        } 
       } else if (result.isDenied) {
         Swal.fire("Lo cambios no han sido guardados", "", "info");
       }
@@ -97,7 +113,7 @@ function Create_event() {
             <div className="event_title">
               <h3>datos del equipo</h3>
             </div>
-            <div className="input-group flex-nowrap   d-flex flex-row  justify-content-end gap-3">
+            <div className="input-group flex-nowrap   d-flex flex-row  justify-content-center gap-3">
               <div className="input-group d-flex w-25 flex-row flex-nowrap gap-2 align-items-center">
                 <div className="">
                   <label htmlFor="">Serial</label>
@@ -237,6 +253,7 @@ function Create_event() {
                     <option value="240">Incidente</option>
                     <option value="241">Requerimiento</option>
                     <option value="242">Mantenimiento</option>
+                    <option value="243">Repotenciamiento</option>
                   </select>
                   {errors.event_reason?.type == "required" && (
                     <p className="errorMsg mb-0">Este campo es requerido</p>
@@ -244,12 +261,15 @@ function Create_event() {
                 </div>
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
                   <label htmlFor="">Adjuntar archivo</label>
+
+                
                   <input
+                  id="SentFile"
                     type="file"
                     className="form-control form-control-sm "
                     style={{ width: "90% " }}
-                    id=""
-                    {...register("fileAdjunt")}
+                    {...register("file")}
+                  
                   />
                 </div>
                 <div className="input-group d-flex flex-column  w-100  mb-2 flex-wrap">

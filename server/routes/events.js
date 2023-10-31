@@ -5,6 +5,18 @@ const multer = require("multer");
 const path = require("path");
 const helper = require("../lib/helpers.js");
 
+
+
+//Storage initialization
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "../public/uploads"),
+  filename: function(req, file, cb){
+    cb(null, Date.now() +"-"+ (file.originalname))
+  }
+})
+
+
+
 //Routes
 
 router.get("/", (req, res) => {
@@ -28,8 +40,10 @@ router.get("/", (req, res) => {
 });
 
 //Create event
-router.post("/", (req, res) => {
+router.post("/",multer({storage}).single("file"), (req, res) => {
   const { body, file } = req;
+  console.log(file) 
+  console.log(body)
   const {
     name,
     event_type,
@@ -41,6 +55,8 @@ router.post("/", (req, res) => {
     equip,
     user,
   } = body;
+
+  const FilePath = file.filename;
   data = {
     name,
     description,
@@ -51,12 +67,13 @@ router.post("/", (req, res) => {
     client,
     equip: parseInt(equip),
     status: 1,
-    created_by: user,
+    file:FilePath,
+    created_by: parseInt(user),
   };
   console.log(data);
   db.query("INSERT INTO events SET ?", [data], (err, result) => {
     if (err) {
-      return res.status(500).json({ message: "error" });
+      return res.status(500).json({ message: err });
     }
     if (result.affectedRows > 0) {
 
@@ -73,19 +90,25 @@ router.post("/", (req, res) => {
 // //Get one
 router.get("/:id", (req, res) => {
   try {
-    const sql = `SELECT events.*,
+    const sql = `SELECT events.*, events.file AS adjunt ,
     (SELECT name FROM params WHERE params.id = events.event_type) AS event_type_name,
     (SELECT name FROM params WHERE params.id = events.importance) AS importance_name,
     (SELECT name FROM params WHERE params.id = events.event_reason) AS reason_name,
-    (SELECT name FROM equipments WHERE equipments.id = events.equip) AS equip_name
-    FROM events WHERE events.id = ${req.params.id};`;
+    (SELECT name FROM equipments WHERE equipments.id = events.equip) AS equip_name,
+    (SELECT serial FROM equipments WHERE equipments.id = events.equip) AS serial,
+    (SELECT   username FROM users where users.id = events.created_by) AS user,
+    (SELECT   name  FROM params where params.id = events.status) AS status_name
+    FROM events WHERE events.id = ${req.params.id}`;
+
     db.query(sql, (error, result) => {
+      console.log(error)
       if (result.length <= 0) {
         res.send({ status: 404, message: "evento no encontrado" });
         return;
       }
       console.log("evento encontrado exitosamente");
-      res.send(result);
+      console.log(result)
+      res.json(result);
     });
 
   } catch (error) {
@@ -94,6 +117,22 @@ router.get("/:id", (req, res) => {
   }
 
 });
-//Get all
+
+
+//update status in events
+router.put("/:id",(req, res)=>{
+  const {Status} = req.body; // Event´s 
+  const {id}  = req.params // Event's id
+
+  db.query(`UPDATE events SET status = ${Status} WHERE events.id = ${id} `,(err,result)=>{
+    if (err) {
+      return res.status(500).json({ message: err });
+    }
+    if (result.affectedRows > 0) {
+      res.json({ status: 200, data: "Evento actualizado correctamente" });
+    }
+  });
+  
+})
 
 module.exports = router;

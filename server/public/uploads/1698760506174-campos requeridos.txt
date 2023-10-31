@@ -1,0 +1,58 @@
+ Inventario 
+- nombre
+- referencia
+- Fecha  de creacion
+- stock
+- id
+- estado
+oficina
+serial
+marca
+modelo
+tipo de quipo 
+usuario
+memoria ram
+tipo de memoria
+disco duro 
+tipo disco duro
+procesador
+sistema operativo
+Antivirus
+Descripcion
+mantenimiento 
+
+
+users
+-id 
+-correo
+-password
+- created at
+- updated at
+
+Eventos
+- Tecnico
+- id
+- Fecha  de creacion
+- nombre de evento
+- adjunto
+- tipo 
+- observacion
+- importancia
+- cliente
+- estado
+
+params
+
+
+
+param_type
+- event-type
+- importancia
+- estado_product
+estado_event
+
+cambios
+cambio de disco
+cambio de ram
+cambio de teclado
+cambio de pantalla

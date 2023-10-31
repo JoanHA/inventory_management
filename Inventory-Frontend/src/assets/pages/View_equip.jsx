@@ -372,6 +372,7 @@ function View_equip() {
 
                   {disk.map((object) => (
                     <option
+                    key={object[0]}
                       value={object[0]}
                       selected={
                         equip.hard_type_name == object[1] ? true : false

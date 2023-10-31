@@ -38,3 +38,7 @@
   box-shadow: 0px 1px 7px gray;
   border-radius: 30px;
 }
+
+.btn{
+  border-radius: 6px;
+}

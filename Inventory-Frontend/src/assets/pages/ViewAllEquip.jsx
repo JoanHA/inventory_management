@@ -21,12 +21,11 @@ function ViewAllEquip() {
   }, []);
 
   return (
-    <div style={{ marginTop: "0px" }} className="px-5  table-responsive">
-    <div className="event_header mb-2">Equipos registrados</div>
-      <table className="table  table-striped  table-hover py-3 px-3 mt-3 ">
+    <><div className="event_header mb-2">Equipos registrados</div><div style={{ marginTop: "0px" }} className="px-5  table-responsive">
+
+      <table className="table   table-hover py-3 px-3 mt-1 ">
         <thead>
           <tr className="">
-            <th className=" ">ID</th>
             <th className=" ">Equipo</th>
             <th className=" ">Modelo</th>
             <th className=" ">Serial</th>
@@ -41,7 +40,7 @@ function ViewAllEquip() {
           datos.map((data) => (
             <tbody className="" key={data.id}>
               <tr className="">
-                <td className="">{data.id}</td>
+
                 <td className="">{data.name}</td>
                 <td className="">{data.model}</td>
                 <td className="">{data.serial}</td>
@@ -62,7 +61,7 @@ function ViewAllEquip() {
                     <img src={add} alt="" />
                   </Link>
                 </td>
-               
+
               </tr>
             </tbody>
           ))
@@ -74,7 +73,7 @@ function ViewAllEquip() {
           </tbody>
         )}
       </table>
-    </div>
+    </div></>
   );
 }
 

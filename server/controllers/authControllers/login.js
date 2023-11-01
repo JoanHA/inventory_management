@@ -5,19 +5,6 @@ const helper = require("../../lib/helpers.js");
 const jwt = require("jsonwebtoken");
 const createToken = require("../../controllers/others/CreateToken.js");
 
-// router.post("/verifyToken",(req,res)=>{
-//   const token = req.cookies.token;
-
-//   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//     if (err) {
-//       console.log( "Error del token",err)
-//       return res.sendStatus(401);
-//     }
-//       console.log(decoded)
-//   })
-
-// })
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   db.query(
@@ -26,11 +13,11 @@ router.post("/login", async (req, res) => {
     async (err, result) => {
       if (err) {
         console.log(err);
-        res.status(500).json({ message: "error" });
+        res.status(500).send({ message: err });
         return;
       }
       if (!result[0]) {
-        res.send({status:404, message: "Ese usuario no existe" });
+        res.status(404).send(["Crendeciales incorrectas"]);
         return;
       }
 
@@ -38,7 +25,7 @@ router.post("/login", async (req, res) => {
       const hashPassword = userFound.password;
       const isMatch = await helper.compare(password, hashPassword);
       if (!isMatch) {
-        res.send({ status: 401, message: "Credenciales incorrectas" });
+        res.status(401).send(["Crendeciales incorrectas"]);
         // res.sendStatus(400).json({message: "Credenciales incorrectas"})
         return;
       }
@@ -83,7 +70,7 @@ router.post("/register", async (req, res) => {
       if(result.length > 0){
         console.log("Hay error")
         error = true;
-        res.send({ status: 400, message: "El email ya esta en uso" });
+        res.status(401).send(["Ese correo ya esta registrado"]);
         return;
       }else{
           //Save user

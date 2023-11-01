@@ -50,7 +50,7 @@ function ViewAllEquip() {
                 <td className="" colSpan={2}>
                   <Link
                     to={`/edit/${data.id}`}
-                    className="btn btn-primary btn-sm mx-1"
+                    className="btn btn-primary btn-sm mx-1 my-1"
                   >
                     <img src={view} alt="" />
                   </Link>
@@ -58,7 +58,8 @@ function ViewAllEquip() {
                     to={`/create_event/${data.id}`}
                     className="btn btn-success btn-sm"
                   >
-                    <img src={add} alt="" />
+                    <span className="mx-1">Evento</span>
+                    <img src={add} alt=""  width={20}/>
                   </Link>
                 </td>
 

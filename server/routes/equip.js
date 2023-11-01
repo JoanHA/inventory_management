@@ -14,7 +14,7 @@ router.get("/equip", (req, res) => {
 
   try {
     const sql =
-    "SELECT equipments.*, params.name as paramName FROM equipments INNER JOIN params on params.id = equipments.mark;";
+    "SELECT equipments.*, params.name as paramName FROM equipments INNER JOIN params on params.id = equipments.mark WHERE equipments.status <> 3";
   db.query(sql, (err, result) => {
     
     res.send(result);
@@ -76,7 +76,7 @@ router.post("/equip", (req, res) => {
         console.log(error);
         return;
       }
-      console.log(result);
+     
       res.send({ status: 204, message: "Producto creado exitosamente" });
     }
   );
@@ -84,8 +84,9 @@ router.post("/equip", (req, res) => {
 //Delete equip
 router.delete("/equip/:id", (req, res) => {
   try {
-    const sql = `DELETE FROM equipments  WHERE equipments.id = ${req.params.id}`;
+    const sql = `UPDATE  equipments SET status = 3 WHERE equipments.id = ${req.params.id}`;
     db.query(sql, (error, result) => {
+      
       if (result.affectedRows <= 0) {
         res.send({
           status: 404,
@@ -93,7 +94,7 @@ router.delete("/equip/:id", (req, res) => {
         });
         return;
       }
-      console.log();
+  
       res.send({ status: 204, message: "Equipo eliminado exitosamente" });
     });
     
@@ -170,11 +171,10 @@ router.put("/equip/:id", (req, res) => {
   
     db.query(sql, (error, result) => {
       if (result.affectedRows < 1) {
-        console.log(error)
-        res.send({ status: 404, message: "Equipo no encontrado" });
+     
+        res.status(404).send({ status: 404, message: "Equipo no encontrado" });
         return;
       }
-      console.log({ status: 200, message: "Equipo Actualizado correctamente" })
       res.send({ status: 200, message: "Equipo Actualizado correctamente" });
     });
   } catch (error) {
@@ -197,7 +197,7 @@ router.get("/equip/:id", (req, res) => {
         res.send({ status: 404, message: "Equipo no encontrado" });
         return;
       }
-      console.log("Equipo encontrado exitosamente");
+     
       res.send(result);
     });
     

@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [Errores, setErrores] = useState(null)
 
  
   const logOut = () => {
@@ -26,22 +27,29 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     setisAuthenticated(false);
   };
+useEffect(()=>{
+  const time = setTimeout(()=>{
+    setErrores(null)
+  },5000)
+  return ()=>{
+    clearTimeout(time)
+  }
+},[Errores])
 
   const GetIn = async (data) => {
     try {
       const res = await Login(data);
-      console.log(res)
       if (res.status === 200) {
         setisAuthenticated(true);
         setUser(res.data.data.user);
-        console.log(res.data.data.token);
         Cookies.set("token", res.data.data.token);
         setLoading(false);
         return res;
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      setErrores(error.response.data)
+      setisAuthenticated(false)
     }
   };
   const signup = async (user) => {
@@ -58,7 +66,10 @@ export const AuthProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      console.log(error.data);
+     
+      setErrores(error.response.data)
+      setisAuthenticated(false)
+      setLoading(false)
     }
     return false;
   };
@@ -101,6 +112,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         logOut,
         isAuthenticated,
+        Errores
       }}
     >
       {children}

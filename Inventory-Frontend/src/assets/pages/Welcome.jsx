@@ -2,13 +2,10 @@ import React from "react";
 import { useAuth } from "../../context/AuthContext";
 
 import { Link } from "react-router-dom";
-
+import { FaArrowRight } from "react-icons/fa";
 function Welcome() {
   const { user } = useAuth();
   return (
-
-
-    
     <div className=" my-1 w-100">
       <div className="mx-auto   text-center">
         <div className="event_header">
@@ -21,13 +18,13 @@ function Welcome() {
           <h6>{user.email}</h6>
         </div>
 
-        <div className="d-flex flex-row align-items-center flex-wrap justify-content-center gap-4 mt-5">
+        <div className="d-flex flex-row flex-wrap align-items-center flex-wrap justify-content-center gap-4 mt-5">
           <div
             className="card text-white bg-success mb-3"
-            style={{ maxWidth: " 27rem" }}
+            style={{ maxWidth: " 24rem" }}
           >
-            <div className="card-header">
-              <h5>Crear equipo</h5>
+            <div className="card-header  my-0 py-1">
+              <h5>Registrar equipos</h5>
             </div>
             <div className="card-body">
               <p className="card-text">
@@ -35,15 +32,20 @@ function Welcome() {
                 the bulk of the card's content.
               </p>
             </div>
-            <div className="card-footer py-0">
-              <Link>Ir</Link>
+            <div className="card-footer cardFoot py-0">
+              <Link className="GoLink" to={"/create"}>
+                <span>Ir</span>
+                <span className="arrow">
+                  <FaArrowRight />
+                </span>
+              </Link>
             </div>
           </div>
           <div
             className="card text-white bg-secondary mb-3"
-            style={{ maxWidth: " 27rem" }}
+            style={{ maxWidth: " 24rem" }}
           >
-            <div className="card-header">
+            <div className="card-header  my-0 py-1">
               <h5>Administrar usuarios</h5>
             </div>
             <div className="card-body">
@@ -52,16 +54,21 @@ function Welcome() {
                 the bulk of the card's content.
               </p>
             </div>
-            <div className="card-footer py-0">
-              <Link>Ir</Link>
+            <div className="card-footer cardFoot py-0">
+              <Link className="GoLink w-50"  to={"/"}>
+                <span>Ir</span>{" "}
+                <span className="arrow">
+                  <FaArrowRight />
+                </span>
+              </Link>
             </div>
           </div>{" "}
           <div
             className="card text-white bg-warning mb-3"
-            style={{ maxWidth: " 27rem" }}
+            style={{ maxWidth: " 24rem" }}
           >
-            <div className="card-header">
-              <h5>Crear Evento</h5>
+            <div className="card-header my-0 py-1">
+              <h5>Crear Eventos</h5>
             </div>
             <div className="card-body">
               <p className="card-text">
@@ -69,8 +76,13 @@ function Welcome() {
                 the bulk of the card's content.
               </p>
             </div>
-            <div className="card-footer py-0">
-              <Link>Ir</Link>
+            <div className="card-footer  cardFoot py-0">
+              <Link className="GoLink" to={"/equipments"}>
+                <span>Ir</span>{" "}
+                <span className="arrow">
+                  <FaArrowRight />
+                </span>
+              </Link>
             </div>
           </div>
         </div>

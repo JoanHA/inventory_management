@@ -69,6 +69,8 @@ function View_equip() {
         console.log(error);
       });
   }, []);
+
+  //llenando los selects
   useEffect(() => {
     var marcas = [];
     var rams = [];
@@ -110,12 +112,15 @@ function View_equip() {
         console.error("An error occurred:", error);
       });
   }, []);
+
+  //Vista para agregar parametros
   const openView = (value, id) => {
     setParametro([value, id]);
 
     document.querySelector("#addModal").classList.remove("inactive");
   };
 
+  //manejo del formulario
   const {
     register,
     reset,
@@ -124,20 +129,30 @@ function View_equip() {
     formState: { errors },
   } = useForm();
 
+
+///guardado de datos para editar
   const onSubmit = (e) => {
     e.preventDefault();
     const data = watch();
     console.log(data);
+
     async function updateEquips() {
-     const res  = await update(params.id, data);
+      try {
+        const res  = await update(params.id, data);
+        if(res.data.status ==200){
+          swal.fire("Editado","","success").then(()=>{location.reload()})
+        }
+      } catch (error) {
+        
+      }
     }
-    // updateEquips();
+     updateEquips();
   };
 
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
-      <div className="event_header">Editar equipo</div>
+      <div className="event_header d-flex justify-content-between">Editar equipo <Link  to={"/equipments"} className="btn btn-sm btn-secondary">Volver</Link></div>
       <div className="px-4 py-2">
      
         <form action="" onSubmit={onSubmit}>
@@ -217,6 +232,7 @@ function View_equip() {
                   id=""
                   {...register("mark", { required: true })}
                   className="form-select form-select-sm"
+                  defaultValue={equip.mark}
                 >
                   <option value="">Selecciona una marca...</option>
                   {marks.map((object) => (
@@ -241,7 +257,7 @@ function View_equip() {
               </div>
             </div>
 
-            <div className=" col-4 col-sm-4col-md-4">
+            <div className=" col-4 col-sm-4 col-md-4">
               <label htmlFor="">Tipo de equipo</label>
               <div className="d-flex flex-row">
                 <select

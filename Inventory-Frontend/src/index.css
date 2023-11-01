@@ -4,11 +4,10 @@
    
 } */
 .errorMsg {
-    display: flex;
+  display: flex;
   color: #b22222;
   margin: 0;
   font-size: small;
-
 }
 
 .colBlack {
@@ -39,6 +38,124 @@
   border-radius: 30px;
 }
 
-.btn{
+.btn {
   border-radius: 6px;
+}
+
+/* Sidebar */
+#sidebar {
+  width: 75px;
+  /* width: 200px; */
+  background-color: #212529;
+  color: #fff;
+  height: 100%;
+  transition: width 1s, display 5s;
+  transition-timing-function: ease-out;
+}
+.tittles {
+  display: none;
+}
+
+.icon{
+  align-self: center;
+  justify-self: center;
+}
+#sidebar:hover {
+  width: 200px;
+ 
+  .tittles {
+    display: flex;
+  };
+}
+.Clicked{
+  width: 200px !important;
+ 
+  .tittles {
+    display: flex;
+  };
+}
+.logoTitle{
+  font-weight: 600;
+  font-size: xx-large;
+}
+.bioartTitle {
+  padding: 1px 1px;
+}
+.sidebarHeader {
+  padding: 10px 0;
+  border-top: 1px solid #666;
+  border-bottom: 1px solid #666;
+  box-shadow: 0px 0px 3px lightgray;
+}
+.img-logo {
+  border-radius: 30px;
+}
+.SidebarLinks {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 5px ;
+  padding-left: 10px;
+  font-size: larger;
+  margin-bottom: 5px;
+}
+.SidebarLinks:hover {
+
+  border-left: 5px solid #0d6efd;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  display: flex;
+  
+}
+.list-unstyled {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px;
+}
+#sidebarContainer{
+  box-shadow:  5px 0px 10px lightgray;
+}
+/* .active{
+  border-left: 5px solid #0d6efd;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+} */
+
+
+/* Welcome */
+.GoLink{
+  text-decoration: none;
+  color:  white;
+  font-size: large;
+
+}
+.arrow{
+  position: relative;
+}
+.cardFoot:hover{
+  .arrow{
+    margin-left: 10px;
+  }
+
+}
+
+/* Login */
+.spanError{
+  text-align: center;
+  background-color: #f8d7da;
+  color: #58151c;
+  padding:10px;
+  border-radius: 10px;
+  border: 1px solid #f1aeb5;
+}
+
+/* Icon */
+.menu-icon{
+ height: 40px;
+ background-color: #f8f9fa;
+ width:50px;
+  border: none;
 }

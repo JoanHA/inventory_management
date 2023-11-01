@@ -1,13 +1,18 @@
 .back{
-    background-color: rgba(83, 83, 83, 0.6);;
+    background-color: rgba(83, 83, 83, 0.6);
     z-index: 99;
     position: fixed;
     display: flex;
-    align-items: center;
-    justify-content: center;
+
     margin: 0;
-    padding: 0;
   
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 .formContainer{
     height: 250px;
@@ -28,4 +33,21 @@
 }
 .swal{
     z-index: 100;
+}
+
+/* Modal page */
+
+.modalPage {
+ /* Hidden by default */
+display: none; 
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }

@@ -9,9 +9,9 @@ function View_events() {
   const { user } = useAuth();
   const [events, setEvents] = useState([]);
   useEffect(() => {
-    const get = async () => {
+    const get = async () => {   
       const res = await getAllEvents();
-      console.log(res.data);
+    
       setEvents(res.data);
     };
     get();
@@ -51,7 +51,7 @@ function View_events() {
                     <Link className="btn btn-success my-1" to={`/view_event/${event.id}`}>
                       <img src={view} alt="" />
                     </Link>
-                    <a
+                    {/* <a
                       href={`${URI}${event.file}`}
                       target="_blank"
                       className="btn btn-secondary mx-1"
@@ -59,7 +59,7 @@ function View_events() {
                       download={`${event.file}`}
                     >
                       Adjunto
-                    </a>
+                    </a> */}
                   </td>
                 </tr>
               )):  (

@@ -12,6 +12,7 @@
     font-size: large;
     box-shadow: 1px 1px 3px gray;
     border-radius: 6px;
+    margin-left: 5px;
 }
 h3{
     text-transform: capitalize;

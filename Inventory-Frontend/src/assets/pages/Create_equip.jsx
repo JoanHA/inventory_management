@@ -8,7 +8,7 @@ import axios from "axios";
 import Add from "../components/add";
 import { createEquip } from "../lib/updateEquip";
 import { URI } from "../../../config";
-
+import Masive from "../components/Masive";
 function Create_equip() {
   //Use form para obtener los datos del formulario
   const {
@@ -79,10 +79,15 @@ function Create_equip() {
         console.error("An error occurred:", error);
       });
   }, []);
+
+  const masive = ()=>{
+    document.getElementById("modalPage").style.display ="Block";
+  }
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
-      <div className="event_header">Editar equipo</div>
+      <Masive></Masive>
+      <div className="event_header">Registrar equipo</div>
       <div className="px-4 py-3">
      
         <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -167,7 +172,7 @@ function Create_equip() {
               )}
             </div>
             {/* cuarta fila */}
-            <div className=" col-4 col-sm-4 col-md-4">
+            <div className=" col-12 col-sm-6 col-md-4">
               <label htmlFor="">Serial</label>
               <input
                 type="text"
@@ -183,14 +188,14 @@ function Create_equip() {
               )}
             </div>
 
-            <div className=" col-4 col-sm-4 col-md-4">
+            <div className=" col-12 col-sm-6 col-md-4">
               <label htmlFor="">Marca</label>
               <div className="d-flex flex-row">
                 <select id="" {...register("mark")} className="form-select form-select-sm">
                   <option value="">Selecciona una marca...</option>
 
                   {marks.map((object) => (
-                    <option value={object[0]}>{object[1]}</option>
+                    <option key={object[0]} value={object[0]}>{object[1]}</option>
                   ))}
                 </select>
                 <button
@@ -205,7 +210,7 @@ function Create_equip() {
               </div>
             </div>
 
-            <div className=" col-4 col-sm-4col-md-4">
+            <div className=" col-12 col-sm-4 col-md-4">
               <label htmlFor="">Tipo de equipo</label>
               <div className="d-flex flex-row">
                 <select
@@ -216,7 +221,7 @@ function Create_equip() {
                 >
                   <option value="">Selecciona el tipo...</option>
                   {type.map((object) => (
-                    <option value={object[0]}>{object[1]}</option>
+                    <option key={object[0]}  value={object[0]}>{object[1]}</option>
                   ))}
                 </select>
                 <button
@@ -231,7 +236,7 @@ function Create_equip() {
               </div>
             </div>
             {/* Quinta fila */}
-            <div className="col-6 col-sm-6 col-md-3 ">
+            <div className="col-12 col-sm-6 col-md-3 ">
               <label htmlFor="">Cantidad de ram</label>
               <div className="d-flex align-item-center justify-content-center">
                 <input
@@ -254,7 +259,7 @@ function Create_equip() {
               </div>
             </div>
 
-            <div className=" col-6  col-sm-6 col-md-3 ">
+            <div className=" col-12  col-sm-6 col-md-3 ">
               <label htmlFor="">Cantidad de disco duro</label>
               <div className="d-flex justify-content-center">
                 <input
@@ -276,13 +281,13 @@ function Create_equip() {
                 </select>
               </div>
             </div>
-            <div className=" col-6 col-sm-6 col-md-3">
+            <div className=" col-12 col-sm-6 col-md-3">
               <label htmlFor="">Tipo de ram</label>
               <div className="d-flex flex-row">
                 <select id="" {...register("ram_type")} className="form-select form-select-sm">
                   <option value="">Tipo de ram</option>
                   {ram.map((object) => (
-                    <option value={object[0]}>{object[1]}</option>
+                    <option  key={object[0]} value={object[0]}>{object[1]}</option>
                   ))}
                 </select>
                 <button
@@ -296,7 +301,7 @@ function Create_equip() {
                 </button>
               </div>
             </div>
-            <div className=" col-6 col-sm-6 col-md-3">
+            <div className=" col-12 col-sm-6 col-md-3">
               <label htmlFor="">Tipo de disco duro</label>
               <div className="d-flex flex-row">
                 <select
@@ -306,7 +311,7 @@ function Create_equip() {
                 >
                   <option value="">Selecciona el tipo...</option>
                   {disk.map((object) => (
-                    <option value={object[0]}>{object[1]}</option>
+                    <option  key={object[0]} value={object[0]}>{object[1]}</option>
                   ))}
                 </select>
                 <button
@@ -375,8 +380,9 @@ function Create_equip() {
               <Link className="btn btn-success mx-3 " to={"/equipments"}>
                 Ver todo
               </Link>
+              <button className="btn btn-info" type="button" onClick={masive}>Carga masiva </button>
             </div>
-          </div>
+          </div> 
         </form>
       </div>
     </>

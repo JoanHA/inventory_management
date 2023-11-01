@@ -4,60 +4,28 @@ import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 function Header({ children }) {
   const { isAuthenticated, logOut } = useAuth();
+  function click(){
+    document.getElementById("sidebar").classList.toggle("Clicked");
+  }
   return (
     <>
       <div className="d-flex flex-row">
         <Sidebar></Sidebar>
         <div id="headerContainer" className="w-100 h-100">
-          <nav className="navbar navbar-expand-lg bg-body-tertiary">
-            <div className="container-fluid">
-              <a className="navbar-brand" href="/">
+          <nav className="navbar bg-body-tertiary  justify-content-between">
+            <button className="menu-icon" onClick={click}>
+              <span className="navbar-toggler-icon"></span>
+            </button>
+
+            <div className="d-flex flex-row px-5">
+              <a className="navbar-brand  " href="/">
                 Inventario Bioart
               </a>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
-              <div className="collapse navbar-collapse" id="navbarNavDropdown">
+
+              <div className=" " id="">
                 <ul className="navbar-nav">
                   {isAuthenticated ? (
                     <>
-                      <li className="nav-item">
-                        <a className="nav-link" href="/events">
-                          Eventos
-                        </a>
-                      </li>
-                      <li className="nav-item dropdown">
-                        <a
-                          className="nav-link dropdown-toggle"
-                          href="#"
-                          role="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          Equipos
-                        </a>
-
-                        <ul className="dropdown-menu">
-                          <li>
-                            <a className="dropdown-item" href="/create">
-                              Registrar Equipo
-                            </a>
-                          </li>
-                          <li>
-                            <a className="dropdown-item" href="/equipments">
-                              Ver equipos
-                            </a>
-                          </li>
-                        </ul>
-                      </li>
                       <li className="nav-item">
                         <button
                           className="nav-link"

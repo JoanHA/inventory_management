@@ -6,7 +6,6 @@ const path = require("path");
 const helper = require("../lib/helpers.js");
 
 
-
 //Storage initialization
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "../public/uploads"),
@@ -42,8 +41,7 @@ router.get("/", (req, res) => {
 //Create event
 router.post("/",multer({storage}).single("file"), (req, res) => {
   const { body, file } = req;
-  console.log(file) 
-  console.log(body)
+
   const {
     name,
     event_type,

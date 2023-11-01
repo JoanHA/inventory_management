@@ -6,14 +6,18 @@ import { Link } from "react-router-dom";
 import { URI } from "../../../../config";
 import { updateStatus } from "../../../api/events.controller";
 function View_one_event() {
+
+  //change the status of the status changer
   const [ChangeStatus, setChangeStatus] = useState("NONE");
   const params = useParams();
+  
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+
   const [fileUrl, setFileUrl] = useState("");
 
   useEffect(() => {

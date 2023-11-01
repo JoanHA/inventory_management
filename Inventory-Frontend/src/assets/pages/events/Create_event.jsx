@@ -185,7 +185,7 @@ function Create_event() {
                       style={{ width: "83% " }}
                       {...register("event_type", { required: true })}
                     >
-                      <option>Tipo de evento</option>
+                      <option value="">Tipo de evento</option>
                       {event_type.map((event) => (
                         <option key={event.id} value={event.id}>
                           {event.name}
@@ -202,10 +202,11 @@ function Create_event() {
                     >
                       +
                     </button>
-                    {errors.event_type?.type == "required" && (
+                  
+                  </div>
+                  {errors.event_type?.type == "required" && (
                       <p className="errorMsg mb-0">Este campo es requerido</p>
                     )}
-                  </div>
                 </div>
 
                 <div className="input-group d-flex flex-column  w-50 mb-2 flex-wrap">
@@ -231,7 +232,7 @@ function Create_event() {
                     style={{ width: "90% " }}
                     id=""
                   >
-                    <option>Selecciona importancia...</option>
+                    <option value="">Selecciona importancia...</option>
                     <option value="235">Baja </option>
                     <option value="236">Media</option>
                     <option value="237">Normal</option>
@@ -250,7 +251,7 @@ function Create_event() {
                     id=""
                     {...register("event_reason", { required: true })}
                   >
-                    <option> Razon del evento</option>
+                    <option value=""> Razon del evento</option>
                     <option value="240">Incidente</option>
                     <option value="241">Requerimiento</option>
                     <option value="242">Mantenimiento</option>

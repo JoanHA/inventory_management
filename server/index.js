@@ -8,7 +8,7 @@ const path = require("path");
 const login = require("./controllers/authControllers/login.js");
 const multer = require("multer");
 const cookieParser = require("cookie-parser");
-
+const masive = require("./controllers/others/MasiveSaved.js")
 //initialize
 const app = express();
 const cors = require("cors");
@@ -30,6 +30,9 @@ app.use(express.static(path.join(__dirname, "/public/uploads")));
 app.use("/api", equip); //Route for equipment
 app.use("/utils", util); // Route for params and extra things
 app.use("/api/events", events); //Route for events
+
+//Route to save the data from the excel
+app.use("/api/masive",masive)
 
 //Auth routes
 app.use("/auth", login);

@@ -27,12 +27,12 @@ function Add(props) {
   } = useForm();
   return (
     <div className="back w-100 vh-100" id="addModal">
-      <div className="card mx-auto my-auto d-flex justify-content-center align-items-center  formContainer">
+      <div className="card mx-auto  d-flex rounded justify-content-center align-items-center  formContainer">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="d-flex justify-content-center align-items-center"
         >
-          <div className="d-flex flex-column gap-5">
+          <div className="d-flex flex-column gap-5 px-3 py-1">
             <div className="d-flex flex-row gap-3 justify-content-center flex-wrap">
               <div className="d-flex flex-column align-items-center gap-1 flex-wrap">
                 <label htmlFor=""> Parametro </label>

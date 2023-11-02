@@ -45,12 +45,14 @@ router.post("/verifyToken", async (req,res)=>{
             console.log(error)
         }else{
             console.log(user)
-            db.query(`SELECT * FROM users where id=${user.id}`,(error,row)=>{
+            db.query(`SELECT users.*, params.name FROM users INNER JOIN params on params.id = users.rol WHERE users.id=${user.id}`,(error,row)=>{
                 if(error) return console.log(error);
                 const usuario ={
                     id:row[0].id,
                     username:row[0].username,
                     email:row[0].email,
+                    rolName: row[0].name,
+                    rol: row[0].rol
                 } 
                 res.status(200).json({status:200,user:usuario})
             })

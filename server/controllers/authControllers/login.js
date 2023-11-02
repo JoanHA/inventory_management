@@ -8,7 +8,7 @@ const createToken = require("../../controllers/others/CreateToken.js");
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   db.query(
-    "SELECT users.*, params.name FROM users INNER JOIN params on params.id = users.rol WHERE users.email = ?",
+    "SELECT users.*, params.name FROM users INNER JOIN params on params.id = users.rol WHERE users.email = ? ",
     [email],
     async (err, result) => {
       if (err) {
@@ -29,7 +29,10 @@ router.post("/login", async (req, res) => {
         // res.sendStatus(400).json({message: "Credenciales incorrectas"})
         return;
       }
-
+        if(userFound.status !=1){
+          res.status(401).send(["Usuario bloqueado"]);
+          return;
+        }
       const token = await createToken({ id: userFound.id }); //Token
 
       //Save the token in  a cookie
@@ -55,66 +58,76 @@ router.post("/register", async (req, res) => {
     const { email, username, password } = req.body; //Get the data
     const hashPassword = await helper.encypt(password); //Encrypt the password
     var error = false;
-    //Create the user
+    var role = 272;
     const user = {
       email,
       password: hashPassword,
       username,
-      rol: 272,
+      rol: role,
       status: 1,
     };
-
+    db.query("SELECT  * from users where rol = 271", (err, result) => {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(result.length);
+      if (result.length == 0) {
+        user.rol = 271
+      
+      }
+    });
+    //Create the user
+   
 
     //Search same email
-    db.query("SELECT * from users where email = ?",[email],(err,result)=>{
-      if(result.length > 0){
-        console.log("Hay error")
+    db.query("SELECT * from users where email = ?", [email], (err, result) => {
+      if (result.length > 0) {
+        console.log("Hay error");
         error = true;
         res.status(401).send(["Ese correo ya esta registrado"]);
         return;
-      }else{
-          //Save user
+      } else {
+        //Save user
         db.query("INSERT INTO users SET ?", [user], (err, result) => {
-            if (err) {
-              console.log(err);
-              return;
-            }
-            db.query(
-              "SELECT users.*, params.name FROM users INNER JOIN params on params.id = users.rol WHERE users.email = ?",
-              [email],
-              async (err, result) => {
-                if (err) {
-                  console.log(err);
-                  res.send({status:500, message: "The user hasn't been created" });
-                  return;
-                }
-                const usersaved = result[0]; // UserFound
-                console.log("usuario encontrado",usersaved)
-                const token = await createToken({ id: usersaved.id }); //Token
-          
-                //Save the token in  a cookie
-                res.cookie("token", token, { httpOnly: true });
-                //Send to the client
+          if (err) {
+            console.log(err);
+            return;
+          }
+          db.query(
+            "SELECT users.*, params.name FROM users INNER JOIN params on params.id = users.rol WHERE users.email = ?",
+            [email],
+            async (err, result) => {
+              if (err) {
+                console.log(err);
                 res.send({
-                  status: 200,
-                  message: {
-                    id: usersaved.id,
-                    username: usersaved.username,
-                    email: usersaved.email,
-                    rol: usersaved.rol,
-                    rolName: usersaved.name,
-                    token: token,
-                  },
+                  status: 500,
+                  message: "The user hasn't been created",
                 });
+                return;
               }
-            );
-          });
+              const usersaved = result[0]; // UserFound
+              console.log("usuario encontrado", usersaved);
+              const token = await createToken({ id: usersaved.id }); //Token
 
-
+              //Save the token in  a cookie
+              res.cookie("token", token, { httpOnly: true });
+              //Send to the client
+              res.send({
+                status: 200,
+                message: {
+                  id: usersaved.id,
+                  username: usersaved.username,
+                  email: usersaved.email,
+                  rol: usersaved.rol,
+                  rolName: usersaved.name,
+                  token: token,
+                },
+              });
+            }
+          );
+        });
       }
-    })
-  
-  
+    });
   } catch (error) {
     console.log(error);
   }

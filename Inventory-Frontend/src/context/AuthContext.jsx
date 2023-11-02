@@ -94,8 +94,6 @@ useEffect(()=>{
         setisAuthenticated(true);
         setUser(res.data.user);
         setLoading(false)
-       
-        // const res  =await verifyToken(cookies.token)
       } catch (error) {
         console.log(error);
       }

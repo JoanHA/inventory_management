@@ -3,6 +3,14 @@
     color:white;
    
 } */
+
+ul{
+  text-decoration: none;
+  marker: none;
+}
+li{
+  list-style-type: none;
+}
 .errorMsg {
   display: flex;
   color: #b22222;
@@ -118,11 +126,11 @@
 #sidebarContainer{
   box-shadow:  5px 0px 10px lightgray;
 }
-/* .active{
+.active{
   border-left: 5px solid #0d6efd;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
-} */
+}
 
 
 /* Welcome */
@@ -134,10 +142,11 @@
 }
 .arrow{
   position: relative;
+  transition: all 1s;
 }
 .cardFoot:hover{
   .arrow{
-    margin-left: 10px;
+    margin-left: 8px;
   }
 
 }

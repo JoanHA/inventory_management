@@ -14,7 +14,7 @@ function Welcome() {
 
         <div className="my-3 ">
           <h4 className="">Bienvenido Usuario: {user.username}</h4>
-          <h5>Rol: Administrador</h5>
+          <h5>Rol: {user.rolName}</h5>
           <h6>{user.email}</h6>
         </div>
 
@@ -28,8 +28,7 @@ function Welcome() {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+              Aqui podrás registrar nuevos equipos en el inventario de Bioart
               </p>
             </div>
             <div className="card-footer cardFoot py-0">
@@ -50,8 +49,7 @@ function Welcome() {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+                Administrar usuarios registrados en la plataforma, asignarle roles, dar permisos e inhabilitar usuarios.
               </p>
             </div>
             <div className="card-footer cardFoot py-0">
@@ -72,8 +70,7 @@ function Welcome() {
             </div>
             <div className="card-body">
               <p className="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+               Registrar eventos, cambios y actualizaciones que se realicen a los equipos registrados
               </p>
             </div>
             <div className="card-footer  cardFoot py-0">

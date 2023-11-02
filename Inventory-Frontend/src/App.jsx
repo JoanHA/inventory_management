@@ -14,7 +14,8 @@ import { useAuth } from "./context/AuthContext";
 import View_events from "./assets/pages/events/View_events";
 import View_one_event from "./assets/pages/events/view_one_event";
 import Sidebar from "./assets/components/Sidebar";
-
+import UserManagement from "./assets/UsersPages/UserManagement";
+import EditUser from "./assets/UsersPages/EditUser";
 function App() {
   return (
     <>
@@ -32,7 +33,10 @@ function App() {
                 <Route path="/events" element={<View_events />} />
                 <Route path="/create_event/:id" element={<Create_event />} />
                 <Route path="/view_event/:id" element={<View_one_event />} />
-             
+                <Route>
+                        <Route path="/userManagement" element={<UserManagement/>}></Route>
+                        <Route path="/editUser/:id" element={<EditUser/>}/>
+                </Route>
               </Route>
             </Routes>
           </Header>

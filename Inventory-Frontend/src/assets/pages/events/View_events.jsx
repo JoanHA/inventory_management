@@ -11,10 +11,11 @@ function View_events() {
   useEffect(() => {
     const get = async () => {   
       const res = await getAllEvents();
-    
+
       setEvents(res.data);
     };
     get();
+    console.log(events)
   }, []);
 
   return (
@@ -36,10 +37,9 @@ function View_events() {
             </tr>
           </thead>
           <tbody>
-            {events ?
+            {events.length > 0 ?
               events.map((event) => (
                 <tr key={event.id}  className="">
-             
                   <td  className="">{event.name}</td>
                   <td  className="">{event.importance_name}</td>
                   <td  className="">{event.event_type_name}</td>
@@ -51,21 +51,12 @@ function View_events() {
                     <Link className="btn btn-success my-1" to={`/view_event/${event.id}`}>
                       <img src={view} alt="" />
                     </Link>
-                    {/* <a
-                      href={`${URI}${event.file}`}
-                      target="_blank"
-                      className="btn btn-secondary mx-1"
-                      rel="noopener noreferrer"
-                      download={`${event.file}`}
-                    >
-                      Adjunto
-                    </a> */}
                   </td>
                 </tr>
               )):  (
                 <tbody>
                   <tr>
-                    <td colSpan={9}>No hay datos aún...</td>
+                    <td colSpan="9" rowSpan={9}>No hay datos aún...</td>
                   </tr>
                 </tbody>
               )}

@@ -12,6 +12,7 @@ import { AiOutlineAppstoreAdd } from "react-icons/ai";
 
 function Sidebar() {
   const { user } = useAuth();
+  
   const [logUser, setLogUser] = useState({});
   const [home, setHome] = useState(true);
   const [userPage, setuserPage] = useState(false);
@@ -101,7 +102,7 @@ function Sidebar() {
           </div>
 
           <div>
-            <Link style={{ color: "#fff" }} className="tittles">
+            <Link style={{ color: "#fff" }} to={user && (`/editUser/${user.id}`)} className="tittles">
               <LiaEditSolid size={"2.2rem"}></LiaEditSolid>
             </Link>
           </div>
@@ -123,20 +124,28 @@ function Sidebar() {
                 <span className="tittles"> Home</span>
               </Link>
             </li>
-            <li className="sidebarLi">
-              <Link
-                to="/"
-                className={
-                  userPage == true ? " SidebarLinks active" : " SidebarLinks"
-                }
-                onClick={() => {
-                  changer("userPage");
-                }}
-              >
-                <FaUsers size={"2rem"} />
-                <span className="tittles"> Usuarios</span>
-              </Link>
-            </li>
+
+            { user ? user.rol == 271 && (
+              <>
+                <li className="sidebarLi">
+                  <Link
+                    to="/userManagement"
+                    className={
+                      userPage == true
+                        ? " SidebarLinks active"
+                        : " SidebarLinks"
+                    }
+                    onClick={() => {
+                      changer("userPage");
+                    }}
+                  >
+                    <FaUsers size={"2rem"} />
+                    <span className="tittles"> Usuarios</span>
+                  </Link>
+                </li>
+              </>
+            ):""}
+
             <li className="sidebarLi">
               <Link
                 to="/events"
@@ -179,11 +188,7 @@ function Sidebar() {
                 <span className="tittles">Añadir equipos</span>
               </Link>
             </li>
-           
           </ul>
-        </div>
-        <div className="MenuSidebar">
-          <Link> </Link>
         </div>
       </div>
     </div>

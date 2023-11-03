@@ -4,6 +4,7 @@ import { set } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { verifyToken } from "../api/Auth.controllers";
+import { changePassword } from "../api/user.controller";
 
 const AuthContext = createContext();
 
@@ -74,6 +75,22 @@ useEffect(()=>{
     return false;
   };
 
+  const PasswordChanger = async (newData)=>{
+    try {
+      const res = await changePassword(newData);
+      if(res.status==200){
+        setLoading(false);
+        return 200;
+      }
+    } catch (error) {
+      console.log(error)
+      setErrores(error.response.data)
+      
+    }
+     
+
+  }
+
   useEffect(() => {
     const checkLogin = async () => {
       const cookies = Cookies.get();
@@ -110,7 +127,8 @@ useEffect(()=>{
         loading,
         logOut,
         isAuthenticated,
-        Errores
+        Errores,
+        PasswordChanger
       }}
     >
       {children}

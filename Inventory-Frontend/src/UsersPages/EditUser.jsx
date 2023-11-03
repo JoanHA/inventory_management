@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getOne, deleteUser,updateUser } from "../../api/user.controller";
+import { getOne, deleteUser, updateUser } from "../api/user.controller";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import ChangePassword from "../components/changePassword";
 function EditUser() {
   const [editUser, setEditUser] = useState({});
   const params = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -20,29 +21,40 @@ function EditUser() {
       reset({
         name: res.data.username,
         email: res.data.email,
-        rol: res.data.rol ==271? 270: res.data.rol,
+        rol: res.data.rol == 271 ? 270 : res.data.rol,
         status: res.data.status,
       });
     }
     getOne2();
   }, []);
   const onSubmit = async (data) => {
-    const res = await updateUser(params.id,data);
+    const res = await updateUser(params.id, data);
 
     if (res.status == 200) {
-      swal.fire("Usuario actualizado con exito!","","success").then(()=>{
-        navigate("/userManagement")
+      swal.fire("Usuario actualizado con exito!", "", "success").then(() => {
+        navigate("/userManagement");
       });
     }
   };
   const deleteUser2 = async () => {
     const res = await deleteUser(params.id);
-   
+    if (res.status==200) {
+      swal.fire("Usuario eliminado con exito!","","info").then(()=>{
+          navigate("/userManagement")
+      })
+      
+   }
+  };
+  const masive = () => {
+    document.getElementById("modalPage").style.display = "Block";
   };
   return (
     <div>
+      <ChangePassword />
       <div className="title">
-        <div className="event_header">Editar usuario</div>
+        <div className="event_header d-flex justify-content-between">
+          <span> <strong> Administracion de usuarios</strong> </span> <Link to={"/userManagement"} className="btn btn-secondary mt-0 btn-sm">Volver</Link>
+        </div>
       </div>
       <div className="py-2">
         <div>
@@ -50,9 +62,16 @@ function EditUser() {
             <div className="w-50 mx-auto my-auto">
               <div className="form-group">
                 <h1>Editar usuario </h1>
-                <Link className="my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick={()=>{console.log("clicked")}}>Cambiar contraseña</Link>
+                <Link
+                  className="my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                  onClick={masive}
+                >
+                  Cambiar contraseña
+                </Link>
                 <br />
-                <label>Nombre</label>
+                <label className="mt-2">
+                  Nombre de usuario
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -70,7 +89,11 @@ function EditUser() {
               </div>
               <div className="form-group">
                 <label>Rol</label>
-                <select className="form-select" {...register("rol")} disabled={editUser.rol ==271 ? true:false}>
+                <select
+                  className="form-select"
+                  {...register("rol")}
+                  disabled={editUser.rol == 271 ? true : false}
+                >
                   <option value="270">Administrador</option>
                   <option value="273">Operador</option>
                   <option value="272">Visitante</option>

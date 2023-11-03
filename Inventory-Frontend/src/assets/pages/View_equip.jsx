@@ -6,7 +6,7 @@ import axios from "axios";
 import { URI } from "../../../config";
 import { onDelete } from "../lib/Ondelete";
 import { update } from "../lib/updateEquip.js";
-import Add from "../components/add";
+import Add from "../../components/Add.jsx";
 import edit from "../img/icons/edit.svg"
 
 import addBtn from "../img/icons/add.svg"

@@ -5,10 +5,11 @@ import {useForm} from "react-hook-form"
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Add from "../components/add";
+import Add from "../../components/Add"
 import { createEquip } from "../lib/updateEquip";
 import { URI } from "../../../config";
-import Masive from "../components/Masive";
+import  Masive from "./../../components/Masive"
+
 function Create_equip() {
   //Use form para obtener los datos del formulario
   const {

@@ -20,7 +20,7 @@ function Welcome() {
 
         <div className="d-flex flex-row flex-wrap align-items-center flex-wrap justify-content-center gap-4 mt-5">
           <div
-            className="card text-white bg-success mb-3"
+            className="card text-white bg-success mb-3 rounded"
             style={{ maxWidth: " 24rem" }}
           >
             <div className="card-header  my-0 py-1">
@@ -41,7 +41,7 @@ function Welcome() {
             </div>
           </div>
           <div
-            className="card text-white bg-secondary mb-3"
+            className="card text-white bg-secondary mb-3 rounded"
             style={{ maxWidth: " 24rem" }}
           >
             <div className="card-header  my-0 py-1">
@@ -53,7 +53,7 @@ function Welcome() {
               </p>
             </div>
             <div className="card-footer cardFoot py-0">
-              <Link className="GoLink w-50"  to={"/"}>
+              <Link className="GoLink w-50"  to={"/userManagement"}>
                 <span>Ir</span>{" "}
                 <span className="arrow">
                   <FaArrowRight />
@@ -62,10 +62,10 @@ function Welcome() {
             </div>
           </div>{" "}
           <div
-            className="card text-white bg-warning mb-3"
+            className="card text-white bg-primary mb-3 rounded"
             style={{ maxWidth: " 24rem" }}
           >
-            <div className="card-header my-0 py-1">
+            <div className="card-header my-0 py-1 ">
               <h5>Crear Eventos</h5>
             </div>
             <div className="card-body">
@@ -73,7 +73,7 @@ function Welcome() {
                Registrar eventos, cambios y actualizaciones que se realicen a los equipos registrados
               </p>
             </div>
-            <div className="card-footer  cardFoot py-0">
+            <div className="card-footer  cardFoot py-0 ">
               <Link className="GoLink" to={"/equipments"}>
                 <span>Ir</span>{" "}
                 <span className="arrow">

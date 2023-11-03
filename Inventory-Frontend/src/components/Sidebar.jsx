@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useSyncExternalStore } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import { FaUserCircle, FaUsers } from "react-icons/fa";
 import { LiaEditSolid } from "react-icons/lia";
 import { GiAutoRepair } from "react-icons/gi";
 import { PiDesktopTower } from "react-icons/pi";
-import logo from "../img/logoBioart.png";
+import logo from "../assets/img/logoBioart.png";
 import { Link } from "react-router-dom";
 import { HiOutlineHome } from "react-icons/hi";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
+import {FiUserPlus} from "react-icons/fi"
 
 function Sidebar() {
   const { user } = useAuth();
@@ -18,6 +19,7 @@ function Sidebar() {
   const [userPage, setuserPage] = useState(false);
   const [eventsPage, setEventsPage] = useState(false);
   const [equipPage, setEquipPage] = useState(false);
+  const [userCreatePage,setuserCreatePage] = useState(false)
   const [addPage, setAddPage] = useState(false);
 
   function changer(toChange) {
@@ -28,6 +30,7 @@ function Sidebar() {
         setEquipPage(false);
         setEventsPage(false);
         setuserPage(false);
+        setuserCreatePage(false);
         break;
       case "userPage":
         setHome(false);
@@ -35,6 +38,7 @@ function Sidebar() {
         setEquipPage(false);
         setEventsPage(false);
         setuserPage(true);
+        setuserCreatePage(false);
 
         break;
       case "eventsPage":
@@ -43,6 +47,7 @@ function Sidebar() {
         setEquipPage(false);
         setEventsPage(true);
         setuserPage(false);
+        setuserCreatePage(false);
 
         break;
       case "equipPage":
@@ -51,6 +56,7 @@ function Sidebar() {
         setEquipPage(true);
         setEventsPage(false);
         setuserPage(false);
+        setuserCreatePage(false);
 
         break;
       case "addPage":
@@ -59,7 +65,17 @@ function Sidebar() {
         setEquipPage(false);
         setEventsPage(false);
         setuserPage(false);
+        setuserCreatePage(false);
 
+        break;
+        case "userCreatePage":
+          
+        setHome(false);
+        setAddPage(false);
+        setEquipPage(false);
+        setEventsPage(false);
+        setuserPage(false);
+        setuserCreatePage(true);
         break;
       default:
         break;
@@ -88,7 +104,7 @@ function Sidebar() {
           <div className=" logoContainer  d-flex justify-content-center align-items-center    py-1 rounded">
             <img src={logo} alt="" width={60} className="  img-logo  " />
             <span id="logoName" className="tittles ">
-              <h3 className="px-3 logoTitle mb-0">Bioart</h3>
+              <h3 className="px-3 logoTitle mb-0">BIOART</h3>
             </span>
           </div>
         </div>
@@ -141,6 +157,22 @@ function Sidebar() {
                   >
                     <FaUsers size={"2rem"} />
                     <span className="tittles"> Usuarios</span>
+                  </Link>
+                </li>
+                <li className="sidebarLi">
+                  <Link
+                    to="/createUser"
+                    className={
+                      userCreatePage == true
+                        ? " SidebarLinks active"
+                        : " SidebarLinks"
+                    }
+                    onClick={() => {
+                      changer("userCreatePage");
+                    }}
+                  >
+                    <FiUserPlus size={"2rem"} />
+                    <span className="tittles"> Crear usuario</span>
                   </Link>
                 </li>
               </>

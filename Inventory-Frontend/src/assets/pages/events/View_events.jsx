@@ -11,11 +11,9 @@ function View_events() {
   useEffect(() => {
     const get = async () => {   
       const res = await getAllEvents();
-
       setEvents(res.data);
     };
     get();
-    console.log(events)
   }, []);
 
   return (

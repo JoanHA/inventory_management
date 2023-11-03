@@ -9,7 +9,6 @@ helper.encypt = async (password)=>{
 
 helper.compare = async (password,passwordHash)=>{
     const result = await bcrypt.compare(password,passwordHash)
-    console.log(result)
     return result;
 
 }

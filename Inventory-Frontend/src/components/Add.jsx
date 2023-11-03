@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../css/add.css";
-import { set, useForm } from "react-hook-form";
-import { saveParam } from "../lib/saveParams";
+import "../assets/css/add.css";
+import {  useForm } from "react-hook-form";
+
+import { saveParam } from "../assets/lib/saveParams";
 function Add(props) {
   const [param, setParam] = useState();
   const [id, setId] = useState();

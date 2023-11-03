@@ -53,6 +53,7 @@ router.post("/login", async (req, res) => {
     }
   );
 });
+
 router.post("/register", async (req, res) => {
   try {
     const { email, username, password } = req.body; //Get the data

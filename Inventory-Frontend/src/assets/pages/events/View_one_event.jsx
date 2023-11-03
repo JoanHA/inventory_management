@@ -5,12 +5,14 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { URI } from "../../../../config";
 import { updateStatus } from "../../../api/events.controller";
-function View_one_event() {
+import fileDownload from "js-file-download";
+import axios from "axios";
 
+function View_one_event() {
   //change the status of the status changer
   const [ChangeStatus, setChangeStatus] = useState("NONE");
   const params = useParams();
-  
+
   const {
     register,
     handleSubmit,
@@ -19,13 +21,14 @@ function View_one_event() {
   } = useForm();
 
   const [fileUrl, setFileUrl] = useState("");
-
+  const [data, setData] = useState({});
   useEffect(() => {
     async function getData() {
       const res = await getOneEvent(params.id);
       const datos = res.data[0];
-
+      setData(datos);
       setFileUrl(`${URI}${datos.file}`);
+   
 
       const fecha = datos.created_at.split("T");
 
@@ -50,11 +53,22 @@ function View_one_event() {
       const res = await updateStatus(params.id, status);
       console.log(res);
       if (res.status === 200) {
-       swal.fire("Estado Cambiado","","success").then(()=>{location.reload()})
+        swal.fire("Estado Cambiado", "", "success").then(() => {
+          location.reload();
+        });
       }
     }
     update(data.newStatus);
   };
+  const handleClick = (url, filename) => {
+    axios.get(url, {
+      responseType: 'blob',
+    })
+    .then((res) => {
+      fileDownload(res.data, filename)
+    })
+  }
+
 
   return (
     <>
@@ -164,13 +178,16 @@ function View_one_event() {
                   <label htmlFor="">Archivo adjunto</label>
                 </div>
                 <div>
-                  <a
-                    href={fileUrl}
-                    download
+                  <button
+                    to={fileUrl}
+                    download={data.file}
                     className="btn btn-secondary btn-block w-100"
+                    onClick={() =>handleClick(fileUrl, data.file) }
                   >
-                    Descargar...{" "}
-                  </a>
+                  
+                    {" "}
+                    Descargar...
+                  </button>
                 </div>
               </div>
               <div className="form-group mb-2 col-md-4">

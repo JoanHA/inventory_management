@@ -1,8 +1,12 @@
-/* body{
-    background-color: #202020;
-    color:white;
+body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
    
-} */
+}
+.eye{
+cursor: pointer;
+}
 
 ul{
   text-decoration: none;
@@ -112,7 +116,7 @@ li{
 }
 .SidebarLinks:hover {
 
-  border-left: 5px solid #0d6efd;
+  border-left: 5px solid #3FB618;
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
   display: flex;
@@ -167,4 +171,11 @@ li{
  background-color: #f8f9fa;
  width:50px;
   border: none;
+}
+.inactive{
+  display: none !important;
+  color: #0d6efd;
+}
+.input-group-text{
+  padding: 5px !important;
 }

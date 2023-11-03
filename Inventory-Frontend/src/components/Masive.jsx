@@ -1,8 +1,8 @@
 import React from "react";
-import "../css/add.css";
+import "../assets/css/add.css";
 import { useForm } from "react-hook-form";
 
-import { saveMasive } from "../../api/events.controller";
+import { saveMasive } from "../api/events.controller";
 function Masive() {
   //function for closing the modal
   const close = () => {

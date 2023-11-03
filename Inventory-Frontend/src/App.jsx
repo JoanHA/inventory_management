@@ -4,18 +4,16 @@ import Create_equip from "./assets/pages/Create_equip";
 import Welcome from "./assets/pages/Welcome";
 import View_equip from "./assets/pages/View_equip";
 import ViewAllEquip from "./assets/pages/ViewAllEquip";
-import Add from "./assets/components/add";
 import Create_event from "./assets/pages/events/Create_event";
 import Register from "./authViews/register";
 import Login from "./authViews/login";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./authViews/ProtectedRoute";
-import { useAuth } from "./context/AuthContext";
 import View_events from "./assets/pages/events/View_events";
 import View_one_event from "./assets/pages/events/view_one_event";
-import Sidebar from "./assets/components/Sidebar";
-import UserManagement from "./assets/UsersPages/UserManagement";
-import EditUser from "./assets/UsersPages/EditUser";
+import UserManagement from "./UsersPages/UserManagement";
+import EditUser from "./UsersPages/EditUser";
+import NewUser from "./UsersPages/NewUser";
 function App() {
   return (
     <>
@@ -34,8 +32,9 @@ function App() {
                 <Route path="/create_event/:id" element={<Create_event />} />
                 <Route path="/view_event/:id" element={<View_one_event />} />
                 <Route>
-                        <Route path="/userManagement" element={<UserManagement/>}></Route>
-                        <Route path="/editUser/:id" element={<EditUser/>}/>
+                  <Route path="/userManagement" element={<UserManagement />} />
+                  <Route path="/editUser/:id" element={<EditUser />} />
+                  <Route path="/createUser" element={<NewUser />} />
                 </Route>
               </Route>
             </Routes>

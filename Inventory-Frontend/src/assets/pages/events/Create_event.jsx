@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { URI } from "../../../../config";
 import "../../css/event.css";
-import Add from "../../components/add";
-import { useParams } from "react-router-dom";
+import Add from "../../../components/Add";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { SaveEvent } from "../../lib/saveEvent";
@@ -22,7 +22,7 @@ function Create_event() {
   const params = useParams(); //params
   const { user } = useAuth(); //context
 
-
+const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -77,8 +77,8 @@ function Create_event() {
 
         const res = await SaveEvent(formData); //this the one that call tthe function in the backend
        if (res.status == 200) {
-          Swal.fire("Saved!", "", "success").then(() => {
-            reset();
+            Swal.fire("Saved!", "", "success").then(() => {
+            navigate("/events")
           });
         } 
       } else if (result.isDenied) {
@@ -108,7 +108,7 @@ function Create_event() {
    
       <div className="card vh-100 w-100 py-1 px-2" style={{ border: "None" }}>
         <div className="contenedor">
-          <div className="event_header">Nuevo evento</div>
+          <div className="event_header d-flex justify-content-between">Nuevo evento  <Link className="btn btn-secondary btn-sm mx-2" to={"/equipments"}> Volver</Link></div>
           <div className="equip_data">
             <div className="event_title">
               <h3>datos del equipo</h3>
@@ -274,7 +274,7 @@ function Create_event() {
                   
                   />
                 </div>
-                <div className="input-group d-flex flex-column  w-100  mb-2 flex-wrap">
+                <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
                   <label htmlFor="">Responsable</label>
                   <input
                     type="text"
@@ -286,6 +286,15 @@ function Create_event() {
                       setClient(e.target.value);
                     }}
                   />
+                </div>
+                <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
+                  <label htmlFor="">Estado</label>
+                  <select name="" id="" className="form-select form-select-sm"  style={{ width: "95% " }}>
+                   <option value="280">Pendiente</option>
+                      <option value="281">Cancelado</option>
+                      <option value="282">Realizado</option>
+                  </select>
+                
                 </div>
                 <div className="input-group d-flex flex-column  mb-2 flex-wrap w-100">
                   <label htmlFor="">Descripcion</label>{" "}

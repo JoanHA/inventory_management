@@ -6,7 +6,6 @@ import { saveParam } from "../assets/lib/saveParams";
 function Add(props) {
   const [param, setParam] = useState();
   const [id, setId] = useState();
-
   useEffect(() => {
     setParam(props.param);
     setId(props.val);
@@ -17,8 +16,6 @@ function Add(props) {
 
   const onSubmit = (values) => {
      saveParam(values);
-   
-  
   };
   const {
     register,

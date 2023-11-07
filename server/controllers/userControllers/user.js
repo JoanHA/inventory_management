@@ -17,8 +17,24 @@ router.get("/getUsers/:id", (req, res) => {
      FROM users  where users.id <> ${id} and users.status <> 3 `,
     (err, result) => {
       if (err) throw err;
+      const data = [];
+      result.forEach((element) => {
+        const date = new Date( element.created_at);
 
-      res.send(result);
+        // Obtiene los componentes de la fecha (año, mes y día)
+        const year = date.getUTCFullYear();
+        const month = date.getUTCMonth() + 1; // Sumamos 1 para que enero sea 1, febrero 2, etc.
+        const day = date.getUTCDate();
+
+        // Formatea la fecha como "YYYY/MM/DD"
+        const formattedDate = `${year}/${month
+          .toString()
+          .padStart(2, "0")}/${day.toString().padStart(2, "0")}`;
+        element.created_at = formattedDate 
+        data.push(element);
+      });
+
+      res.send(data);
     }
   );
 });

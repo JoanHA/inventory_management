@@ -98,7 +98,8 @@ function Sidebar() {
   }, [history]);
 
   return (
-    <div id="sidebarContainer">
+  
+  <div id="sidebarContainer">
       <div id="sidebar" className="h-100 ">
         <div className="bioartTitle w-100 py-2">
           <div className=" logoContainer  d-flex justify-content-center align-items-center    py-1 rounded">
@@ -224,6 +225,10 @@ function Sidebar() {
         </div>
       </div>
     </div>
+
+
+    
+  
   );
 }
 

@@ -14,7 +14,7 @@ router.get("/equip", (req, res) => {
 
   try {
     const sql =
-    "SELECT equipments.*, params.name as paramName FROM equipments INNER JOIN params on params.id = equipments.mark WHERE equipments.status <> 3";
+    "SELECT equipments.*, params.name as paramName,(SELECT name from params where params.id = equipments.status) AS statusName FROM equipments INNER JOIN params on params.id = equipments.mark WHERE equipments.status <> 3";
   db.query(sql, (err, result) => {
     
     res.send(result);

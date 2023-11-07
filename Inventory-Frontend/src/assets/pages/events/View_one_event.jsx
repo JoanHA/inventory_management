@@ -285,9 +285,9 @@ function View_one_event() {
                 </div>
               </div>
               <div className="my-3  ">
-                <button className="btn btn-primary ">
+                <Link className="btn btn-primary " to={`/AllEvents/${params.id}`}>
                   Ver eventos de este equipo
-                </button>
+                </Link>
                 <button
                   className="btn btn-warning mx-2 my-2 "
                   onClick={() => {

@@ -381,7 +381,7 @@ function Create_equip() {
               <Link className="btn btn-success mx-3 " to={"/equipments"}>
                 Ver todo
               </Link>
-              <button className="btn btn-info" type="button" onClick={masive}>Carga masiva </button>
+              <button className="btn btn-secondary" type="button" onClick={masive}>Carga masiva </button>
             </div>
           </div> 
         </form>

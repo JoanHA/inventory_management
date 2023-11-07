@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
-
+import logo from "../../assets/img/grupo-carval-Logo-Bioart.png"
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 function Welcome() {
@@ -12,11 +12,15 @@ function Welcome() {
           <h3>Bienvenido al sistema de inventarios de Bioart SA</h3>
         </div>
 
-        <div className="my-3 ">
+        <div className="my-5 ">
           <h4 className="">Bienvenido Usuario: {user.username}</h4>
           <h5>Rol: {user.rolName}</h5>
           <h6>{user.email}</h6>
         </div>
+        {/* <div className="my-5">
+          <img src={logo} alt="" />
+        </div> */}
+        
 
         <div className="d-flex flex-row flex-wrap align-items-center flex-wrap justify-content-center gap-4 mt-5">
           <div
@@ -60,8 +64,8 @@ function Welcome() {
                 </span>
               </Link>
             </div>
-          </div>{" "}
-          <div
+          </div>
+          {/* <div
             className="card text-white bg-primary mb-3 rounded"
             style={{ maxWidth: " 24rem" }}
           >
@@ -81,7 +85,7 @@ function Welcome() {
                 </span>
               </Link>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -5,16 +5,13 @@ const multer = require("multer");
 const path = require("path");
 const helper = require("../lib/helpers.js");
 
-
 //Storage initialization
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "../public/uploads"),
-  filename: function(req, file, cb){
-    cb(null, Date.now() +"-"+ (file.originalname))
-  }
-})
-
-
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
 
 //Routes
 
@@ -31,7 +28,24 @@ router.get("/", (req, res) => {
         console.log(err);
         return;
       }
-      res.send(result);
+      const data = [];
+      result.forEach((element) => {
+        const date = new Date( element.created_at);
+
+        // Obtiene los componentes de la fecha (año, mes y día)
+        const year = date.getUTCFullYear();
+        const month = date.getUTCMonth() + 1; // Sumamos 1 para que enero sea 1, febrero 2, etc.
+        const day = date.getUTCDate();
+
+        // Formatea la fecha como "YYYY/MM/DD"
+        const formattedDate = `${year}/${month
+          .toString()
+          .padStart(2, "0")}/${day.toString().padStart(2, "0")}`;
+        element.created_at = formattedDate 
+        data.push(element);
+      });
+     
+      res.send(data);
     });
   } catch (error) {
     console.log(error);
@@ -39,7 +53,7 @@ router.get("/", (req, res) => {
 });
 
 //Create event
-router.post("/",multer({storage}).single("file"), (req, res) => {
+router.post("/", multer({ storage }).single("file"), (req, res) => {
   const { body, file } = req;
 
   const {
@@ -65,7 +79,7 @@ router.post("/",multer({storage}).single("file"), (req, res) => {
     client,
     equip: parseInt(equip),
     status: 1,
-    file:FilePath,
+    file: FilePath,
     created_by: parseInt(user),
   };
   console.log(data);
@@ -74,16 +88,16 @@ router.post("/",multer({storage}).single("file"), (req, res) => {
       return res.status(500).json({ message: err });
     }
     if (result.affectedRows > 0) {
-
       //Update the user in equipments if changes
-      db.query(`UPDATE equipments SET user = '${client}' WHERE equipments.id = ${equip}`)
+      db.query(
+        `UPDATE equipments SET user = '${client}' WHERE equipments.id = ${equip}`
+      );
       res.json({ status: 200, data: "Evento agregado correctamente" });
-      console.log("Sent")
+      console.log("Sent");
     }
 
     console.log(result);
   });
-
 });
 // //Get one
 router.get("/:id", (req, res) => {
@@ -99,38 +113,36 @@ router.get("/:id", (req, res) => {
     FROM events WHERE events.id = ${req.params.id}`;
 
     db.query(sql, (error, result) => {
-      console.log(error)
+      console.log(error);
       if (result.length <= 0) {
         res.send({ status: 404, message: "evento no encontrado" });
         return;
       }
       console.log("evento encontrado exitosamente");
-      console.log(result)
+
       res.json(result);
     });
-
   } catch (error) {
-    console.log(error)
-
+    console.log(error);
   }
-
 });
 
-
 //update status in events
-router.put("/:id",(req, res)=>{
-  const {Status} = req.body; // Event´s 
-  const {id}  = req.params // Event's id
+router.put("/:id", (req, res) => {
+  const { Status } = req.body; // Event´s
+  const { id } = req.params; // Event's id
 
-  db.query(`UPDATE events SET status = ${Status} WHERE events.id = ${id} `,(err,result)=>{
-    if (err) {
-      return res.status(500).json({ message: err });
+  db.query(
+    `UPDATE events SET status = ${Status} WHERE events.id = ${id} `,
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: err });
+      }
+      if (result.affectedRows > 0) {
+        res.json({ status: 200, data: "Evento actualizado correctamente" });
+      }
     }
-    if (result.affectedRows > 0) {
-      res.json({ status: 200, data: "Evento actualizado correctamente" });
-    }
-  });
-  
-})
+  );
+});
 
 module.exports = router;

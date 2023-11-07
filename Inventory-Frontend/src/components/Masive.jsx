@@ -28,7 +28,14 @@ function Masive() {
               close();
 
             })
-          }  
+          }  else{
+            swal.fire("Lo sentimos algo salio mal","","error").then(()=>{
+              reset();
+              close();
+
+            })
+
+          }
     } catch (error) {
       console.log(error)
       

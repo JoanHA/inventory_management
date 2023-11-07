@@ -14,6 +14,9 @@ import View_one_event from "./assets/pages/events/view_one_event";
 import UserManagement from "./UsersPages/UserManagement";
 import EditUser from "./UsersPages/EditUser";
 import NewUser from "./UsersPages/NewUser";
+import Table from "./components/Table";
+import { IsAdmin } from "./components/IsAdmin";
+import  AllEventsOneEquip from "./assets/pages/events/AllEventsOneEquip"
 function App() {
   return (
     <>
@@ -23,6 +26,8 @@ function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/table" element={<Table editType="editUser"/>} />
+
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Welcome />} />
                 <Route path="/create" element={<Create_equip />} />
@@ -31,7 +36,8 @@ function App() {
                 <Route path="/events" element={<View_events />} />
                 <Route path="/create_event/:id" element={<Create_event />} />
                 <Route path="/view_event/:id" element={<View_one_event />} />
-                <Route>
+                <Route path="/AllEvents/:id" element={<AllEventsOneEquip/>}/>
+                <Route element={<IsAdmin/>}>
                   <Route path="/userManagement" element={<UserManagement />} />
                   <Route path="/editUser/:id" element={<EditUser />} />
                   <Route path="/createUser" element={<NewUser />} />

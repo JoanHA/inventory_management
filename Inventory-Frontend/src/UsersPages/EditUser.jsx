@@ -14,6 +14,7 @@ function EditUser() {
     reset,
     formState: { errors },
   } = useForm();
+
   useEffect(() => {
     async function getOne2() {
       const res = await getOne(params.id);
@@ -21,29 +22,53 @@ function EditUser() {
       reset({
         name: res.data.username,
         email: res.data.email,
-        rol: res.data.rol == 271 ? 270 : res.data.rol,
+        rol: res.data.rol == 271 ? "" : res.data.rol,
         status: res.data.status,
       });
     }
     getOne2();
-  }, []);
+  }, [params.id]);
   const onSubmit = async (data) => {
-    const res = await updateUser(params.id, data);
-
-    if (res.status == 200) {
-      swal.fire("Usuario actualizado con exito!", "", "success").then(() => {
-        navigate("/userManagement");
-      });
-    }
+    Swal.fire({
+      title: "Esta seguro?",
+      text: "No podras revertir esta acción!!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Borralo!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await updateUser(params.id, data);
+        if (res.status == 200) {
+          swal
+            .fire("Usuario actualizado con exito!", "", "success")
+            .then(() => {
+              navigate("/userManagement");
+            });
+        }
+      }
+    });
   };
   const deleteUser2 = async () => {
-    const res = await deleteUser(params.id);
-    if (res.status==200) {
-      swal.fire("Usuario eliminado con exito!","","info").then(()=>{
-          navigate("/userManagement")
-      })
-      
-   }
+    Swal.fire({
+      title: "Estas seguro??",
+      text: "No podras revertir esta acción!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, borralo!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteUser(params.id);
+        if (res.status == 200) {
+          swal.fire("Usuario eliminado con exito!", "", "info").then(() => {
+            navigate("/userManagement");
+          });
+        }
+      }
+    });
   };
   const masive = () => {
     document.getElementById("modalPage").style.display = "Block";
@@ -53,7 +78,12 @@ function EditUser() {
       <ChangePassword />
       <div className="title">
         <div className="event_header d-flex justify-content-between">
-          <span> <strong> Administracion de usuarios</strong> </span> <Link to={"/userManagement"} className="btn btn-secondary mt-0 btn-sm">Volver</Link>
+          <span>
+            <strong> Administracion de usuarios</strong>
+          </span>
+          <Link to={"/userManagement"} className="btn btn-dark mt-0 btn-sm">
+            Volver
+          </Link>
         </div>
       </div>
       <div className="py-2">
@@ -69,9 +99,7 @@ function EditUser() {
                   Cambiar contraseña
                 </Link>
                 <br />
-                <label className="mt-2">
-                  Nombre de usuario
-                </label>
+                <label className="mt-2">Nombre de usuario</label>
                 <input
                   type="text"
                   className="form-control"
@@ -94,6 +122,13 @@ function EditUser() {
                   {...register("rol")}
                   disabled={editUser.rol == 271 ? true : false}
                 >
+                  {editUser.rol == 271 ? (
+                    <option selected value={""}>
+                      Administrador superior
+                    </option>
+                  ) : (
+                    false
+                  )}
                   <option value="270">Administrador</option>
                   <option value="273">Operador</option>
                   <option value="272">Visitante</option>
@@ -108,7 +143,12 @@ function EditUser() {
                 </select>
               </div>
               <div>
-                <button className="btn btn-success">Editar</button>
+                <button
+                  className="btn btn-success"
+                  disabled={editUser.rol == 271 ? true : false}
+                >
+                  Editar
+                </button>
                 <button
                   className="btn btn-danger mx-1 my-3"
                   type="button"

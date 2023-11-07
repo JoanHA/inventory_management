@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import view from "../img/icons/view.svg";
 import add from "../img/icons/add.svg";
+import Table from "../../components/Table";
 function ViewAllEquip() {
   const url = "http://localhost:4000/api/equip";
 
@@ -19,10 +20,44 @@ function ViewAllEquip() {
         console.error("An error occurred:", error);
       });
   }, []);
+  const columns = [
+   
+    {
+      header: "Equipo",
+      accessorKey: "name",
+    },
+    {
+      header: "Modelo",
+      accessorKey: "model",
+    },
+    {
+      header: "Serial",
+      accessorKey: "serial",
+    },
+    {
+      header: "Marca",
+      accessorKey: "paramName",
+    },
+    {
+      header: "Estado",
+      accessorKey: "statusName",
+    },
+    {
+      header: "Responsable",
+      accessorKey: "user",
+    },
+  ];
 
   return (
-    <><div className="event_header mb-2">Equipos registrados</div><div style={{ marginTop: "0px" }} className="px-5  table-responsive">
+    <>
+      <div className="event_header mb-2">Equipos registrados</div>
 
+<div  className="px-5  table-responsive"> 
+  <Table data={datos} columns={columns} editType={"edit"}/>
+</div>
+    
+      {/* <div style={{ marginTop: "0px" }}*/}
+        {/* 
       <table className="table   table-hover py-3 px-3 mt-1 ">
         <thead>
           <tr className="">
@@ -73,8 +108,9 @@ function ViewAllEquip() {
             </tr>
           </tbody>
         )}
-      </table>
-    </div></>
+      </table> */}
+      {/* </div> */}
+    </>
   );
 }
 

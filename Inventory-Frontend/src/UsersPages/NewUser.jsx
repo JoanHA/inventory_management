@@ -46,7 +46,7 @@ function NewUser() {
       <div className="title">
         <div className="event_header d-flex justify-content-between">
           <span>
-            <strong> Administracion de usuarios</strong>
+            <> Administración de usuarios</>
           </span>
           <Link
             to={"/userManagement"}

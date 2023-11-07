@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getUsers } from "../api/user.controller";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
+import Table from "../components/Table";
 function UserManagement() {
   const [users, setUsers] = useState([]);
   const { user } = useAuth();
@@ -10,12 +10,34 @@ function UserManagement() {
   useEffect(() => {
     const getData = async () => {
       const res = await getUsers(user.id);
-
       const datos = res.data;
       setUsers(datos);
     };
     getData();
   }, []);
+  const columns = [
+   
+    {
+      header: "Usuario",
+      accessorKey: "username",
+    },
+    {
+      header: "Correo",
+      accessorKey: "email",
+    },
+    {
+      header: "Rol",
+      accessorKey: "rolName",
+    },
+    {
+      header: "Estado",
+      accessorKey: "statusName",
+    },
+    {
+      header: "Creacion",
+      accessorKey: "created_at",
+    },
+  ];
   return (
     <div>
       <div className="UserTitle">
@@ -46,40 +68,12 @@ function UserManagement() {
 
       <div className="Users">
         <div className="userTable table-responsive px-3 py-1">
-          <div className=" d-flex  w-100 justify-content-end px-5">
-            <Link to="/createUser" className="btn btn-primary mx-5">Nuevo</Link>
+          <div className="d-flex justify-content-end">
+            <Link to="/createUser" className="btn btn-primary mx-5">
+              Nuevo Usuario
+            </Link>
           </div>
-          <table className="table table-hover ">
-            <thead>
-              <tr>
-                <th>Usuario</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Creación</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td> {user.username}</td>
-                  <td>{user.email}</td>
-                  <td>{user.rolName}</td>
-                  <td>{user.statusName}</td>
-                  <td>{user.created_at.split("T")[0]}</td>
-                  <td>
-                    <Link
-                      to={`/editUser/${user.id}`}
-                      className="btn btn-warning mx-1"
-                    >
-                      Editar
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Table data={users} columns={columns} editType={"editUser"} />
         </div>
       </div>
     </div>

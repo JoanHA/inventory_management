@@ -74,6 +74,7 @@ const navigate = useNavigate()
         formData.append("event_type",values.event_type)
         formData.append("event_reason",values.event_reason)
         formData.append("importance",values.importance)
+        formData.append("status",values.status)
 
         const res = await SaveEvent(formData); //this the one that call tthe function in the backend
        if (res.status == 200) {
@@ -289,7 +290,7 @@ const navigate = useNavigate()
                 </div>
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
                   <label htmlFor="">Estado</label>
-                  <select name="" id="" className="form-select form-select-sm"  style={{ width: "95% " }}>
+                  <select name="" id="" className="form-select form-select-sm"  style={{ width: "95% " }} {...register("status")}>
                    <option value="280">Pendiente</option>
                       <option value="281">Cancelado</option>
                       <option value="282">Realizado</option>

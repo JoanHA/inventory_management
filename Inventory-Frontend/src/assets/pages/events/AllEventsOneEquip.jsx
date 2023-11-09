@@ -8,6 +8,7 @@ function AllEventsOneEquip() {
  const params = useParams();
   const [event, setEvent] = useState([]);
   const [equip, setEquip] = useState({});
+
   useEffect(() => {
     async function getData() {
       const res = await getAll(params.id);
@@ -20,7 +21,7 @@ function AllEventsOneEquip() {
     <>
       <div className="event_header d-flex justify-content-between">
         Evento del equipo
-        <Link to={`/edit/${params.id}`} className="btn btn-secondary btn-sm">
+        <Link to={`/events`} className="btn btn-secondary btn-sm">
           Volver
         </Link>
       </div>
@@ -59,15 +60,15 @@ function AllEventsOneEquip() {
           {event.length > 0 ? (
             <>
               <div>
-                <EventsForm event={event[0]} />
-                {/* {event.map((e,i)=>(
+                {/* <EventsForm event={event[0]} /> */}
+                {event.map((e,i)=>(
                   <div className="my-2">
-                       <EventsForm event={event} />
+                       <EventsForm event={event[i]} />
                   </div>
                 
                   ))
                 
-                } */}
+                }
               </div>
             </>
           ) : (

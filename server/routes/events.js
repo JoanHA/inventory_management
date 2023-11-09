@@ -66,6 +66,7 @@ router.post("/", multer({ storage }).single("file"), (req, res) => {
     client,
     equip,
     user,
+    status
   } = body;
 
   const FilePath = file.filename;
@@ -78,7 +79,7 @@ router.post("/", multer({ storage }).single("file"), (req, res) => {
     event_reason: parseInt(event_reason),
     client,
     equip: parseInt(equip),
-    status: 1,
+    status,
     file: FilePath,
     created_by: parseInt(user),
   };

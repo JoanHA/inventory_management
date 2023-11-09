@@ -462,21 +462,24 @@ function View_equip() {
 
             {/* Boton de envio */}
             <div className="col-md-6">
-              <button className=" btn btn-success text-center my-3">
+              
+              <button className="btn btn-success text-center my-3">
                 <img src={edit} alt="" />
                 <span className="px-1">Editar</span>
-                {/* <img src={add} alt="" style={{ marginLeft: "10px" }} /> */}
+              
               </button>
               <Link
-                className="btn btn-primary mx-3 "
+                className="btn btn-primary mx-2 "
                 to={`/create_event/${params.id}`}
               >
                 <span className="px-1">Añadir evento </span>
                 <img src={addBtn} alt="" />
                 
               </Link>
+
+
               <Link
-                className="btn btn-danger"
+                className="btn btn-danger mx-1"
                 onSubmit={(e) => {
                   e.preventDefault();
                 }}

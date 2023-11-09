@@ -12,6 +12,7 @@ function View_one_event() {
   //change the status of the status changer
   const [ChangeStatus, setChangeStatus] = useState("NONE");
   const params = useParams();
+  const [equipo,setEquipo] = useState(null);
 
   const {
     register,
@@ -25,10 +26,11 @@ function View_one_event() {
   useEffect(() => {
     async function getData() {
       const res = await getOneEvent(params.id);
+      setEquipo(res.data[0].equip);
       const datos = res.data[0];
+      
       setData(datos);
       setFileUrl(`${URI}${datos.file}`);
-   
 
       const fecha = datos.created_at.split("T");
 
@@ -48,6 +50,7 @@ function View_one_event() {
     }
     getData();
   }, []);
+
   const onSubmit = (data) => {
     async function update(status) {
       const res = await updateStatus(params.id, status);
@@ -61,14 +64,14 @@ function View_one_event() {
     update(data.newStatus);
   };
   const handleClick = (url, filename) => {
-    axios.get(url, {
-      responseType: 'blob',
-    })
-    .then((res) => {
-      fileDownload(res.data, filename)
-    })
-  }
-
+    axios
+      .get(url, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        fileDownload(res.data, filename);
+      });
+  };
 
   return (
     <>
@@ -182,9 +185,8 @@ function View_one_event() {
                     to={fileUrl}
                     download={data.file}
                     className="btn btn-secondary btn-block w-100"
-                    onClick={() =>handleClick(fileUrl, data.file) }
+                    onClick={() => handleClick(fileUrl, data.file)}
                   >
-                  
                     {" "}
                     Descargar...
                   </button>
@@ -285,7 +287,11 @@ function View_one_event() {
                 </div>
               </div>
               <div className="my-3  ">
-                <Link className="btn btn-primary " to={`/AllEvents/${params.id}`}>
+                
+              <Link
+                  className="btn btn-info  mx-1 py-2"
+                  to={`/AllEvents/${equipo}`}
+                >
                   Ver eventos de este equipo
                 </Link>
                 <button

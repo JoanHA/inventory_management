@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
       }
       const data = [];
       result.forEach((element) => {
-        const date = new Date( element.created_at);
+        const date = new Date(element.created_at);
 
         // Obtiene los componentes de la fecha (año, mes y día)
         const year = date.getUTCFullYear();
@@ -41,10 +41,10 @@ router.get("/", (req, res) => {
         const formattedDate = `${year}/${month
           .toString()
           .padStart(2, "0")}/${day.toString().padStart(2, "0")}`;
-        element.created_at = formattedDate 
+        element.created_at = formattedDate;
         data.push(element);
       });
-     
+
       res.send(data);
     });
   } catch (error) {
@@ -143,6 +143,43 @@ router.put("/:id", (req, res) => {
       }
     }
   );
+});
+
+router.get("/all/:id", (req, res) => {
+  const id = req.params.id;
+  const sql = `SELECT events.*, events.name as event_name, equipments.serial, equipments.name,
+  (SELECT name FROM params WHERE params.id = events.event_type) AS event_type_name,
+  (SELECT name FROM params WHERE params.id = events.importance) AS importance_name,
+  (SELECT name FROM params WHERE params.id = events.status) AS status_name,
+  (SELECT name FROM params WHERE params.id = events.event_reason) AS event_reason_name,
+  (SELECT username FROM users WHERE users.id = events.created_by) AS created_by_name
+  FROM events
+  INNER JOIN equipments on equipments.id = events.equip
+  WHERE events.equip = ${id};`;
+
+  db.query(sql, (err, rows) => {
+    if (err) throw new Error(err);
+    console.log(rows);
+    const data = [];
+    rows.forEach((element) => {
+      const date = new Date(element.created_at);
+
+      // Obtiene los componentes de la fecha (año, mes y día)
+      const year = date.getUTCFullYear();
+      const month = date.getUTCMonth() + 1; // Sumamos 1 para que enero sea 1, febrero 2, etc.
+      const day = date.getUTCDate();
+
+      // Formatea la fecha como "YYYY/MM/DD"
+      const formattedDate = `${year}/${month
+        .toString()
+        .padStart(2, "0")}/${day.toString().padStart(2, "0")}`;
+      element.created_at = formattedDate;
+      data.push(element);
+    });
+
+    res.send(data);
+   
+  });
 });
 
 module.exports = router;

@@ -37,9 +37,9 @@ function App() {
                 <Route path="/create_event/:id" element={<Create_event />} />
                 <Route path="/view_event/:id" element={<View_one_event />} />
                 <Route path="/AllEvents/:id" element={<AllEventsOneEquip/>}/>
+                <Route path="/editUser/:id" element={<EditUser />} />
                 <Route element={<IsAdmin/>}>
                   <Route path="/userManagement" element={<UserManagement />} />
-                  <Route path="/editUser/:id" element={<EditUser />} />
                   <Route path="/createUser" element={<NewUser />} />
                 </Route>
               </Route>

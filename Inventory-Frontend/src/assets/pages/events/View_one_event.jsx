@@ -7,12 +7,13 @@ import { URI } from "../../../../config";
 import { updateStatus } from "../../../api/events.controller";
 import fileDownload from "js-file-download";
 import axios from "axios";
-
+import { useAuth } from "../../../context/AuthContext";
 function View_one_event() {
+  const { user } = useAuth();
   //change the status of the status changer
   const [ChangeStatus, setChangeStatus] = useState("NONE");
   const params = useParams();
-  const [equipo,setEquipo] = useState(null);
+  const [equipo, setEquipo] = useState(null);
 
   const {
     register,
@@ -28,10 +29,8 @@ function View_one_event() {
       const res = await getOneEvent(params.id);
       setEquipo(res.data[0].equip);
       const datos = res.data[0];
-      
       setData(datos);
       setFileUrl(`${URI}${datos.file}`);
-
       const fecha = datos.created_at.split("T");
 
       reset({
@@ -287,21 +286,25 @@ function View_one_event() {
                 </div>
               </div>
               <div className="my-3  ">
-                
-              <Link
+                <Link
                   className="btn btn-info  mx-1 py-2"
                   to={`/AllEvents/${equipo}`}
                 >
                   Ver eventos de este equipo
                 </Link>
-                <button
-                  className="btn btn-warning mx-2 my-2 "
-                  onClick={() => {
-                    setChangeStatus("BLOCK");
-                  }}
-                >
-                  Cambiar estado
-                </button>
+                {user.rol == 272 ? (
+                  ""
+                ) : (
+                  <button
+                    className="btn btn-warning mx-2 my-2 "
+                    onClick={() => {
+                      setChangeStatus("BLOCK");
+                    }}
+                  >
+                    Cambiar estado
+                  </button>
+                )}
+
                 <Link to="/events" className="btn btn-secondary">
                   Volver
                 </Link>

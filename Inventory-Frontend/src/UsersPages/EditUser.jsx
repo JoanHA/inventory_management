@@ -4,9 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import ChangePassword from "../components/changePassword";
+import { useAuth } from "../context/AuthContext";
 function EditUser() {
   const [editUser, setEditUser] = useState({});
   const params = useParams();
+  const {user} = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -120,7 +122,7 @@ function EditUser() {
                 <select
                   className="form-select"
                   {...register("rol")}
-                  disabled={editUser.rol == 271 ? true : false}
+                  disabled={editUser.id == user.id? true : false}
                 >
                   {editUser.rol == 271 ? (
                     <option selected value={""}>
@@ -153,6 +155,7 @@ function EditUser() {
                   className="btn btn-danger mx-1 my-3"
                   type="button"
                   onClick={deleteUser2}
+                  disabled={user.rol == 272 || user.rol==273 ? true:false}
                 >
                   Eliminar usuario
                 </button>

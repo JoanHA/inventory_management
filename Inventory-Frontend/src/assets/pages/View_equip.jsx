@@ -8,10 +8,12 @@ import { onDelete } from "../lib/Ondelete";
 import { update } from "../lib/updateEquip.js";
 import Add from "../../components/Add.jsx";
 import edit from "../img/icons/edit.svg";
-import { getOneDevice, getParameters} from "../../api/devices.controller.js";
+import { getOneDevice, getParameters } from "../../api/devices.controller.js";
 import addBtn from "../img/icons/add.svg";
 import del from "../img/icons/delete.svg";
+import { useAuth } from "../../context/AuthContext.jsx";
 function View_equip() {
+  const { user } = useAuth();
   //Use form para obtener los datos del formulario
 
   //id del equipo
@@ -70,19 +72,18 @@ function View_equip() {
       }
     };
 
-
-    const fillSelects = async ()=>{
+    const fillSelects = async () => {
       try {
         var marcas = [];
         var rams = [];
         var equipos = [];
         var discos = [];
-    
+
         const res = await getParameters();
         const datos = res.data; // datos
         datos.map((dato) => {
           //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
-  
+
           switch (dato.paramtype_id) {
             case 201:
               marcas.push([dato.id, dato.name]);
@@ -99,17 +100,16 @@ function View_equip() {
             default:
               break;
           }
-             ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
-             setMarks(marcas);
-             setRam(rams);
-             setType(equipos);
-             SetDisk(discos);
+          ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
+          setMarks(marcas);
+          setRam(rams);
+          setType(equipos);
+          SetDisk(discos);
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-     
-    }
+    };
     getOne();
     fillSelects();
   }, []);
@@ -466,29 +466,43 @@ function View_equip() {
 
             {/* Boton de envio */}
             <div className="col-md-6">
-              <button className="btn btn-success text-center my-3">
+              <button
+                className="btn btn-success text-center my-3"
+                disabled={user.rol == 272 ? true : false}
+              >
                 <img src={edit} alt="" />
                 <span className="px-1">Editar</span>
               </button>
-              <Link
-                className="btn btn-primary mx-2 "
-                to={`/create_event/${params.id}`}
-              >
-                <span className="px-1">Añadir evento </span>
-                <img src={addBtn} alt="" />
-              </Link>
 
-              <Link
-                className="btn btn-danger mx-1"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-                onClick={() => {
-                  onDelete(params.id);
-                }}
-              >
-                <img src={del} alt="" />
-              </Link>
+              {user.rol == 272 ? (
+                " "
+              ) : (
+                <>
+                  <Link
+                    className="btn btn-primary mx-2 "
+                    to={`/create_event/${params.id}`}
+                  >
+                    <span className="px-1">Añadir evento </span>
+                    <img src={addBtn} alt="" />
+                  </Link>
+
+                  {user.rol == 273 ? (
+                    ""
+                  ) : (
+                    <Link
+                      className="btn btn-danger mx-1"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                      }}
+                      onClick={() => {
+                        onDelete(params.id);
+                      }}
+                    >
+                      <img src={del} alt="" />
+                    </Link>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </form>

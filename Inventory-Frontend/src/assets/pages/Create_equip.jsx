@@ -7,6 +7,7 @@ import Add from "../../components/Add";
 import { createEquip } from "../lib/updateEquip";
 import Masive from "./../../components/Masive";
 import { getParameters } from "../../api/devices.controller";
+import { useAuth } from "../../context/AuthContext";
 function Create_equip() {
   //Use form para obtener los datos del formulario
   const {
@@ -17,7 +18,7 @@ function Create_equip() {
   } = useForm();
 
   const [parametro, setParametro] = useState();
-
+const {user} = useAuth()
   const [marks, setMarks] = useState([]);
   const [type, setType] = useState([]);
   const [disk, SetDisk] = useState([]);
@@ -384,7 +385,7 @@ function Create_equip() {
 
             {/* Boton de envio */}
             <div className="col-md-6">
-              <button className=" btn btn-primary text-center my-3">
+              <button className=" btn btn-primary text-center my-3" disabled={user.rol == 272  ? true:false}>
                 Agregar
                 <img src={add} alt="" style={{ marginLeft: "10px" }} />
               </button>
@@ -395,6 +396,7 @@ function Create_equip() {
                 className="btn btn-secondary"
                 type="button"
                 onClick={masive}
+                disabled={user.rol == 272  ? true:false}
               >
                 Carga masiva{" "}
               </button>

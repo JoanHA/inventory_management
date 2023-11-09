@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/img/grupo-carval-Logo-Bioart.png";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import { URI } from "../../config";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 function Register() {

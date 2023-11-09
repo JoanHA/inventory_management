@@ -1,27 +1,22 @@
 import "../css/create.css";
 import add from "./../img/icons/add.svg";
-
-import {useForm} from "react-hook-form"
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Add from "../../components/Add"
+import Add from "../../components/Add";
 import { createEquip } from "../lib/updateEquip";
-import { URI } from "../../../config";
-import  Masive from "./../../components/Masive"
-
+import Masive from "./../../components/Masive";
+import { getParameters } from "../../api/devices.controller";
 function Create_equip() {
   //Use form para obtener los datos del formulario
   const {
     register,
     handleSubmit,
-    reset,
     clearErrors,
     formState: { errors },
   } = useForm();
 
   const [parametro, setParametro] = useState();
-  const url = "http://localhost:4000/";
 
   const [marks, setMarks] = useState([]);
   const [type, setType] = useState([]);
@@ -30,11 +25,11 @@ function Create_equip() {
 
   //Method to save the data un the DB
   const onSubmit = (values) => {
-    createEquip(values)
+    createEquip(values);
   };
-  const openView = (value,id) => {
-    setParametro([value,id]);
-  
+  const openView = (value, id) => {
+    setParametro([value, id]);
+
     document.querySelector("#addModal").classList.remove("inactive");
   };
 
@@ -45,9 +40,9 @@ function Create_equip() {
     var equipos = [];
     var discos = [];
 
-    axios
-      .get(URI + "utils")
-      .then((res) => {
+    const getParams = async () => {
+      try {
+        const res = await getParameters();
         const datos = res.data; // datos
         datos.map((dato) => {
           //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
@@ -69,28 +64,27 @@ function Create_equip() {
               break;
           }
         });
-
         ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
         setMarks(marcas);
         setRam(rams);
         setType(equipos);
         SetDisk(discos);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("An error occurred:", error);
-      });
+      }
+    };
+    getParams();
   }, []);
 
-  const masive = ()=>{
-    document.getElementById("modalPage").style.display ="Block";
-  }
+  const masive = () => {
+    document.getElementById("modalPage").style.display = "Block";
+  };
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
       <Masive></Masive>
       <div className="event_header">Registrar equipo</div>
       <div className="px-4 py-3">
-     
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
             {/* Primera fila */}
@@ -120,7 +114,7 @@ function Create_equip() {
               />
               {errors.user?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-              Este campo es requerido
+                  Este campo es requerido
                 </p>
               )}
             </div>
@@ -136,7 +130,7 @@ function Create_equip() {
               />
               {errors.model?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                 Este campo es requerido
+                  Este campo es requerido
                 </p>
               )}
             </div>
@@ -151,7 +145,7 @@ function Create_equip() {
               />{" "}
               {errors.office?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-               Este campo es requerido
+                  Este campo es requerido
                 </p>
               )}
             </div>
@@ -168,7 +162,7 @@ function Create_equip() {
               ></textarea>
               {errors.description?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-                Este campo es requerido
+                  Este campo es requerido
                 </p>
               )}
             </div>
@@ -184,7 +178,7 @@ function Create_equip() {
               />
               {errors.serial?.type === "required" && (
                 <p className="errorMsg" style={{ margin: "0px" }}>
-               Este campo es requerido
+                  Este campo es requerido
                 </p>
               )}
             </div>
@@ -192,18 +186,24 @@ function Create_equip() {
             <div className=" col-12 col-sm-6 col-md-4">
               <label htmlFor="">Marca</label>
               <div className="d-flex flex-row">
-                <select id="" {...register("mark")} className="form-select form-select-sm">
+                <select
+                  id=""
+                  {...register("mark")}
+                  className="form-select form-select-sm"
+                >
                   <option value="">Selecciona una marca...</option>
 
                   {marks.map((object) => (
-                    <option key={object[0]} value={object[0]}>{object[1]}</option>
+                    <option key={object[0]} value={object[0]}>
+                      {object[1]}
+                    </option>
                   ))}
                 </select>
                 <button
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Marca","201");
+                    openView("Marca", "201");
                   }}
                 >
                   +
@@ -222,14 +222,16 @@ function Create_equip() {
                 >
                   <option value="">Selecciona el tipo...</option>
                   {type.map((object) => (
-                    <option key={object[0]}  value={object[0]}>{object[1]}</option>
+                    <option key={object[0]} value={object[0]}>
+                      {object[1]}
+                    </option>
                   ))}
                 </select>
                 <button
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Tipo de equipo","208");
+                    openView("Tipo de equipo", "208");
                   }}
                 >
                   +
@@ -285,17 +287,23 @@ function Create_equip() {
             <div className=" col-12 col-sm-6 col-md-3">
               <label htmlFor="">Tipo de ram</label>
               <div className="d-flex flex-row">
-                <select id="" {...register("ram_type")} className="form-select form-select-sm">
+                <select
+                  id=""
+                  {...register("ram_type")}
+                  className="form-select form-select-sm"
+                >
                   <option value="">Tipo de ram</option>
                   {ram.map((object) => (
-                    <option  key={object[0]} value={object[0]}>{object[1]}</option>
+                    <option key={object[0]} value={object[0]}>
+                      {object[1]}
+                    </option>
                   ))}
                 </select>
                 <button
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Tipo de ram","204");
+                    openView("Tipo de ram", "204");
                   }}
                 >
                   +
@@ -312,14 +320,16 @@ function Create_equip() {
                 >
                   <option value="">Selecciona el tipo...</option>
                   {disk.map((object) => (
-                    <option  key={object[0]} value={object[0]}>{object[1]}</option>
+                    <option key={object[0]} value={object[0]}>
+                      {object[1]}
+                    </option>
                   ))}
                 </select>
                 <button
                   type="button"
                   className="btn btn-secondary addBtn"
                   onClick={() => {
-                    openView("Tipo de disco duro","203");
+                    openView("Tipo de disco duro", "203");
                   }}
                 >
                   +
@@ -381,9 +391,15 @@ function Create_equip() {
               <Link className="btn btn-success mx-3 " to={"/equipments"}>
                 Ver todo
               </Link>
-              <button className="btn btn-secondary" type="button" onClick={masive}>Carga masiva </button>
+              <button
+                className="btn btn-secondary"
+                type="button"
+                onClick={masive}
+              >
+                Carga masiva{" "}
+              </button>
             </div>
-          </div> 
+          </div>
         </form>
       </div>
     </>

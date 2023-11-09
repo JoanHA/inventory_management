@@ -8,4 +8,4 @@ export const deleteUser =async (id)=> axios.put(`${URI}api/users/${id}`);
 export const updateUser =async (id,data)=> axios.post(`${URI}api/users/${id}`,data); 
 export const CreateUser =async (data)=> axios.post(`${URI}api/users/create`,data); 
 
-export const changePassword = async (data) => axios.post(`${URI}utils/changePassword`,data)
+export const changePassword = async (data) => axios.post(`${URI}api/utils/changePassword`,data)

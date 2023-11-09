@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import view from "../assets/img/icons/view.svg";
-import add from "../assets/img/icons/add.svg";
-import { FiEdit } from "react-icons/fi";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { BiLastPage, BiFirstPage } from "react-icons/bi";
 import {

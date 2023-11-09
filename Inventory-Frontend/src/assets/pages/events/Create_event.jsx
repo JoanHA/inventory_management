@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { URI } from "../../../../config";
 import "../../css/event.css";
 import Add from "../../../components/Add";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { SaveEvent } from "../../lib/saveEvent";
-import { saveParam } from "../../lib/saveParams";
+import { getDevice } from "../../../api/events.controller";
 import { useAuth } from "../../../context/AuthContext";
 import { Link } from "react-router-dom";
-
+import { getEvents_type } from "../../../api/events.controller";
 function Create_event() {
   //Data from the equipment
   const [event_type, setEventType] = useState([]);
@@ -17,12 +15,11 @@ function Create_event() {
   const [nombre, setNombre] = useState();
   const [serial, setSerial] = useState();
   const [client, setClient] = useState();
-  const [user1, setUser] = useState();
   const [id, setId] = useState(); //Equipment's id
   const params = useParams(); //params
   const { user } = useAuth(); //context
 
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -32,14 +29,16 @@ const navigate = useNavigate()
 
   //UseEffect for getting the equipment's data
   useEffect(() => {
-    const id = params.id;
-    axios.get(URI + `api/equip/${id}`).then((res) => {
+    const getDev = async () => {
+      const id = params.id;
+      const res = await getDevice(id);
       const equipo = res.data[0];
       setNombre(equipo.name);
       setSerial(equipo.serial);
       setClient(equipo.user);
       setId(equipo.id);
-    });
+    };
+    getDev();
   }, []);
 
   //Functions
@@ -55,33 +54,32 @@ const navigate = useNavigate()
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-     
         values.client = client;
         values.equip = id;
         values.user = user.id;
-        values.file = values.file[0]
+        values.file = values.file[0];
 
         //Saving data for the backend
-        const formData = new FormData()
-        formData.append('file', values.file)
-        formData.append('name', values.name)
-        formData.append('serial', values.serial)
-        formData.append('description', values.description)
-        formData.append('client', values.client)
-        formData.append('equip', values.equip)
-        formData.append('user', values.user)
-        formData.append('date', values.date)
-        formData.append("event_type",values.event_type)
-        formData.append("event_reason",values.event_reason)
-        formData.append("importance",values.importance)
-        formData.append("status",values.status)
+        const formData = new FormData();
+        formData.append("file", values.file);
+        formData.append("name", values.name);
+        formData.append("serial", values.serial);
+        formData.append("description", values.description);
+        formData.append("client", values.client);
+        formData.append("equip", values.equip);
+        formData.append("user", values.user);
+        formData.append("date", values.date);
+        formData.append("event_type", values.event_type);
+        formData.append("event_reason", values.event_reason);
+        formData.append("importance", values.importance);
+        formData.append("status", values.status);
 
         const res = await SaveEvent(formData); //this the one that call tthe function in the backend
-       if (res.status == 200) {
-            Swal.fire("Saved!", "", "success").then(() => {
-            navigate("/events")
+        if (res.status == 200) {
+          Swal.fire("Saved!", "", "success").then(() => {
+            navigate("/events");
           });
-        } 
+        }
       } else if (result.isDenied) {
         Swal.fire("Lo cambios no han sido guardados", "", "info");
       }
@@ -96,20 +94,27 @@ const navigate = useNavigate()
 
   //useEffect for events_type
   useEffect(() => {
-    axios.get(`${URI}utils/events_type`).then((res) => {
+    const getEvents = async () => {
+      const res = await getEvents_type();
       if (res.status == 200) {
         setEventType(res.data);
       }
-    });
+    };
+    getEvents();
   }, []);
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
 
-   
       <div className="card vh-100 w-100 py-1 px-2" style={{ border: "None" }}>
         <div className="contenedor">
-          <div className="event_header d-flex justify-content-between">Nuevo evento  <Link className="btn btn-secondary btn-sm mx-2" to={"/equipments"}> Volver</Link></div>
+          <div className="event_header d-flex justify-content-between">
+            Nuevo evento{" "}
+            <Link className="btn btn-secondary btn-sm mx-2" to={"/equipments"}>
+              {" "}
+              Volver
+            </Link>
+          </div>
           <div className="equip_data">
             <div className="event_title">
               <h3>datos del equipo</h3>
@@ -158,7 +163,6 @@ const navigate = useNavigate()
               className="container px-0 py-0"
               onSubmit={handleSubmit(onSubmit)}
               encType="multipart/form-data"
-
             >
               <div className="inputGroup w-100 container  d-flex flex-row flex-wrap ">
                 <div className="input-group d-flex flex-column mb-2 w-50 flex-wrap mb-2">
@@ -203,11 +207,10 @@ const navigate = useNavigate()
                     >
                       +
                     </button>
-                  
                   </div>
                   {errors.event_type?.type == "required" && (
-                      <p className="errorMsg mb-0">Este campo es requerido</p>
-                    )}
+                    <p className="errorMsg mb-0">Este campo es requerido</p>
+                  )}
                 </div>
 
                 <div className="input-group d-flex flex-column  w-50 mb-2 flex-wrap">
@@ -265,14 +268,12 @@ const navigate = useNavigate()
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
                   <label htmlFor="">Adjuntar archivo</label>
 
-                
                   <input
-                  id="SentFile"
+                    id="SentFile"
                     type="file"
                     className="form-control form-control-sm "
                     style={{ width: "90% " }}
                     {...register("file")}
-                  
                   />
                 </div>
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
@@ -290,12 +291,17 @@ const navigate = useNavigate()
                 </div>
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
                   <label htmlFor="">Estado</label>
-                  <select name="" id="" className="form-select form-select-sm"  style={{ width: "95% " }} {...register("status")}>
-                   <option value="280">Pendiente</option>
-                      <option value="281">Cancelado</option>
-                      <option value="282">Realizado</option>
+                  <select
+                    name=""
+                    id=""
+                    className="form-select form-select-sm"
+                    style={{ width: "95% " }}
+                    {...register("status")}
+                  >
+                    <option value="280">Pendiente</option>
+                    <option value="281">Cancelado</option>
+                    <option value="282">Realizado</option>
                   </select>
-                
                 </div>
                 <div className="input-group d-flex flex-column  mb-2 flex-wrap w-100">
                   <label htmlFor="">Descripcion</label>{" "}
@@ -315,7 +321,13 @@ const navigate = useNavigate()
 
                 <div className="mt-3">
                   <button className="btn btn-success btn-sm">Registrar </button>
-                  <Link className="btn btn-danger btn-sm mx-2" to={"/equipments"}> Cancelar</Link>
+                  <Link
+                    className="btn btn-danger btn-sm mx-2"
+                    to={"/equipments"}
+                  >
+                    {" "}
+                    Cancelar
+                  </Link>
                 </div>
               </div>
             </form>

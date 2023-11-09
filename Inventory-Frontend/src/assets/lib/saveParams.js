@@ -1,7 +1,7 @@
 import axios from "axios";
 import { URI } from "../../../config";
 
-export const saveParam = (data)=> axios.post(URI+"utils/params",data).then((res)=>{
+export const saveParam = (data)=> axios.post(URI+"api/utils/params",data).then((res)=>{
             if(res.status == 200){
                 Swal.fire({
                     position: 'center',

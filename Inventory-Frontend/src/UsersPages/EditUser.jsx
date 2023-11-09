@@ -32,11 +32,11 @@ function EditUser() {
     Swal.fire({
       title: "Esta seguro?",
       text: "No podras revertir esta acción!!",
-      icon: "warning",
+      icon: "info",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Borralo!",
+      confirmButtonText: "Si, Actualizar!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await updateUser(params.id, data);

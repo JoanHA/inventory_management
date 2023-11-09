@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EventsForm from "../../../components/EventsForm";
 import { Link } from "react-router-dom";
-import { getAll } from "../../lib/events/getAllEvents";
-import { URI } from "../../../../config";
+import { getAll } from "../../../api/events.controller";
+
 function AllEventsOneEquip() {
  const params = useParams();
   const [event, setEvent] = useState([]);

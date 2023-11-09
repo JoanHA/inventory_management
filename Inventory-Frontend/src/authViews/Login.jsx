@@ -6,7 +6,6 @@ import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const navigate = useNavigate();
-  const [errores, setErrores] = useState(null);
   const { GetIn, Errores } = useAuth();
   const {
     register,

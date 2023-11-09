@@ -7,10 +7,10 @@ import { URI } from "../../../config";
 import { onDelete } from "../lib/Ondelete";
 import { update } from "../lib/updateEquip.js";
 import Add from "../../components/Add.jsx";
-import edit from "../img/icons/edit.svg"
-
-import addBtn from "../img/icons/add.svg"
-import del from "../img/icons/delete.svg"
+import edit from "../img/icons/edit.svg";
+import { getOneDevice, getParameters} from "../../api/devices.controller.js";
+import addBtn from "../img/icons/add.svg";
+import del from "../img/icons/delete.svg";
 function View_equip() {
   //Use form para obtener los datos del formulario
 
@@ -35,9 +35,10 @@ function View_equip() {
 
   //llenado de datos del equipo
   useEffect(() => {
-    axios
-      .get(url + `api/equip/${params.id}`)
-      .then((res) => {
+    const getOne = async () => {
+      try {
+        const id = params.id;
+        const res = await getOneDevice(id);
         const equipData = res.data[0];
         setEquip(res.data[0]);
 
@@ -64,26 +65,24 @@ function View_equip() {
           ram: ram,
           hard_disk: disk,
         });
-      })
-      .catch((error) => {
+      } catch (error) {
         console.log(error);
-      });
-  }, []);
+      }
+    };
 
-  //llenando los selects
-  useEffect(() => {
-    var marcas = [];
-    var rams = [];
-    var equipos = [];
-    var discos = [];
 
-    axios
-      .get(URI + "utils")
-      .then((res) => {
+    const fillSelects = async ()=>{
+      try {
+        var marcas = [];
+        var rams = [];
+        var equipos = [];
+        var discos = [];
+    
+        const res = await getParameters();
         const datos = res.data; // datos
         datos.map((dato) => {
           //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
-
+  
           switch (dato.paramtype_id) {
             case 201:
               marcas.push([dato.id, dato.name]);
@@ -100,17 +99,19 @@ function View_equip() {
             default:
               break;
           }
+             ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
+             setMarks(marcas);
+             setRam(rams);
+             setType(equipos);
+             SetDisk(discos);
         });
-
-        ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
-        setMarks(marcas);
-        setRam(rams);
-        setType(equipos);
-        SetDisk(discos);
-      })
-      .catch((error) => {
-        console.error("An error occurred:", error);
-      });
+      } catch (error) {
+        console.log(error)
+      }
+     
+    }
+    getOne();
+    fillSelects();
   }, []);
 
   //Vista para agregar parametros
@@ -129,8 +130,7 @@ function View_equip() {
     formState: { errors },
   } = useForm();
 
-
-///guardado de datos para editar
+  ///guardado de datos para editar
   const onSubmit = (e) => {
     e.preventDefault();
     const data = watch();
@@ -138,23 +138,27 @@ function View_equip() {
 
     async function updateEquips() {
       try {
-        const res  = await update(params.id, data);
-        if(res.data.status ==200){
-          swal.fire("Editado","","success").then(()=>{location.reload()})
+        const res = await update(params.id, data);
+        if (res.data.status == 200) {
+          swal.fire("Editado", "", "success").then(() => {
+            location.reload();
+          });
         }
-      } catch (error) {
-        
-      }
+      } catch (error) {}
     }
-     updateEquips();
+    updateEquips();
   };
 
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
-      <div className="event_header d-flex justify-content-between">Editar equipo <Link  to={"/equipments"} className="btn btn-sm btn-secondary">Volver</Link></div>
+      <div className="event_header d-flex justify-content-between">
+        Editar equipo{" "}
+        <Link to={"/equipments"} className="btn btn-sm btn-secondary">
+          Volver
+        </Link>
+      </div>
       <div className="px-4 py-2">
-     
         <form action="" onSubmit={onSubmit}>
           <div className="row" id="Equip-row">
             {/* Primera fila */}
@@ -388,7 +392,7 @@ function View_equip() {
 
                   {disk.map((object) => (
                     <option
-                    key={object[0]}
+                      key={object[0]}
                       value={object[0]}
                       selected={
                         equip.hard_type_name == object[1] ? true : false
@@ -462,11 +466,9 @@ function View_equip() {
 
             {/* Boton de envio */}
             <div className="col-md-6">
-              
               <button className="btn btn-success text-center my-3">
                 <img src={edit} alt="" />
                 <span className="px-1">Editar</span>
-              
               </button>
               <Link
                 className="btn btn-primary mx-2 "
@@ -474,9 +476,7 @@ function View_equip() {
               >
                 <span className="px-1">Añadir evento </span>
                 <img src={addBtn} alt="" />
-                
               </Link>
-
 
               <Link
                 className="btn btn-danger mx-1"
@@ -487,7 +487,7 @@ function View_equip() {
                   onDelete(params.id);
                 }}
               >
-               <img src={del} alt="" />
+                <img src={del} alt="" />
               </Link>
             </div>
           </div>

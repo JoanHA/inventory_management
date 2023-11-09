@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "/public/uploads")));
 
 //Routes
 app.use("/api", equip); //Route for equipment
-app.use("/utils", util); // Route for params and extra things
+app.use("/api/utils", util); // Route for params and extra things
 app.use("/api/events", events); //Route for events
 app.use("/api/users",user)
 
@@ -35,7 +35,7 @@ app.use("/api/users",user)
 app.use("/api/masive",masive)
 
 //Auth routes
-app.use("/auth", login);
+app.use("/api/auth", login);
 
 //Server listening
 app.listen(app.get("port") || 3000, () => {

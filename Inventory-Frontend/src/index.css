@@ -179,3 +179,12 @@ li{
 .input-group-text{
   padding: 5px !important;
 }
+.event_header{
+  background-color: #0d6efd;
+  padding: 10px;
+  color: white;
+  font-size: large;
+  box-shadow: 1px 1px 3px gray;
+  border-radius: 6px;
+  margin-left: 5px;
+}

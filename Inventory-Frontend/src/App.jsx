@@ -1,52 +1,70 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./assets/layouts/Header";
-import Create_equip from "./assets/pages/Create_equip";
-import Welcome from "./assets/pages/Welcome";
-import View_equip from "./assets/pages/View_equip";
-import ViewAllEquip from "./assets/pages/ViewAllEquip";
-import Create_event from "./assets/pages/events/Create_event";
-import Register from "./authViews/register";
-import Login from "./authViews/login";
+import { lazy, Suspense } from "react";
 import { AuthProvider } from "./context/AuthContext";
 import { ProtectedRoute } from "./authViews/ProtectedRoute";
-import View_events from "./assets/pages/events/View_events";
-import View_one_event from "./assets/pages/events/view_one_event";
-import UserManagement from "./UsersPages/UserManagement";
-import EditUser from "./UsersPages/EditUser";
-import NewUser from "./UsersPages/NewUser";
-import Table from "./components/Table";
 import { IsAdmin } from "./components/IsAdmin";
-import  AllEventsOneEquip from "./assets/pages/events/AllEventsOneEquip"
+import Spinner from "./components/Spinner";
+//Lazy imports
+
+const Header = lazy(() => import("./assets/layouts/Header"));
+// const Spinner = lazy(() => import("./components/Spinner"));
+const Create_equip = lazy(() => import("./assets/pages/Create_equip"));
+const Welcome = lazy(() => import("./assets/pages/Welcome"));
+const View_equip = lazy(() => import("./assets/pages/View_equip"));
+const ViewAllEquip = lazy(() => import("./assets/pages/ViewAllEquip"));
+const Create_event = lazy(() => import("./assets/pages/events/Create_event"));
+const Register = lazy(() => import("./authViews/register"));
+const Login = lazy(() => import("./authViews/login"));
+const View_events = lazy(() => import("./assets/pages/events/View_events"));
+const View_one_event = lazy(() =>
+  import("./assets/pages/events/view_one_event")
+);
+const UserManagement = lazy(() => import("./UsersPages/UserManagement"));
+const EditUser = lazy(() => import("./UsersPages/EditUser"));
+const NewUser = lazy(() => import("./UsersPages/NewUser"));
+const Table = lazy(() => import("./components/Table"));
+
+const AllEventsOneEquip = lazy(() =>
+  import("./assets/pages/events/AllEventsOneEquip")
+);
+
 function App() {
   return (
     <>
-      <AuthProvider>
-        <BrowserRouter>
-          <Header>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/table" element={<Table editType="editUser"/>} />
-
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<Welcome />} />
-                <Route path="/create" element={<Create_equip />} />
-                <Route path="/equipments" element={<ViewAllEquip />} />
-                <Route path="/edit/:id" element={<View_equip />} />
-                <Route path="/events" element={<View_events />} />
-                <Route path="/create_event/:id" element={<Create_event />} />
-                <Route path="/view_event/:id" element={<View_one_event />} />
-                <Route path="/AllEvents/:id" element={<AllEventsOneEquip/>}/>
-                <Route path="/editUser/:id" element={<EditUser />} />
-                <Route element={<IsAdmin/>}>
-                  <Route path="/userManagement" element={<UserManagement />} />
-                  <Route path="/createUser" element={<NewUser />} />
+      <Suspense fallback={<Spinner/>}>
+        <AuthProvider>
+          <BrowserRouter>
+            <Header>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/table" element={<Table editType="editUser" />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={<Welcome />} />
+                  <Route path="/create" element={<Create_equip />} />
+                  <Route path="/equipments" element={<ViewAllEquip />} />
+                  <Route path="/edit/:id" element={<View_equip />} />
+                  <Route path="/events" element={<View_events />} />
+                  <Route path="/create_event/:id" element={<Create_event />} />
+                  <Route path="/view_event/:id" element={<View_one_event />} />
+                  <Route
+                    path="/AllEvents/:id"
+                    element={<AllEventsOneEquip />}
+                  />
+                  <Route path="/editUser/:id" element={<EditUser />} />
+                  <Route element={<IsAdmin />}>
+                    <Route
+                      path="/userManagement"
+                      element={<UserManagement />}
+                    />
+                    <Route path="/createUser" element={<NewUser />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
-          </Header>
-        </BrowserRouter>
-      </AuthProvider>
+              </Routes>
+            </Header>
+          </BrowserRouter>
+        </AuthProvider>
+      </Suspense>
     </>
   );
 }

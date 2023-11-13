@@ -13,11 +13,11 @@ const Welcome = lazy(() => import("./assets/pages/Welcome"));
 const View_equip = lazy(() => import("./assets/pages/View_equip"));
 const ViewAllEquip = lazy(() => import("./assets/pages/ViewAllEquip"));
 const Create_event = lazy(() => import("./assets/pages/events/Create_event"));
-const Register = lazy(() => import("./authViews/register"));
-const Login = lazy(() => import("./authViews/login"));
+const Register = lazy(() => import("./authViews/Register"));
+const Login = lazy(() => import("./authViews/Login"));
 const View_events = lazy(() => import("./assets/pages/events/View_events"));
 const View_one_event = lazy(() =>
-  import("./assets/pages/events/view_one_event")
+  import("./assets/pages/events/View_one_event")
 );
 const UserManagement = lazy(() => import("./UsersPages/UserManagement"));
 const EditUser = lazy(() => import("./UsersPages/EditUser"));

@@ -66,8 +66,11 @@ function Table({ data, columns, editType }) {
             <GrPrevious />
           </button>
           <span className="  ">
-            {table.getState().pagination.pageIndex + 1} de
-            {table.getPageCount()}
+            <span>  {table.getState().pagination.pageIndex + 1}</span>
+            <span> de </span>
+            <span> {table.getPageCount()}</span>
+          
+           
           </span>
           <button
             className="btn"

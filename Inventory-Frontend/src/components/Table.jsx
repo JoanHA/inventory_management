@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { BiLastPage, BiFirstPage } from "react-icons/bi";
+import DownloadButton from "./DownloadButton";
 import {
   useReactTable,
   getCoreRowModel,
@@ -34,7 +35,7 @@ function Table({ data, columns, editType }) {
     <div>
       <div className="d-flex justify-content-between text-center flex-row align-items-center">
         <div className=" d-flex flex-row gap-2">
-          <label htmlFor="">Filtrar </label>
+          <label htmlFor="">Filtrar</label>
           <input
             type="text"
             className="form-control form-control-sm rounded"
@@ -44,6 +45,9 @@ function Table({ data, columns, editType }) {
               setFilteting(e.target.value);
             }}
           />
+        </div>
+        <div>
+          <DownloadButton filter={filtering} data={data} />
         </div>
 
         <div className="d-flex justify-content-center align-items-center text-center">
@@ -125,10 +129,10 @@ function Table({ data, columns, editType }) {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} id={row.id}>
+              <tr key={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <>
-                    <td>
+                    <td key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

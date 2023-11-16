@@ -103,7 +103,6 @@ useEffect(()=>{
 
       try {
         const res = await verifyToken({ token: cookies.token });
-        console.log(res.data)
         if(!res.data){
           setisAuthenticated(false);
           return;

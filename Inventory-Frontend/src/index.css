@@ -7,7 +7,9 @@ body{
 .eye{
 cursor: pointer;
 }
-
+.no-radius{
+  border-radius: 0 !important;
+}
 ul{
   text-decoration: none;
   marker: none;

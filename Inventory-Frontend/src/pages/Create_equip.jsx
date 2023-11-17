@@ -1,13 +1,13 @@
-import "../css/create.css";
-import add from "./../img/icons/add.svg";
+import "../assets/css/create.css";
+import add from "../assets/img/icons/add.svg";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Add from "../../components/Add";
+import Add from "../components/Add";
 import { createEquip } from "../lib/updateEquip";
-import Masive from "./../../components/Masive";
-import { getParameters } from "../../api/devices.controller";
-import { useAuth } from "../../context/AuthContext";
+import Masive from "../components/Masive";
+import { getParameters } from "../api/devices.controller";
+import { useAuth } from "../context/AuthContext";
 
 function Create_equip() {
   //Use form para obtener los datos del formulario

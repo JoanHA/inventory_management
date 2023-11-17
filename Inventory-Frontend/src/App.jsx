@@ -6,18 +6,18 @@ import { IsAdmin } from "./components/IsAdmin";
 import Spinner from "./components/Spinner";
 //Lazy imports
 
-const Header = lazy(() => import("./assets/layouts/Header"));
+const Header = lazy(() => import("./layouts/Header"));
 // const Spinner = lazy(() => import("./components/Spinner"));
-const Create_equip = lazy(() => import("./assets/pages/Create_equip"));
-const Welcome = lazy(() => import("./assets/pages/Welcome"));
-const View_equip = lazy(() => import("./assets/pages/View_equip"));
-const ViewAllEquip = lazy(() => import("./assets/pages/ViewAllEquip"));
-const Create_event = lazy(() => import("./assets/pages/events/Create_event"));
+const Create_equip = lazy(() => import("./pages/Create_equip"));
+const Welcome = lazy(() => import("./pages/Welcome"));
+const View_equip = lazy(() => import("./pages/View_equip"));
+const ViewAllEquip = lazy(() => import("./pages/ViewAllEquip"));
+const Create_event = lazy(() => import("./pages/events/Create_event"));
 const Register = lazy(() => import("./authViews/Register"));
 const Login = lazy(() => import("./authViews/Login"));
-const View_events = lazy(() => import("./assets/pages/events/View_events"));
+const View_events = lazy(() => import("./pages/events/View_events"));
 const View_one_event = lazy(() =>
-  import("./assets/pages/events/View_one_event")
+  import("./pages/events/View_one_event")
 );
 const UserManagement = lazy(() => import("./UsersPages/UserManagement"));
 const EditUser = lazy(() => import("./UsersPages/EditUser"));
@@ -25,7 +25,7 @@ const NewUser = lazy(() => import("./UsersPages/NewUser"));
 const Table = lazy(() => import("./components/Table"));
 
 const AllEventsOneEquip = lazy(() =>
-  import("./assets/pages/events/AllEventsOneEquip")
+  import("./pages/events/AllEventsOneEquip")
 );
 
 function App() {

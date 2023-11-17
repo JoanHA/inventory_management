@@ -12,12 +12,12 @@ function Register() {
     formState: { errors },
   } = useForm();
 
-  const { signup,Errores } = useAuth();
+  const { signup, Errores } = useAuth();
 
   const onSubmit = async (values) => {
     const signed = await signup(values);
     console.log(signed);
-    if (Errores ==null) {
+    if (Errores == null) {
       if (signed.data.status == 200) {
         Swal.fire({
           position: "center",
@@ -40,11 +40,11 @@ function Register() {
   };
   return (
     <div>
-      <div className="d-flex align-items-center px-5">
+      <div className="d-flex align-items-center justify-content-center px-5">
         <div
           id="form-container"
-          className=" gap-3 py-3 px-3 mx-auto mt-4"
-          style={{ width: "40%", maxWidth:"25rem"  }}
+          className=" gap-3 py-3 px-3  mt-4"
+          style={{ width: "320px", maxWidth: "25rem" }}
         >
           <div className="d-flex justify-content-center flex-column align-items-center">
             <div className="signUpHeader">
@@ -60,11 +60,13 @@ function Register() {
           <div className="d-flex justify-content-center">
             <form className="w-75" onSubmit={handleSubmit(onSubmit)}>
               <div className="d-flex flex-column gap-2 justify-content-center ">
-              {Errores && Errores.map((error) => (<div key={0} className="spanError">
-                  <div ></div>
-                  {error}
-          
-                  </div>))}
+                {Errores &&
+                  Errores.map((error) => (
+                    <div key={0} className="spanError">
+                      <div></div>
+                      {error}
+                    </div>
+                  ))}
                 <div className="form-floating rounded ">
                   <input
                     type="email"
@@ -73,13 +75,9 @@ function Register() {
                     style={{ height: "10px" }}
                     {...register("email", { required: true })}
                   />
-                    {
-                    errors.email && errors.email.type === "required"? (
-                      <div className="errorMsg">
-                        Este campo es requerido
-                      </div>
-                    ) : null
-                  }
+                  {errors.email && errors.email.type === "required" ? (
+                    <div className="errorMsg">Este campo es requerido</div>
+                  ) : null}
                   <label htmlFor="floatingInput">Correo </label>
                 </div>
                 <div className="form-floating">
@@ -87,21 +85,16 @@ function Register() {
                     type="text"
                     className="form-control  form-control-sm inputs"
                     id="floatingUser"
-                    {...register("username", { required: true,maxLength:8 })}
-                  />{
-                    errors.username && errors.username.type === "maxLength"? (
-                      <div className="errorMsg">
-                        El usuario no puede tener más de 8 caracteres
-                      </div>
-                    ) : null
-                  }
-                  {
-                    errors.username && errors.username.type === "required"? (
-                      <div className="errorMsg">
-                        Este campo es requerido
-                      </div>
-                    ) : null
-                  }
+                    {...register("username", { required: true, maxLength: 8 })}
+                  />
+                  {errors.username && errors.username.type === "maxLength" ? (
+                    <div className="errorMsg">
+                      El usuario no puede tener más de 8 caracteres
+                    </div>
+                  ) : null}
+                  {errors.username && errors.username.type === "required" ? (
+                    <div className="errorMsg">Este campo es requerido</div>
+                  ) : null}
 
                   <label htmlFor="floatingUser">Usuario</label>
                 </div>
@@ -112,27 +105,25 @@ function Register() {
                     id="floatingPassword"
                     {...register("password", { required: true })}
                   />
-                    {
-                    errors.password && errors.password.type === "required"? (
-                      <div className="errorMsg">
-                        Este campo es requerido
-                      </div>
-                    ) : null
-                  }
+                  {errors.password && errors.password.type === "required" ? (
+                    <div className="errorMsg">Este campo es requerido</div>
+                  ) : null}
                   <label htmlFor="floatingPassword">Contraseña</label>
                 </div>
 
                 <div className="d-flex justify-content-center w-100 mt-3">
                   <button className="btn btn-success w-75">Registrarse</button>
                 </div>
-                <div className="align-self-center ">
-                  <Link to={"/login"} className="initLink">
-                    ¿Ya tienes cuenta?
-                  </Link>
-                </div>
+                <div className=" align-self-center  ">
+              
+              <Link to={"/login"} className="initLink">
+                ¿Ya tienes cuenta?
+              </Link>
+            </div>
               </div>
             </form>
           </div>
+        
         </div>
       </div>
     </div>

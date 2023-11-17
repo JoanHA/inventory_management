@@ -150,7 +150,7 @@ li{
   position: relative;
   transition: all 1s;
 }
-.cardFoot:hover{
+.GoLink:hover{
   .arrow{
     margin-left: 8px;
   }

@@ -1,7 +1,7 @@
 import React from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../components/Sidebar";
 
 function Header({ children }) {
   const { isAuthenticated, logOut } = useAuth();
@@ -14,11 +14,11 @@ function Header({ children }) {
         <Sidebar></Sidebar>
         <div id="headerContainer" className="w-100 h-100">
           <nav className="navbar bg-body-tertiary  justify-content-between">
-            <button className="menu-icon" onClick={click}>
+            <button  className={isAuthenticated? "menu-icon": "menu-icon d-none"} onClick={click}>
               <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div className="d-flex flex-row px-5">
+            <div className="d-flex flex-row flex-wrap px-5">
               <a className="navbar-brand  " href="/">
                 Inventario Bioart
               </a>

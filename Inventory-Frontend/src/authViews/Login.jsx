@@ -44,11 +44,11 @@ function Login() {
 
   return (
     <div>
-      <div className="d-flex  align-items-center ">
+      <div className="d-flex  align-items-center justify-content-center">
         <div
           id="form-container"
-          className="  gap-3 py-3 mx-auto mt-4"
-          style={{ width: "40%", maxWidth: "25rem" }}
+          className="  gap-3 py-3  mt-4"
+          style={{ width: "300px", maxWidth: "30rem" }}
         >
           <div className="d-flex justify-content-center flex-column align-items-center">
             <div className="signUpHeader">

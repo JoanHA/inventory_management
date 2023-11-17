@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOneEvent } from "../../../api/events.controller";
+import { getOneEvent } from "../../api/events.controller";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { URI } from "../../../../config";
-import { updateStatus } from "../../../api/events.controller";
+import { URI } from "../../../config";
+import { updateStatus } from "../../api/events.controller";
 import fileDownload from "js-file-download";
 import axios from "axios";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 function View_one_event() {
   const { user } = useAuth();
   //change the status of the status changer

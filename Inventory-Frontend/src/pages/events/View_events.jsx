@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import{ getAllEvents } from "../../../api/events.controller";
+import{ getAllEvents } from "../../api/events.controller";
 
-import Table from "../../../components/Table";
+import Table from "../../components/Table";
 function View_events() {
   const [events, setEvents] = useState([]);
   useEffect(() => {

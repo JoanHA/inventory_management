@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useSyncExternalStore } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import { FaUserCircle, FaUsers } from "react-icons/fa";
@@ -13,7 +13,6 @@ import {FiUserPlus} from "react-icons/fi"
 
 function Sidebar() {
   const { user } = useAuth();
-  
   const [logUser, setLogUser] = useState({});
   const [home, setHome] = useState(true);
   const [userPage, setuserPage] = useState(false);
@@ -21,10 +20,11 @@ function Sidebar() {
   const [equipPage, setEquipPage] = useState(false);
   const [userCreatePage,setuserCreatePage] = useState(false)
   const [addPage, setAddPage] = useState(false);
-
-  function changer(toChange) {
-    switch (toChange) {
-      case "home":
+  const history = useLocation();
+  const [path,setPath]= useState(history.pathname);
+  function changer(path) {
+    switch (path) {
+      case "/":
         setHome(true);
         setAddPage(false);
         setEquipPage(false);
@@ -32,7 +32,7 @@ function Sidebar() {
         setuserPage(false);
         setuserCreatePage(false);
         break;
-      case "userPage":
+      case "/userManagement":
         setHome(false);
         setAddPage(false);
         setEquipPage(false);
@@ -41,7 +41,7 @@ function Sidebar() {
         setuserCreatePage(false);
 
         break;
-      case "eventsPage":
+      case "/events":
         setHome(false);
         setAddPage(false);
         setEquipPage(false);
@@ -50,7 +50,7 @@ function Sidebar() {
         setuserCreatePage(false);
 
         break;
-      case "equipPage":
+      case "/equipments":
         setHome(false);
         setAddPage(false);
         setEquipPage(true);
@@ -59,7 +59,7 @@ function Sidebar() {
         setuserCreatePage(false);
 
         break;
-      case "addPage":
+      case "/create":
         setHome(false);
         setAddPage(true);
         setEquipPage(false);
@@ -68,8 +68,8 @@ function Sidebar() {
         setuserCreatePage(false);
 
         break;
-        case "userCreatePage":
-          
+        case "/createUser":
+
         setHome(false);
         setAddPage(false);
         setEquipPage(false);
@@ -84,12 +84,13 @@ function Sidebar() {
   useEffect(() => {
     setLogUser(user);
   }, [user]);
-  const history = useLocation();
+
 
   useEffect(() => {
     // Add a listener to respond to URL change
     const urlActual = history.pathname;
-
+       setPath(urlActual)
+    
     if (urlActual == "/login" || urlActual == "/register") {
       document.getElementById("sidebarContainer").style.display = "None";
     } else {
@@ -131,11 +132,9 @@ function Sidebar() {
               <Link
                 to="/"
                 className={
-                  home == true ? " SidebarLinks active" : " SidebarLinks"
+                  path == "/" ? " SidebarLinks active" : " SidebarLinks"
                 }
-                onClick={() => {
-                  changer("home");
-                }}
+                
               >
                 <HiOutlineHome size={"2rem"} />
                 <span className="tittles"> Home</span>
@@ -148,13 +147,11 @@ function Sidebar() {
                   <Link
                     to="/userManagement"
                     className={
-                      userPage == true
+                      path == "/userManagement"
                         ? " SidebarLinks active"
                         : " SidebarLinks"
                     }
-                    onClick={() => {
-                      changer("userPage");
-                    }}
+                    
                   >
                     <FaUsers size={"2rem"} />
                     <span className="tittles"> Usuarios</span>
@@ -164,13 +161,11 @@ function Sidebar() {
                   <Link
                     to="/createUser"
                     className={
-                      userCreatePage == true
+                      path == "/createUser"
                         ? " SidebarLinks active"
                         : " SidebarLinks"
                     }
-                    onClick={() => {
-                      changer("userCreatePage");
-                    }}
+                    
                   >
                     <FiUserPlus size={"2rem"} />
                     <span className="tittles"> Crear usuario</span>
@@ -183,11 +178,9 @@ function Sidebar() {
               <Link
                 to="/events"
                 className={
-                  eventsPage == true ? " SidebarLinks active" : " SidebarLinks"
+                  path == "/events" ? " SidebarLinks active" : " SidebarLinks"
                 }
-                onClick={() => {
-                  changer("eventsPage");
-                }}
+                
               >
                 <GiAutoRepair size={"2rem"} />
                 <span className="tittles"> Eventos</span>
@@ -199,9 +192,7 @@ function Sidebar() {
                 className={
                   equipPage == true ? " SidebarLinks active" : " SidebarLinks"
                 }
-                onClick={() => {
-                  changer("equipPage");
-                }}
+                
               >
                 <PiDesktopTower size={"2rem"} />
                 <span className="tittles">Equipos</span>
@@ -211,11 +202,9 @@ function Sidebar() {
               <Link
                 to="/create"
                 className={
-                  addPage == true ? " SidebarLinks active" : " SidebarLinks"
+                  path == "/create" ? " SidebarLinks active" : " SidebarLinks"
                 }
-                onClick={() => {
-                  changer("addPage");
-                }}
+                
               >
                 <AiOutlineAppstoreAdd size={"2rem"} />
                 <span className="tittles">Añadir equipos</span>

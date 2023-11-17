@@ -13,12 +13,10 @@ import {
 } from "@tanstack/react-table";
 
 function Table({ data, columns, editType }) {
-  
   const [sorting, setSorting] = useState([]);
   const [filtering, setFilteting] = useState("");
-  const [pageSize,setPageSize] = useState(window.innerWidth);
- 
-  
+  const [pageSize, setPageSize] = useState(window.innerWidth);
+
   const table = useReactTable({
     data,
     columns,
@@ -34,20 +32,22 @@ function Table({ data, columns, editType }) {
     onGlobalFilterChange: setFilteting,
   });
 
-  window.onresize = (e)=>{
-    setPageSize(window.innerWidth)
-  }
-  useEffect(()=>{
-    if(window.innerWidth < 1148){
-      table.setPageSize(Number(6))
-    }else{
-      table.setPageSize(Number(10))
+  window.onresize = (e) => {
+    setPageSize(window.innerWidth);
+  };
+  useEffect(() => {
+    if (window.innerWidth < 1148) {
+      table.setPageSize(Number(6));
+    } else {
+      table.setPageSize(Number(10));
     }
-  },[pageSize])
- 
+  }, [pageSize]);
+
   return (
     <div>
-      <div className={`d-flex justify-content-between text-center gap-2  flex-wrap align-items-center `}>
+      <div
+        className={`d-flex justify-content-between text-center gap-2  flex-wrap align-items-center `}
+      >
         <div className=" d-flex flex-row  gap-2">
           <label htmlFor="">Filtrar</label>
           <input
@@ -84,11 +84,9 @@ function Table({ data, columns, editType }) {
             <GrPrevious />
           </button>
           <span className="  ">
-            <span>  {table.getState().pagination.pageIndex + 1}</span>
+            <span> {table.getState().pagination.pageIndex + 1}</span>
             <span> de </span>
             <span> {table.getPageCount()}</span>
-          
-           
           </span>
           <button
             className="btn"
@@ -143,7 +141,7 @@ function Table({ data, columns, editType }) {
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} id={row.id}>
                 {row.getVisibleCells().map((cell) => (
                   <>
                     <td key={cell.id}>

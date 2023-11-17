@@ -146,12 +146,15 @@ function EditUser() {
               </div>
               <div>
                 <button
-                  className="btn btn-success"
+                  className="btn btn-success my-2"
                   disabled={editUser.rol == 271 ? true : false}
                 >
                   Editar
                 </button>
-                <button
+                {editUser.rol == 271 ? (
+                  ""
+                ) : (
+                  <button
                   className="btn btn-danger mx-1 my-3"
                   type="button"
                   onClick={deleteUser2}
@@ -159,6 +162,8 @@ function EditUser() {
                 >
                   Eliminar usuario
                 </button>
+                )}
+               
               </div>
             </div>
           </form>

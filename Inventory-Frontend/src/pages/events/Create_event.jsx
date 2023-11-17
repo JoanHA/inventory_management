@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import "../../css/event.css";
-import Add from "../../../components/Add";
+import "../../assets/css/event.css";
+import Add from "../../components/Add";
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { SaveEvent } from "../../lib/saveEvent";
-import { getDevice } from "../../../api/events.controller";
-import { useAuth } from "../../../context/AuthContext";
+import { getDevice } from "../../api/events.controller";
+import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
-import { getEvents_type } from "../../../api/events.controller";
+import { getEvents_type } from "../../api/events.controller";
 function Create_event() {
   //Data from the equipment
   const [event_type, setEventType] = useState([]);

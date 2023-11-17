@@ -1,17 +1,16 @@
-import "../css/create.css";
+import "../assets/css/create.css";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { URI } from "../../../config";
+import { URI } from "../../config";
 import { onDelete } from "../lib/Ondelete";
 import { update } from "../lib/updateEquip.js";
-import Add from "../../components/Add.jsx";
-import edit from "../img/icons/edit.svg";
-import { getOneDevice, getParameters } from "../../api/devices.controller.js";
-import addBtn from "../img/icons/add.svg";
-import del from "../img/icons/delete.svg";
-import { useAuth } from "../../context/AuthContext.jsx";
+import Add from "../components/Add.jsx";
+import edit from "../assets/img/icons/edit.svg";
+import { getOneDevice, getParameters } from "../api/devices.controller.js";
+import addBtn from "../assets/img/icons/add.svg";
+import del from "../assets/img/icons/delete.svg";
+import { useAuth } from "../context/AuthContext.jsx";
 function View_equip() {
   const { user } = useAuth();
   //Use form para obtener los datos del formulario

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Table from "../../components/Table";
-import { getAllDevices } from "../../api/devices.controller";
+import Table from "../components/Table";
+import { getAllDevices } from "../api/devices.controller";
 
 function ViewAllEquip() {
   const [datos, setDatos] = useState([]);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import { Link } from "react-router-dom";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { BiLastPage, BiFirstPage } from "react-icons/bi";
@@ -13,9 +13,12 @@ import {
 } from "@tanstack/react-table";
 
 function Table({ data, columns, editType }) {
+  
   const [sorting, setSorting] = useState([]);
   const [filtering, setFilteting] = useState("");
-
+  const [pageSize,setPageSize] = useState(window.innerWidth);
+ 
+  
   const table = useReactTable({
     data,
     columns,
@@ -31,10 +34,21 @@ function Table({ data, columns, editType }) {
     onGlobalFilterChange: setFilteting,
   });
 
+  window.onresize = (e)=>{
+    setPageSize(window.innerWidth)
+  }
+  useEffect(()=>{
+    if(window.innerWidth < 1148){
+      table.setPageSize(Number(6))
+    }else{
+      table.setPageSize(Number(10))
+    }
+  },[pageSize])
+ 
   return (
     <div>
-      <div className="d-flex justify-content-between text-center flex-row align-items-center">
-        <div className=" d-flex flex-row gap-2">
+      <div className={`d-flex justify-content-between text-center gap-2  flex-wrap align-items-center `}>
+        <div className=" d-flex flex-row  gap-2">
           <label htmlFor="">Filtrar</label>
           <input
             type="text"
@@ -153,6 +167,19 @@ function Table({ data, columns, editType }) {
             ))}
           </tbody>
         </table>
+        {/* <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+          className="p-2 "
+        >
+          {[5, 10, 20, 30, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select> */}
       </div>
     </div>
   );

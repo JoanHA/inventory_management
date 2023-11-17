@@ -18,6 +18,7 @@ export const saveParam = (data)=> axios.post(URI+"api/utils/params",data).then((
                   }).then(()=>{
                     document.querySelector("#addModal").classList.add("inactive");
                     document.querySelector("#valParam").value = ""
+                    return true;
                   })
             }
 })

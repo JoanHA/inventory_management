@@ -8,6 +8,7 @@ import { createEquip } from "../lib/updateEquip";
 import Masive from "./../../components/Masive";
 import { getParameters } from "../../api/devices.controller";
 import { useAuth } from "../../context/AuthContext";
+
 function Create_equip() {
   //Use form para obtener los datos del formulario
   const {
@@ -18,11 +19,12 @@ function Create_equip() {
   } = useForm();
 
   const [parametro, setParametro] = useState();
-const {user} = useAuth()
+  const { user } = useAuth();
   const [marks, setMarks] = useState([]);
   const [type, setType] = useState([]);
   const [disk, SetDisk] = useState([]);
   const [ram, setRam] = useState([]);
+
 
   //Method to save the data un the DB
   const onSubmit = (values) => {
@@ -34,55 +36,66 @@ const {user} = useAuth()
     document.querySelector("#addModal").classList.remove("inactive");
   };
 
+  const getParamFunction = async () => {
+    try {
+      clearErrors();
+      var marcas = [];
+      var rams = [];
+      var equipos = [];
+      var discos = [];
+
+      const res = await getParameters();
+      const datos = res.data; // datos
+      datos.map((dato) => {
+        //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
+
+        switch (dato.paramtype_id) {
+          case 201:
+            marcas.push([dato.id, dato.name]);
+            break;
+          case 203:
+            discos.push([dato.id, dato.name]);
+            break;
+          case 204:
+            rams.push([dato.id, dato.name]);
+            break;
+          case 208:
+            equipos.push([dato.id, dato.name]);
+            break;
+          default:
+            break;
+        }
+      });
+      ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
+      setMarks(marcas);
+      setRam(rams);
+      setType(equipos);
+      SetDisk(discos);
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
   useEffect(() => {
-    clearErrors();
-    var marcas = [];
-    var rams = [];
-    var equipos = [];
-    var discos = [];
-
     const getParams = async () => {
-      try {
-        const res = await getParameters();
-        const datos = res.data; // datos
-        datos.map((dato) => {
-          //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
-
-          switch (dato.paramtype_id) {
-            case 201:
-              marcas.push([dato.id, dato.name]);
-              break;
-            case 203:
-              discos.push([dato.id, dato.name]);
-              break;
-            case 204:
-              rams.push([dato.id, dato.name]);
-              break;
-            case 208:
-              equipos.push([dato.id, dato.name]);
-              break;
-            default:
-              break;
-          }
-        });
-        ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
-        setMarks(marcas);
-        setRam(rams);
-        setType(equipos);
-        SetDisk(discos);
-      } catch (error) {
-        console.error("An error occurred:", error);
-      }
+      getParamFunction();
     };
     getParams();
   }, []);
 
+  const handleSave = () => {
+    getParamFunction();
+  };
   const masive = () => {
     document.getElementById("modalPage").style.display = "Block";
   };
   return (
     <>
-      <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
+      <div>
+        {" "}
+        {parametro && (
+          <Add param={parametro[0]} val={parametro[1]} OnSaving={handleSave} />
+        )}
+      </div>
       <Masive></Masive>
       <div className="event_header">Registrar equipo</div>
       <div className="px-4 py-3">
@@ -191,6 +204,8 @@ const {user} = useAuth()
                   id=""
                   {...register("mark")}
                   className="form-select form-select-sm"
+                 style={{maxHeight:"40px",overflowY:"auto"}}
+                 
                 >
                   <option value="">Selecciona una marca...</option>
 
@@ -199,7 +214,9 @@ const {user} = useAuth()
                       {object[1]}
                     </option>
                   ))}
+                
                 </select>
+            
                 <button
                   type="button"
                   className="btn btn-secondary addBtn"
@@ -385,7 +402,10 @@ const {user} = useAuth()
 
             {/* Boton de envio */}
             <div className="col-md-6">
-              <button className=" btn btn-primary text-center my-3" disabled={user.rol == 272  ? true:false}>
+              <button
+                className=" btn btn-primary text-center my-3"
+                disabled={user.rol == 272 ? true : false}
+              >
                 Agregar
                 <img src={add} alt="" style={{ marginLeft: "10px" }} />
               </button>
@@ -396,9 +416,9 @@ const {user} = useAuth()
                 className="btn btn-secondary"
                 type="button"
                 onClick={masive}
-                disabled={user.rol == 272  ? true:false}
+                disabled={user.rol == 272 ? true : false}
               >
-                Carga masiva{" "}
+                Carga masiva
               </button>
             </div>
           </div>

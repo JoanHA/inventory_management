@@ -14,8 +14,11 @@ function Add(props) {
     });
   }, [props]);
 
-  const onSubmit = (values) => {
-     saveParam(values);
+  const onSubmit = async (values) => {
+      saveParam(values);
+      if(props.OnSaving){
+        props.OnSaving()
+       }
   };
   const {
     register,
@@ -74,10 +77,12 @@ function Add(props) {
                 type="button"
                 className="btn btn-danger"
                 onClick={() => {
+                
                   document.querySelector("#addModal").classList.add("inactive");
                   reset({
                     value: "",
                   });
+                 
                 }}
               >
                 Cancelar

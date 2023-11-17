@@ -24,7 +24,7 @@ router.post("/params", (req, res) => {
       });
       const lastId = idRows[idRows.length - 1];
       db.query(
-        `INSERT INTO params(paramtype_id,name,param_state,id) VALUES(${paramType_Id},'${value}',1,${
+        `INSERT INTO params(paramtype_id,name,param_state,id) VALUES(${paramType_Id},'${value}',1,${143 +
           lastId + 1
         })`,
         (error, result) => {

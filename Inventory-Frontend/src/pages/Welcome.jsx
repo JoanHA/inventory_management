@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 import people from "../assets/img/PeopleLogo.jpg";
 import { MdAddToQueue } from "react-icons/md";
 import { FaUsersGear } from "react-icons/fa6";
-import { PiDesktopTower } from "react-icons/pi";
+import { AiOutlineFundView } from "react-icons/ai";;
 function Welcome() {
   const { user } = useAuth();
   const [pageSize, setPageSize] = useState(window.innerWidth);
@@ -35,7 +35,7 @@ function Welcome() {
         </div>
         <div className="d-flex flex-row mx-4  align-items-center  justify-content-evenly ">
           <div className="d-flex flex-column flex-wrap align-items-center justify-content-center gap-4 mt-5">
-          <Link className="GoLink" to={"/create"}>
+          <Link className="GoLink" to={"/userManagement"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "
                 style={{
@@ -59,7 +59,7 @@ function Welcome() {
                 </div>
               </div>
             </Link>
-           <Link className="GoLink" to={"/userManagement"}>
+           <Link className="GoLink" to={"/create"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "
                 style={{
@@ -93,7 +93,7 @@ function Welcome() {
                   boxShadow: "0px 1px 7px gray",
                 }}
               >
-                <PiDesktopTower size={30} />
+                <AiOutlineFundView size={35} />
                 <div className=" ">
                   <h5 className="my-0 text-center">
                     {" "}

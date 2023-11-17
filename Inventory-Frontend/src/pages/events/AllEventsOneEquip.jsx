@@ -5,24 +5,25 @@ import { Link } from "react-router-dom";
 import { getAll } from "../../api/events.controller";
 import { Helmet } from "react-helmet";
 function AllEventsOneEquip() {
-  const params = useParams();
+  const params = useParams();//Obtener los parametros
 
   const [event, setEvent] = useState([]);
   const [equip, setEquip] = useState({});
-  const [pages, setPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [items, setItems] = useState(0);
 
+  const [pages, setPages] = useState(0); //cantidad de paginas segun la cantidad de eventos
+  const [currentPage, setCurrentPage] = useState(1); //Pagina actual
+  const [items, setItems] = useState(0);   //id del card del evento
+//Obtener los eventos del equipo
   useEffect(() => {
     async function getData() {
       const res = await getAll(params.id);
       setEquip(res.data[0]);
       setEvent(res.data);
-      setPages(Math.ceil(res.data.length / 2));
+      setPages(Math.ceil(res.data.length / 2)); //Sacar numero de paginas
     }
     getData();
   }, []);
-
+//Pasar la pagina
   const nexPage = () => {
     if (currentPage < pages) {
       const item1 = items;
@@ -96,17 +97,19 @@ function AllEventsOneEquip() {
             <>
               <div>
                 <div className="d-flex w-100 align-items-center justify-content-center">
+                  {/* Botones de paginar (Next, Prev) */}
                   <button onClick={prevPage} className="btn mx-1">
                     Anterior
                   </button>
                   <label htmlFor="">
-                    {" "}
                     {currentPage} de {pages}
                   </label>
                   <button onClick={nexPage} className="btn mx-1">
                     Siguiente
                   </button>
                 </div>
+
+              {/* Renderizar eventos */}
                 {event.map((e, i) => (
                   <EventsForm event={event[i]} index={i} />
                 ))}

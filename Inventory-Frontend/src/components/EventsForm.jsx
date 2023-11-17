@@ -1,12 +1,9 @@
 import React from "react";
 import fileDownload from "js-file-download";
-import { useParams } from "react-router-dom";
 import { URI } from "../../config";
 import axios from "axios";
 import "../assets/css/event_container.css"
-function EventsForm({ event,index }) {
-
-  
+function EventsForm({ event,index }) {  
   const handleClick = (url, filename) => {
       axios
         .get(url, {
@@ -16,11 +13,9 @@ function EventsForm({ event,index }) {
           fileDownload(res.data, filename);
         });
     };
-
-
   return (
     <div className={index > 1? "inactive my-2":" my-2"} id={index}>
-      <div className=" event_container row ">
+      <div className=" event_container row flex-wrap ">
         <strong>
           <h5>Evento: {event.event_name}</h5>
         </strong>

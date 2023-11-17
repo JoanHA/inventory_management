@@ -74,11 +74,16 @@ function NewUser() {
                   type="text"
                   className="form-control"
                   placeholder="Nombre de usuario"
-                  {...register("username", { required: true })}
+                  {...register("username", { required: true,maxLength:8 })}
                 />
                 {errors.username?.type == "required" && (
                   <p className="errorMsg mb-0">Este campo es requerido</p>
                 )}
+                 {errors.username && errors.username.type === "maxLength" ? (
+                    <div className="errorMsg">
+                      El nombre de usuario no puede tener más de 8 caracteres
+                    </div>
+                 ):""}
               </div>
               <div className="form-group">
                 <label>Correo</label>

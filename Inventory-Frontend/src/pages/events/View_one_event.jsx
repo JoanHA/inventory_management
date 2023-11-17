@@ -8,6 +8,7 @@ import { updateStatus } from "../../api/events.controller";
 import fileDownload from "js-file-download";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+
 function View_one_event() {
   const { user } = useAuth();
   //change the status of the status changer
@@ -78,10 +79,9 @@ function View_one_event() {
       <div className="d-flex flex-column px-3 py-1">
         {/* equip data */}
         <div className="d-flex  flex-column  ">
-          <div className="event_title">
-            <h2>Equipo</h2>
-          </div>
-          <div className="d-flex gap-3  w-100  flex-row justify-content-center ">
+        
+          <div className="d-flex gap-3  w-100  flex-row justify-content-center  align-items-center ">
+            <h3 className="mt-3 mb-0">Equipo</h3>
             <div className="form-group col-md-2">
               <label htmlFor="">Serial</label>
               <input
@@ -91,7 +91,7 @@ function View_one_event() {
                 className="form-control form-control-sm"
               />
             </div>
-            <div className="form-group  col-md-2">
+            <div className="form-group   col-md-2">
               <label htmlFor="">Equipo</label>
               <input
                 disabled
@@ -110,7 +110,7 @@ function View_one_event() {
 
           <div className="">
             <div className="row mx-auto  w-75">
-              <div className="form-group my-1 col-md-4">
+              <div className="form-group my-1  col-md-4">
                 <div>
                   <label htmlFor="">Nombre del evento</label>
                 </div>
@@ -285,7 +285,7 @@ function View_one_event() {
                   ></textarea>
                 </div>
               </div>
-              <div className="my-3  ">
+              <div className="my-3  d-flex flex-wrap justify-content-center align-items-center">
                 <Link
                   className="btn btn-info  mx-1 py-2"
                   to={`/AllEvents/${equipo}`}

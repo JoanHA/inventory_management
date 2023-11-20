@@ -38,7 +38,7 @@ function Create_equip() {
 
   const getParamFunction = async () => {
     try {
-      clearErrors();
+     
       var marcas = [];
       var rams = [];
       var equipos = [];

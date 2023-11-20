@@ -114,7 +114,7 @@ function EditUser() {
                   type="text"
                   className="form-control"
                   {...register("email")}
-                  disabled
+                
                 />
               </div>
               <div className="form-group">
@@ -138,7 +138,7 @@ function EditUser() {
               </div>
               <div className="form-group">
                 <label>Estado</label>
-                <select className="form-select" {...register("status")}>
+                <select className="form-select" {...register("status")}    disabled={editUser.rol == 271 ? true : false}>
                   <option value="1">Activo</option>
                   <option value="2">Inactivo</option>
                   <option value="3">Eliminado</option>
@@ -154,14 +154,15 @@ function EditUser() {
                 {editUser.rol == 271 ? (
                   ""
                 ) : (
-                  <button
-                  className="btn btn-danger mx-1 my-3"
-                  type="button"
-                  onClick={deleteUser2}
-                  disabled={user.rol == 272 || user.rol==273 ? true:false}
-                >
-                  Eliminar usuario
-                </button>
+                  <div></div>
+                //   <button
+                //   className="btn btn-danger mx-1 my-3"
+                //   type="button"
+                //   onClick={deleteUser2}
+                //   disabled={user.rol == 272 || user.rol==273 ? true:false}
+                // >
+                //   Eliminar usuario
+                // </button>
                 )}
                
               </div>

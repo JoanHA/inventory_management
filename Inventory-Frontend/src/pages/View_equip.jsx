@@ -126,24 +126,37 @@ function View_equip() {
     reset,
     watch,
     clearErrors,
+    handleSubmit,
     formState: { errors },
   } = useForm();
 
   ///guardado de datos para editar
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const data = watch();
-    console.log(data);
-
+  const onSubmit = (data) => {
     async function updateEquips() {
       try {
-        const res = await update(params.id, data);
-        if (res.data.status == 200) {
-          swal.fire("Editado", "", "success").then(() => {
-            location.reload();
-          });
-        }
-      } catch (error) {}
+        Swal.fire({
+          title: "Estas seguro??",
+          text: "No podras revertir esta acción!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Si, editalo!",
+        }).then(async (result) =>{
+          if (result.isConfirmed) {
+            const res = await update(params.id, data);
+            if (res.data.status == 200) {
+              swal.fire("Editado", "", "success").then(() => {
+                location.reload();
+              });
+            }
+          }
+        });
+     
+      } catch (error) {
+        console.log(error)
+        swal.fire("Tuvimos un error al editar, por favor intenta mas tarde","","error")
+      }
     }
     updateEquips();
   };
@@ -158,7 +171,7 @@ function View_equip() {
         </Link>
       </div>
       <div className="px-4 py-2">
-        <form action="" onSubmit={onSubmit}>
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
             {/* Primera fila */}
             <div className="col-12 col-sm-6  col-md-6 ">
@@ -233,7 +246,7 @@ function View_equip() {
               <div className="d-flex flex-row">
                 <select
                   id=""
-                  {...register("mark", { required: true })}
+                  {...register("mark")}
                   className="form-select form-select-sm"
                   defaultValue={equip.mark}
                 >
@@ -267,7 +280,7 @@ function View_equip() {
                   name=""
                   id=""
                   className="form-select form-select-sm"
-                  {...register("equip_type", { required: true })}
+                  {...register("equip_type")}
                 >
                   <option value="">Selecciona el tipo...</option>
                   {type.map((object) => (
@@ -309,7 +322,7 @@ function View_equip() {
                   id=""
                   className="form-select form-select-sm md-3"
                   style={{ width: "80px" }}
-                  {...register("formatRam", { required: true })}
+                  {...register("formatRam")}
                 >
                   <option value="GB" selected={ramQty == "GB" ? true : false}>
                     GB
@@ -336,7 +349,7 @@ function View_equip() {
                   id=""
                   className="form-select form-select-sm md-3 GB-TB"
                   style={{ width: "80px" }}
-                  {...register("formatDisk", { required: true })}
+                  {...register("formatDisk")}
                 >
                   <option value="GB" selected={diskQty == "GB" ? true : false}>
                     GB
@@ -353,7 +366,7 @@ function View_equip() {
               <div className="d-flex flex-row">
                 <select
                   id=""
-                  {...register("ram_type", { required: true })}
+                  {...register("ram_type")}
                   className="form-select form-select-sm"
                 >
                   <option value="">Tipo de ram</option>
@@ -383,7 +396,7 @@ function View_equip() {
               <label htmlFor="">Tipo de disco duro</label>
               <div className="d-flex flex-row">
                 <select
-                  {...register("hard_type", { required: true })}
+                  {...register("hard_type")}
                   id=""
                   className="form-select form-select-sm"
                 >

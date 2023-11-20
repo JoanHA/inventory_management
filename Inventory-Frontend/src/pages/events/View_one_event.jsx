@@ -8,7 +8,7 @@ import { updateStatus } from "../../api/events.controller";
 import fileDownload from "js-file-download";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-
+import "../../assets/css/event.css"
 function View_one_event() {
   const { user } = useAuth();
   //change the status of the status changer
@@ -75,11 +75,15 @@ function View_one_event() {
 
   return (
     <>
-      <div className="event_header mb-2">Evento del equipo</div>
+      <div className="event_header mb-2  d-flex justify-content-between">
+        Evento del equipo{" "}
+        <Link to="/events" className="btn btn-secondary btn-sm">
+          Volver
+        </Link>
+      </div>
       <div className="d-flex flex-column px-3 py-1">
         {/* equip data */}
         <div className="d-flex  flex-column  ">
-        
           <div className="d-flex gap-3  w-100  flex-row justify-content-center  align-items-center ">
             <h3 className="mt-3 mb-0">Equipo</h3>
             <div className="form-group col-md-2">
@@ -104,7 +108,7 @@ function View_one_event() {
         </div>
         {/* Equip event */}
         <div>
-          <div className="event_title">
+          <div className="event_title ">
             <h2>Evento</h2>
           </div>
 
@@ -304,10 +308,6 @@ function View_one_event() {
                     Cambiar estado
                   </button>
                 )}
-
-                <Link to="/events" className="btn btn-secondary">
-                  Volver
-                </Link>
               </div>
             </div>
           </div>

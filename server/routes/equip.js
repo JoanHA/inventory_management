@@ -168,8 +168,10 @@ router.put("/equip/:id", (req, res) => {
     status = ${datos.status},
     serial = '${datos.serial}'
   WHERE id = ${req.params.id};`;
+  console.log(sql)
   
     db.query(sql, (error, result) => {
+      console.log(result)
       if (result.affectedRows < 1) {
      
         res.status(404).send({ status: 404, message: "Equipo no encontrado" });

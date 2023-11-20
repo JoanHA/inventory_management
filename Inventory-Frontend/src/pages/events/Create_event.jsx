@@ -49,8 +49,8 @@ function Create_event() {
       title: "Quieres guardar los cambios?",
       showDenyButton: true,
       showCancelButton: true,
-      confirmButtonText: "Save",
-      denyButtonText: `Don't save`,
+      confirmButtonText: "Guardar",
+      denyButtonText: `No guardar`,
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -91,20 +91,22 @@ function Create_event() {
     setParametro([value, id]);
     document.querySelector("#addModal").classList.remove("inactive");
   };
-
+  const getEvents = async () => {
+    const res = await getEvents_type();
+    if (res.status == 200) {
+      setEventType(res.data);
+    }
+  };
   //useEffect for events_type
   useEffect(() => {
-    const getEvents = async () => {
-      const res = await getEvents_type();
-      if (res.status == 200) {
-        setEventType(res.data);
-      }
-    };
-    getEvents();
+    getEvents()
   }, []);
+  const handleSave = ()=>{
+    getEvents();
+  }
   return (
     <>
-      <div> {parametro && <Add param={parametro[0]} val={parametro[1]} />}</div>
+      <div> {parametro && <Add param={parametro[0]} val={parametro[1]}  OnSaving={handleSave}/>}</div>
 
       <div className="card vh-100 w-100 py-1 px-2" style={{ border: "None" }}>
         <div className="contenedor">
@@ -282,7 +284,7 @@ function Create_event() {
                     type="text"
                     className="form-control form-control-sm "
                     placeholder="Responsable"
-                    style={{ width: "95% ", height: "20px" }}
+                    style={{ width: "90% ", height: "20px" }}
                     value={client}
                     onChange={(e) => {
                       setClient(e.target.value);
@@ -295,7 +297,7 @@ function Create_event() {
                     name=""
                     id=""
                     className="form-select form-select-sm"
-                    style={{ width: "95% " }}
+                    style={{ width: "90% " }}
                     {...register("status")}
                   >
                     <option value="280">Pendiente</option>

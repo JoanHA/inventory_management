@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { URI } from "../../config";
+import DownloadHistorical from "../components/DownloadHistorical.jsx";
 import { onDelete } from "../lib/Ondelete";
 import { update } from "../lib/updateEquip.js";
 import Add from "../components/Add.jsx";
@@ -89,7 +90,7 @@ function View_equip() {
         const disk = diskFormat[0];
         const ramQty = ramFormat[1];
         const diskQty = diskFormat[1];
-        console.log(res.data[0])
+        
 
         setdiskQty(diskQty);
         setramQty(ramQty);
@@ -520,6 +521,7 @@ function View_equip() {
                   )}
                 </>
               )}
+              <DownloadHistorical id={params.id}/>
             </div>
           </div>
         </form>

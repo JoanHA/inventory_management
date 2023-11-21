@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import people from "../assets/img/PeopleLogo.jpg";
 import { MdAddToQueue } from "react-icons/md";
 import { FaUsersGear } from "react-icons/fa6";
-import { AiOutlineFundView } from "react-icons/ai";;
+import { AiOutlineFundView } from "react-icons/ai";
 function Welcome() {
   const { user } = useAuth();
   const [pageSize, setPageSize] = useState(window.innerWidth);
   const [display,setDisplay] = useState("none")
-  window.onresize = (e) => {
+  window.onresize = () => {
     setPageSize(window.innerWidth);
   };
   

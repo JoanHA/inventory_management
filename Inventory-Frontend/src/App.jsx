@@ -5,6 +5,8 @@ import { ProtectedRoute } from "./authViews/ProtectedRoute";
 import { IsAdmin } from "./components/IsAdmin";
 import Spinner from "./components/Spinner";
 //Lazy imports
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 
 const Header = lazy(() => import("./layouts/Header"));
 // const Spinner = lazy(() => import("./components/Spinner"));

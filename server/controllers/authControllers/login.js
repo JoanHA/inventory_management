@@ -81,11 +81,10 @@ router.post("/register", async (req, res) => {
    
 
     //Search same email
-    db.query("SELECT * from users where email = ?", [email], (err, result) => {
+    db.query("SELECT * from users where email = ? or username = ? ", [email,username], (err, result) => {
       if (result.length > 0) {
-        console.log("Hay error");
         error = true;
-        res.status(401).send(["Ese correo ya esta registrado"]);
+        res.status(401).send(["Ese correo/usuario ya esta registrado"]);
         return;
       } else {
         //Save user

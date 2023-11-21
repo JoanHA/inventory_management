@@ -78,9 +78,10 @@ router.post("/create", async (req, res) => {
     //Create the user
 
     // Search same email
-    db.query("SELECT * from users where email = ?", [email], (err, result) => {
+    db.query("SELECT * from users where email = ? or username = ? ", [email,username], (err, result) => {
+    
       if (result.length > 0) {
-        res.status(401).send(["Ese correo ya esta registrado"]);
+        res.status(401).send(["Ese Usuario/Correo ya esta registrado"]);
         return;
       } else {
         //Save user
@@ -89,7 +90,6 @@ router.post("/create", async (req, res) => {
             console.log(err);
             return;
           }
-          console.log(result)
           res.send("Usuario guardado cn exito");
         });
       }

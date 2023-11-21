@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import "../assets/css/create.css";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
@@ -18,7 +20,6 @@ function View_equip() {
   //id del equipo
   const params = useParams();
   //ENDPOINT
-  const url = URI;
 
   //datos del  equipo
   const [equip, setEquip] = useState({});
@@ -32,7 +33,44 @@ function View_equip() {
 
   const [parametro, setParametro] = useState();
 
-  //Method to save the data un the DB
+  const fillSelects = async () => {
+    try {
+      var marcas = [];
+      var rams = [];
+      var equipos = [];
+      var discos = [];
+
+      const res = await getParameters();
+      const datos = res.data; // datos
+      datos.map((dato) => {
+        //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
+
+        switch (dato.paramtype_id) {
+          case 201:
+            marcas.push([dato.id, dato.name]);
+            break;
+          case 203:
+            discos.push([dato.id, dato.name]);
+            break;
+          case 204:
+            rams.push([dato.id, dato.name]);
+            break;
+          case 208:
+            equipos.push([dato.id, dato.name]);
+            break;
+          default:
+            break;
+        }
+        ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
+        setMarks(marcas);
+        setRam(rams);
+        setType(equipos);
+        SetDisk(discos);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //llenado de datos del equipo
   useEffect(() => {
@@ -41,6 +79,7 @@ function View_equip() {
         const id = params.id;
         const res = await getOneDevice(id);
         const equipData = res.data[0];
+      
         setEquip(res.data[0]);
 
         //Darle formato a el valor de ram y disco duro
@@ -50,9 +89,11 @@ function View_equip() {
         const disk = diskFormat[0];
         const ramQty = ramFormat[1];
         const diskQty = diskFormat[1];
+        console.log(res.data[0])
 
         setdiskQty(diskQty);
         setramQty(ramQty);
+       
         reset({
           name: equipData.name,
           model: equipData.model,
@@ -65,45 +106,7 @@ function View_equip() {
           antivirus: equipData.antivirus,
           ram: ram,
           hard_disk: disk,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fillSelects = async () => {
-      try {
-        var marcas = [];
-        var rams = [];
-        var equipos = [];
-        var discos = [];
-
-        const res = await getParameters();
-        const datos = res.data; // datos
-        datos.map((dato) => {
-          //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
-
-          switch (dato.paramtype_id) {
-            case 201:
-              marcas.push([dato.id, dato.name]);
-              break;
-            case 203:
-              discos.push([dato.id, dato.name]);
-              break;
-            case 204:
-              rams.push([dato.id, dato.name]);
-              break;
-            case 208:
-              equipos.push([dato.id, dato.name]);
-              break;
-            default:
-              break;
-          }
-          ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
-          setMarks(marcas);
-          setRam(rams);
-          setType(equipos);
-          SetDisk(discos);
+       
         });
       } catch (error) {
         console.log(error);
@@ -125,13 +128,11 @@ function View_equip() {
     register,
     reset,
     watch,
-    clearErrors,
     handleSubmit,
-    formState: { errors },
   } = useForm();
 
   ///guardado de datos para editar
-  const onSubmit = (data) => {
+  const onSubmit =  async (data) => {
     async function updateEquips() {
       try {
         Swal.fire({
@@ -155,10 +156,13 @@ function View_equip() {
      
       } catch (error) {
         console.log(error)
+        // eslint-disable-next-line no-undef
         swal.fire("Tuvimos un error al editar, por favor intenta mas tarde","","error")
       }
     }
     updateEquips();
+ 
+
   };
 
   return (
@@ -171,7 +175,7 @@ function View_equip() {
         </Link>
       </div>
       <div className="px-4 py-2">
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
             {/* Primera fila */}
             <div className="col-12 col-sm-6  col-md-6 ">
@@ -234,7 +238,6 @@ function View_equip() {
               <input
                 type="text"
                 {...register("serial", { required: true })}
-                id=""
                 className="form-control form-control-sm"
                 placeholder="Código de serie"
                 disabled
@@ -245,21 +248,23 @@ function View_equip() {
               <label htmlFor="">Marca</label>
               <div className="d-flex flex-row">
                 <select
-                  id=""
-                  {...register("mark")}
+                  {...register("mark",{required:true})}
                   className="form-select form-select-sm"
                   defaultValue={equip.mark}
                 >
                   <option value="">Selecciona una marca...</option>
-                  {marks.map((object) => (
-                    <option
-                      key={object[0]}
-                      value={object[0]}
-                      selected={equip.mark_name == object[1] ? true : false}
-                    >
-                      {object[1]}
-                    </option>
-                  ))}
+                  <option value={equip.mark} selected >{equip.mark_name}</option>
+                  {marks.map((object) => {
+                    return (
+                      <option key={object[0]} value={object[0]} className={equip.mark == object[0] ? "d-none":""}>
+                        {object[1]}
+                      </option>
+                    );
+                 
+                   
+                      }  )}
+
+                 
                 </select>
                 <button
                   type="button"
@@ -278,15 +283,16 @@ function View_equip() {
               <div className="d-flex flex-row">
                 <select
                   name=""
-                  id=""
                   className="form-select form-select-sm"
                   {...register("equip_type")}
                 >
                   <option value="">Selecciona el tipo...</option>
+                  <option value={equip.equipment_type} selected >{equip.equipment_type_name}</option>
                   {type.map((object) => (
                     <option
                       key={object[0]}
                       value={object[0]}
+                      className={equip.equipment_type == object[0] ? "d-none":""}
                       selected={
                         equip.equipment_type_name == object[1] ? true : false
                       }
@@ -313,13 +319,11 @@ function View_equip() {
                 <input
                   type="number"
                   {...register("ram", { required: true })}
-                  id=""
                   className="form-control form-control-sm GB-TB"
                   placeholder="0"
                 />
                 <select
                   name=""
-                  id=""
                   className="form-select form-select-sm md-3"
                   style={{ width: "80px" }}
                   {...register("formatRam")}
@@ -370,11 +374,12 @@ function View_equip() {
                   className="form-select form-select-sm"
                 >
                   <option value="">Tipo de ram</option>
-
+                  <option value={equip.ram_type} selected >{equip.ram_type_name}</option>
                   {ram.map((object) => (
                     <option
                       key={object[0]}
                       value={object[0]}
+                      className={equip.ram_type == object[0] ? "d-none":""}
                       selected={equip.ram_type_name == object[1] ? true : false}
                     >
                       {object[1]}
@@ -401,7 +406,7 @@ function View_equip() {
                   className="form-select form-select-sm"
                 >
                   <option value="">Selecciona el tipo...</option>
-
+                  <option value={equip.hard_type} selected >{equip.hard_type_name}</option>
                   {disk.map((object) => (
                     <option
                       key={object[0]}

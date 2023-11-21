@@ -16,8 +16,8 @@ router.get("/equip", (req, res) => {
     const sql =
     "SELECT equipments.*, params.name as paramName,(SELECT name from params where params.id = equipments.status) AS statusName FROM equipments INNER JOIN params on params.id = equipments.mark WHERE equipments.status <> 3";
   db.query(sql, (err, result) => {
-    
-    res.send(result);
+   
+    res.status(200).send(result);
   });
   } catch (error) {
     console.log(error)
@@ -168,9 +168,11 @@ router.put("/equip/:id", (req, res) => {
     status = ${datos.status},
     serial = '${datos.serial}'
   WHERE id = ${req.params.id};`;
-  console.log(sql)
+
   
     db.query(sql, (error, result) => {
+     if(error){return res.status(500).send({ error: "Tuvimos un error"})}
+
       console.log(result)
       if (result.affectedRows < 1) {
      

@@ -201,12 +201,72 @@ router.get("/equip/historical/:id", (req, res) => {
   const equipId = req.params.id;
 
   const sql = `
-  SELECT equipments.*,equipments.id as equipID ,events.id as eventID, events.*,
-      (SELECT name FROM params WHERE params.id = equipments.mark) AS mark_name,
-      (SELECT name FROM params WHERE params.id = equipments.equipment_type) AS equipment_type_name,
-      (SELECT name FROM params WHERE params.id = equipments.ram_type) AS ram_type_name, 
-      (SELECT name FROM params WHERE params.id = equipments.hard_type) AS hard_type_name 
-      FROM equipments  INNER JOIN events on events.equip= equipments.id where equipments.id = ${equipId}`;
+  SELECT 
+    e.name AS equipment_name,
+    e.created_at,
+    e.user,
+    e.id AS equipID,
+    e.office,
+    e.serial,
+    e.mark,
+    e.model,
+    e.equipment_type,
+    e.ram,
+    e.ram_type,
+    e.hard_disk,
+    e.proccesor,
+    e.system,
+    e.antivirus,
+    e.description,
+    e.status,
+    ev.id AS eventID,
+    ev.name AS eventName,
+    ev.description AS eventDescription,
+    ev.file,
+    ev.importance,
+    ev.client,
+    ev.event_reason,
+    ev.equip,
+    ev.created_by,
+    ev.created_at AS eventCreatedAt,
+    pm.name AS mark_name,
+    pet.name AS equipment_type_name,
+    prm.name AS ram_type_name,
+    pht.name AS hard_type_name,
+    pst.name AS status_name,
+
+    pevt.name AS event_type_name,
+    pim.name AS event_importance,
+    pevst.name AS event_status_name,
+    prs.name AS event_reason_name,
+    u.username AS event_created_by_name
+FROM 
+    equipments e
+INNER JOIN 
+    events ev ON ev.equip = e.id
+LEFT JOIN 
+    params pm ON pm.id = e.mark
+LEFT JOIN 
+    params pet ON pet.id = e.equipment_type
+LEFT JOIN 
+    params prm ON prm.id = e.ram_type
+LEFT JOIN 
+    params pht ON pht.id = e.hard_type
+LEFT JOIN 
+    params pst ON pst.id = e.status 
+LEFT JOIN 
+    params pevt ON pevt.id = ev.event_type
+LEFT JOIN 
+    params pim ON pim.id = ev.importance
+LEFT JOIN 
+    params pevst ON pevst.id = ev.status
+LEFT JOIN 
+      params prs ON prs.id = ev.event_reason
+LEFT JOIN
+    users u ON u.id = ev.created_by
+WHERE 
+    e.id = ${equipId}`;
+
       db.query(sql, (error, result) => {
         if(error){
           res.status(500).send("Error")
@@ -214,7 +274,7 @@ router.get("/equip/historical/:id", (req, res) => {
           return;
         }
         if (result.length <= 0) {
-          res.send({ status: 404, message: "Equipo no tiene eventos" });
+          res.status(404).send({ status: 404, message: "Equipo no tiene eventos" });
           return;
         }
         res.send(result);

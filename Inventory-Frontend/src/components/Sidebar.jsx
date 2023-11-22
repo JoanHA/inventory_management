@@ -1,86 +1,24 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import { FaUserCircle, FaUsers } from "react-icons/fa";
 import { LiaEditSolid } from "react-icons/lia";
 import { GiAutoRepair } from "react-icons/gi";
-import { PiDesktopTower } from "react-icons/pi";
+import { PiDesktopTower, PiUserCirclePlusLight   } from "react-icons/pi";
 import logo from "../assets/img/logoBioart.png";
 import { Link } from "react-router-dom";
 import { HiOutlineHome } from "react-icons/hi";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import {FiUserPlus} from "react-icons/fi"
-
+import { BiSolidUserDetail } from "react-icons/bi";
+import { TbUsersPlus } from "react-icons/tb";
 function Sidebar() {
   const { user } = useAuth();
-  const [logUser, setLogUser] = useState({});
-  const [home, setHome] = useState(true);
-  const [userPage, setuserPage] = useState(false);
-  const [eventsPage, setEventsPage] = useState(false);
-  const [equipPage, setEquipPage] = useState(false);
-  const [userCreatePage,setuserCreatePage] = useState(false)
-  const [addPage, setAddPage] = useState(false);
+  const [logUser, setLogUser] = useState({}); 
   const history = useLocation();
   const [path,setPath]= useState(history.pathname);
-  function changer(path) {
-    switch (path) {
-      case "/":
-        setHome(true);
-        setAddPage(false);
-        setEquipPage(false);
-        setEventsPage(false);
-        setuserPage(false);
-        setuserCreatePage(false);
-        break;
-      case "/userManagement":
-        setHome(false);
-        setAddPage(false);
-        setEquipPage(false);
-        setEventsPage(false);
-        setuserPage(true);
-        setuserCreatePage(false);
 
-        break;
-      case "/events":
-        setHome(false);
-        setAddPage(false);
-        setEquipPage(false);
-        setEventsPage(true);
-        setuserPage(false);
-        setuserCreatePage(false);
-
-        break;
-      case "/equipments":
-        setHome(false);
-        setAddPage(false);
-        setEquipPage(true);
-        setEventsPage(false);
-        setuserPage(false);
-        setuserCreatePage(false);
-
-        break;
-      case "/create":
-        setHome(false);
-        setAddPage(true);
-        setEquipPage(false);
-        setEventsPage(false);
-        setuserPage(false);
-        setuserCreatePage(false);
-
-        break;
-        case "/createUser":
-
-        setHome(false);
-        setAddPage(false);
-        setEquipPage(false);
-        setEventsPage(false);
-        setuserPage(false);
-        setuserCreatePage(true);
-        break;
-      default:
-        break;
-    }
-  }
   useEffect(() => {
     setLogUser(user);
   }, [user]);
@@ -167,8 +105,22 @@ function Sidebar() {
                     }
                     
                   >
-                    <FiUserPlus size={"2rem"} />
+                    <PiUserCirclePlusLight   size={"2rem"} />
                     <span className="tittles"> Crear usuario</span>
+                  </Link>
+                </li>
+                <li className="sidebarLi">
+                  <Link
+                    to="/createWorker"
+                    className={
+                      path == "/createWorker"
+                        ? " SidebarLinks active"
+                        : " SidebarLinks"
+                    }
+                    
+                  >
+                    <TbUsersPlus  size={"2rem"} />
+                    <span className="tittles"> Crear Colaborador</span>
                   </Link>
                 </li>
               </>
@@ -190,12 +142,24 @@ function Sidebar() {
               <Link
                 to="/equipments"
                 className={
-                  equipPage == true ? " SidebarLinks active" : " SidebarLinks"
+                  path == "/equipments" ? " SidebarLinks active" : " SidebarLinks"
                 }
                 
               >
                 <PiDesktopTower size={"2rem"} />
                 <span className="tittles">Equipos</span>
+              </Link>
+            </li>
+            <li>
+              <Link to={"/Workers"}
+                className={
+                  path == "/Workers" ? " SidebarLinks active" : " SidebarLinks"
+                }
+              >
+                <BiSolidUserDetail   size={"2rem"} fill="#fff"/>
+                <span className="tittles">Colaboradores</span>
+
+
               </Link>
             </li>
             <li className="sidebarLi">

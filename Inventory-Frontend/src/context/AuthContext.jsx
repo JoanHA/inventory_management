@@ -40,6 +40,7 @@ useEffect(()=>{
   const GetIn = async (data) => {
     try {
       const res = await Login(data);
+   
       if (res.status === 200) {
         setisAuthenticated(true);
         setUser(res.data.data.user);
@@ -48,6 +49,7 @@ useEffect(()=>{
         return res;
       }
     } catch (error) {
+   
       setLoading(false);
       setErrores(error.response.data)
       setisAuthenticated(false)

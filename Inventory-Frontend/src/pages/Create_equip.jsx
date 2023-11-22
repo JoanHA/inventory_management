@@ -345,7 +345,7 @@ function Create_equip() {
                 </select>
                 <button
                   type="button"
-                  className="btn btn-secondary addBtn"
+                  className="btn btn-secondary btn-sm   d-flex align-items-center    addBtn "
                   onClick={() => {
                     openView("Tipo de disco duro", "203");
                   }}

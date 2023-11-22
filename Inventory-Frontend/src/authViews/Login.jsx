@@ -15,7 +15,7 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const res = await GetIn(data);
-
+    
       if (Errores == null) {
         if (res.data.status == 200) {
           Swal.fire({

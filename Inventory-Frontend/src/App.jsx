@@ -17,6 +17,8 @@ const ViewAllEquip = lazy(() => import("./pages/ViewAllEquip"));
 const Create_event = lazy(() => import("./pages/events/Create_event"));
 const Register = lazy(() => import("./authViews/Register"));
 const Login = lazy(() => import("./authViews/Login"));
+const Workers = lazy(() => import("./pages/workers/Workers"));
+const CreateWorker = lazy(() => import("./pages/workers/CreateWorker"));
 const View_events = lazy(() => import("./pages/events/View_events"));
 const View_one_event = lazy(() =>
   import("./pages/events/View_one_event")
@@ -53,6 +55,8 @@ function App() {
                     path="/AllEvents/:id"
                     element={<AllEventsOneEquip />}
                   />
+                  <Route  path="/workers" element={<Workers/>}  />
+                  <Route path ="/createWorker"  element={<CreateWorker/>}/>
                   <Route path="/editUser/:id" element={<EditUser />} />
                   <Route element={<IsAdmin />}>
                     <Route

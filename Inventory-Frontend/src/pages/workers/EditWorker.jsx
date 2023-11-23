@@ -1,13 +1,11 @@
-/* eslint-disable no-unused-vars */
-import { Link } from "react-router-dom"
-import Form from "../../components/Form"
-
-function CreateWorker() {
-
- return(
-  <div>
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Form from '../../components/Form'
+function EditWorker() {
+  return (
+    <div>
      <div className="event_header d-flex justify-content-between p">
-        Crear colaboradores
+        Editar colaboradores
         <Link>
           <button className="btn btn-secondary btn-sm my-0">Volver</button>
         </Link>
@@ -16,8 +14,8 @@ function CreateWorker() {
         <Form/>
         
       </div>
-  </div>
+    </div>
   )
 }
 
-export default CreateWorker
+export default EditWorker

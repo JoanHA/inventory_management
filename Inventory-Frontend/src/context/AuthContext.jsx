@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 useEffect(()=>{
   const time = setTimeout(()=>{
     setErrores(null)
-  },5000)
+  },3000)
   return ()=>{
     clearTimeout(time)
   }

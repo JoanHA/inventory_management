@@ -483,7 +483,7 @@ function View_equip() {
             </div>
 
             {/* Boton de envio */}
-            <div className="col-md-6">
+            <div className="col-md-12">
               <button
                 className="btn btn-success text-center my-3"
                 disabled={user.rol == 272 ? true : false}
@@ -491,6 +491,12 @@ function View_equip() {
                 <img src={edit} alt="" />
                 <span className="px-1">Editar</span>
               </button>
+              <Link
+                  className="btn btn-dark mx-1 py-2 "
+                  to={`/AllEvents/${params.id}`}
+                >
+                  Ver eventos de este equipo
+                </Link>
 
               {user.rol == 272 ? (
                 " "

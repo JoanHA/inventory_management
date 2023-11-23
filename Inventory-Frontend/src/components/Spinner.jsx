@@ -4,12 +4,12 @@ function Spinner() {
   return (
     <>
       <div className="d-flex flex-column  justify-content-center align-items-center mt-2">
-        <div className="">
+        <div className="py-5 mt-5">
        
           <h1>Cargando...</h1>
        
         </div>
-        <div className="d-flex justify-content-center align-items-center h-100 w-100 mt-5 py-5">
+        <div className="d-flex justify-content-center align-items-center h-100 w-100 py-5">
           <div
             className="spinner-grow text-primary"
             role="status"

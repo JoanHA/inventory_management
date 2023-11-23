@@ -15,7 +15,7 @@ function Workers() {
   const columns = [
     {
       header: "Identificación",
-      accessorKey: "nit",
+      accessorKey: "dni",
     },
     {
       header: "Nombre",
@@ -43,9 +43,9 @@ function Workers() {
         </Link>
       </div>
 
-      <div className="px-4 py-4 ">
-        <div className="d-flex w-100 justify-content-end ">
-          <Link to={"/createWorker"}>
+      <div className="px-4 py-0 ">
+        <div className="d-flex w-100 justify-content-end mt-1 ">
+        <Link to={"/createWorker"}>
           <button className=" btn-primary btn btn-sm">Nuevo usuario</button>
           </Link>
          

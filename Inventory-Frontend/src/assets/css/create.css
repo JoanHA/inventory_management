@@ -6,8 +6,10 @@
 
 }
 .addBtn{
+    display: flex;
+    align-items: center;
     border-radius: 0;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    height: 31px;
+    height: 31px !important;
 }

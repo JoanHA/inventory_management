@@ -1,107 +1,26 @@
 import "../assets/css/create.css";
-import add from "../assets/img/icons/add.svg";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Add from "../components/Add";
-import { createEquip } from "../lib/updateEquip";
-import Masive from "../components/Masive";
-import { getParameters } from "../api/devices.controller";
-import { useAuth } from "../context/AuthContext";
+
+import DevicesForm from "../components/DevicesForm";
 
 function Create_equip() {
-  //Use form para obtener los datos del formulario
-  const {
-    register,
-    handleSubmit,
-    clearErrors,
-    formState: { errors },
-  } = useForm();
 
-  const [parametro, setParametro] = useState();
-  const { user } = useAuth();
-  const [marks, setMarks] = useState([]);
-  const [type, setType] = useState([]);
-  const [disk, SetDisk] = useState([]);
-  const [ram, setRam] = useState([]);
-
-
-  //Method to save the data un the DB
-  const onSubmit = (values) => {
-    createEquip(values);
-  };
-  const openView = (value, id) => {
-    setParametro([value, id]);
-
-    document.querySelector("#addModal").classList.remove("inactive");
-  };
-
-  const getParamFunction = async () => {
-    try {
-     
-      var marcas = [];
-      var rams = [];
-      var equipos = [];
-      var discos = [];
-
-      const res = await getParameters();
-      const datos = res.data; // datos
-      datos.map((dato) => {
-        //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
-
-        switch (dato.paramtype_id) {
-          case 201:
-            marcas.push([dato.id, dato.name]);
-            break;
-          case 203:
-            discos.push([dato.id, dato.name]);
-            break;
-          case 204:
-            rams.push([dato.id, dato.name]);
-            break;
-          case 208:
-            equipos.push([dato.id, dato.name]);
-            break;
-          default:
-            break;
-        }
-      });
-      ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
-      setMarks(marcas);
-      setRam(rams);
-      setType(equipos);
-      SetDisk(discos);
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-  };
-  useEffect(() => {
-    const getParams = async () => {
-      getParamFunction();
-    };
-    getParams();
-  }, []);
-
-  const handleSave = () => {
-    getParamFunction();
-  };
-  const masive = () => {
-    document.getElementById("modalPage").style.display = "Block";
-  };
+  // };
   return (
     <>
-      <div>
+      {/* <div>
         {" "}
         {parametro && (
           <Add param={parametro[0]} val={parametro[1]} OnSaving={handleSave} />
         )}
       </div>
-      <Masive></Masive>
+      <Masive></Masive> */}
       <div className="event_header">Registrar equipo</div>
-      <div className="px-4 py-3">
+      <DevicesForm/>
+
+      {/* <div className="px-4 py-3">
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
-            {/* Primera fila */}
+            {/* Primera fila 
             <div className="col-12 col-sm-6  col-md-6 ">
               <label htmlFor=""> Nombre del equipo</label>
               <input
@@ -132,7 +51,7 @@ function Create_equip() {
                 </p>
               )}
             </div>
-            {/* Segunda fila */}
+            {/* Segunda fila 
             <div className=" col-6 col-sm-6 col-md-6">
               <label htmlFor=""> Modelo</label>
               <input
@@ -163,7 +82,7 @@ function Create_equip() {
                 </p>
               )}
             </div>
-            {/* Tercera fila */}
+            {/* Tercera fila 
             <div className="col-md-12">
               <label htmlFor="">Descripcion</label>
               <textarea
@@ -180,7 +99,7 @@ function Create_equip() {
                 </p>
               )}
             </div>
-            {/* cuarta fila */}
+            {/* cuarta fila 
             <div className=" col-12 col-sm-6 col-md-4">
               <label htmlFor="">Serial</label>
               <input
@@ -256,7 +175,7 @@ function Create_equip() {
                 </button>
               </div>
             </div>
-            {/* Quinta fila */}
+            {/* Quinta fila 
             <div className="col-12 col-sm-6 col-md-3 ">
               <label htmlFor="">Cantidad de ram</label>
               <div className="d-flex align-item-center justify-content-center">
@@ -354,7 +273,7 @@ function Create_equip() {
                 </button>
               </div>
             </div>
-            {/* Sexta fila */}
+            {/* Sexta fila 
             <div className="col-md-3">
               <label htmlFor="">Procesador</label>
               <input
@@ -375,7 +294,7 @@ function Create_equip() {
                 placeholder="Nombre del sistema operativo"
               />
             </div>
-            {/* Septima fila */}
+            {/* Septima fila *
             <div className="col-md-2">
               <label htmlFor="">Estado del equipo</label>
               <select
@@ -400,7 +319,7 @@ function Create_equip() {
               />
             </div>
 
-            {/* Boton de envio */}
+            {/* Boton de envio 
             <div className="col-md-6">
               <button
                 className=" btn btn-primary text-center my-3"
@@ -423,7 +342,7 @@ function Create_equip() {
             </div>
           </div>
         </form>
-      </div>
+      </div> */}
     </>
   );
 }

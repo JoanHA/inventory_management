@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { validate } from "../lib/validations";
+
 import MasiveWorkers from "./MasiveWorkers";
 import {
   createWorkers,

@@ -86,11 +86,13 @@ function Login() {
                     type="password"
                     className="form-control form-control-sm inputs"
                     id="floatingPassword"
-                    {...register("password", { required: true })}
+                    {...register("password", { required: true})}
                   />
                   {errors.password?.type === "required" && (
                     <p className="errorMsg">Este campo es requerido</p>
                   )}
+                  
+
                   <label htmlFor="floatingPassword">Contraseña</label>
                 </div>
                 {/* <div className="align-self-end ">
@@ -103,7 +105,6 @@ function Login() {
                 </div>
                 <div className="align-self-center ">
                   <Link to={"/register"} className="w-75  initLink">
-                    {" "}
                     No tengo cuenta
                   </Link>
                 </div>

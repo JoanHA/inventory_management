@@ -9,7 +9,6 @@ import Spinner from "./components/Spinner";
 /* eslint-disable no-unused-vars */
 
 const Header = lazy(() => import("./layouts/Header"));
-// const Spinner = lazy(() => import("./components/Spinner"));
 const Create_equip = lazy(() => import("./pages/Create_equip"));
 const Welcome = lazy(() => import("./pages/Welcome"));
 const View_equip = lazy(() => import("./pages/View_equip"));
@@ -39,7 +38,6 @@ function App() {
           <BrowserRouter>
             <Header>
               <Routes>
-            
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/table" element={<Table editType="editUser" />} />

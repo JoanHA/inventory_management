@@ -39,7 +39,7 @@ function ViewAllEquip() {
     },
     {
       header: "Responsable",
-      accessorKey: "user",
+      accessorKey: "user_name",
     },
   ];
 

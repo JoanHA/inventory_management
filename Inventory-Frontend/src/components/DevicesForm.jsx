@@ -4,11 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import Add from "./Add";
 import Masive from "./Masive";
 import { useAuth } from "../context/AuthContext";
-import { getParameters } from "../api/devices.controller";
+import { getParameters, getOneDevice, onDelete } from "../api/devices.controller";
 import "./../assets/css/create.css";
 import { getWorkers } from "../api/workers.controllers";
-
-import { MdOutlineFileDownload  } from "react-icons/md";
+import DownloadHistorical from "./DownloadHistorical";
+import { MdOutlineFileDownload, MdDelete } from "react-icons/md";
+import { createEquip, update } from "../api/devices.controller";
+import FileList from "./FileList";
+import { saveFiles } from "../api/devices.controller";
 function DevicesForm() {
   //Constantes
   const params = useParams();
@@ -21,6 +24,11 @@ function DevicesForm() {
   const [ram, setRam] = useState([]);
   const [workers, setWorkers] = useState([]);
   const [isPhone, SetIsPhone] = useState(false);
+
+  const [equip, setEquip] = useState({});
+  const [ramQty, setramQty] = useState("");
+  const [diskQty, setdiskQty] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -72,16 +80,56 @@ function DevicesForm() {
       console.error("An error occurred:", error);
     }
   };
+
+  //Guardar/editar datos
   const onSubmit = async (data) => {
-    // createEquip(data);
-    console.log(data);
+    //Editando
+    if (params.id) {
+      const res = await update(params.id, data);
+    
+      if (data.files.length > 0) {
+        try {
+          const formData = new FormData();
+          for (let i = 0; i < data.files.length; i++) {
+            formData.append("files", data.files[i]);
+          }
+          const res = await saveFiles(params.id, formData);
+       
+          if (res.status == 200) {
+            swal.fire("Datos actualizados", "", "success").then(() => {
+              window.location.reload();
+            });
+          }
+        } catch (error) {
+          swal.fire("El archivo que le agregaste al equipo no se pudo agregar, intenta mas tarde","","error")
+        }
+      }
+      //creando
+    } else {
+      const formData = new FormData();
+
+      for (let i = 0; i < data.files.length; i++) {
+        formData.append("files", data.files[i]);
+      }
+      for (const key in data) {
+        if (key !== "files") {
+          formData.append(key, data[key]);
+        }
+      }
+      await createEquip(formData);
+    }
   };
+
+  //Recargar los selects si se crea un nuevo parametro
   const handleSave = () => {
     getParamFunction();
   };
+
+  //Abrir la vista para la carga masiva
   const masive = () => {
     document.getElementById("modalPage").style.display = "Block";
   };
+  //Llenar los select de los trabajadore
   const getWork = async () => {
     try {
       const res = await getWorkers();
@@ -90,6 +138,7 @@ function DevicesForm() {
       console.log(error);
     }
   };
+  //Ver si esta llenando un telefono o un equip aparte
   const handleChange = () => {
     const valor = document.getElementById("selectChanger").value;
     if (valor == 263) {
@@ -98,12 +147,57 @@ function DevicesForm() {
       SetIsPhone(false);
     }
   };
+  //LLenanr los campos del equipo
+  const getOne = async () => {
+    try {
+      const id = params.id;
+      const res = await getOneDevice(id);
+      const equipData = res.data[0];
+
+      setEquip(res.data[0]); //Darle formato a el valor de ram y disco duro
+      var ramFormat = equipData.ram.toString().split(" ");
+      var diskFormat = equipData.hard_disk.toString().split(" ");
+      const ram = ramFormat[0];
+      const disk = diskFormat[0];
+      const ramQty = ramFormat[1];
+      const diskQty = diskFormat[1];
+
+      setdiskQty(diskQty);
+      setramQty(ramQty);
+
+      reset({
+        name: equipData.name,
+        model: equipData.model,
+        serial: equipData.serial,
+        user: equipData.user,
+        office: equipData.office,
+        description: equipData.description,
+        proccesor: equipData.proccesor,
+        system: equipData.system,
+        antivirus: equipData.antivirus,
+        ram: ram,
+        hard_disk: disk,
+        status: equipData.status,
+        bought_at: equipData.bought_at.replaceAll("/", "-"),
+        deliver_at: equipData.deliver_at.replaceAll("/", "-"),
+        init_value: equipData.init_value,
+        final_value: equipData.final_value,
+        sub_value: equipData.sub_value,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //--------------------------------------------
 
   //UseEffects
   useEffect(() => {
     getWork();
     getParamFunction();
+
+    if (params.id) {
+      getOne();
+    }
   }, []);
 
   return (
@@ -121,7 +215,7 @@ function DevicesForm() {
         </div>
         <Masive></Masive>
       </div>
-
+      <FileList  id ={params.id}/>
       <div className="px-4 py-3">
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
@@ -190,7 +284,7 @@ function DevicesForm() {
               )}
             </div>
 
-            <div className=" col-12 col-sm-3 col-md-3">
+            <div className="col-12 col-sm-3 col-md-3">
               <label>IMEI/Serial</label>
               <input
                 type="text"
@@ -208,14 +302,22 @@ function DevicesForm() {
               <label>Marca</label>
               <div className="d-flex flex-row">
                 <select
-                  {...register("mark")}
+                  {...register("mark", { required: true })}
                   className="form-select form-select-sm"
                   style={{ maxHeight: "31px", overflowY: "auto" }}
                 >
                   <option value="">Selecciona una marca...</option>
-
+                  {params.id && (
+                    <option value={equip.mark} selected>
+                      {equip.mark_name}
+                    </option>
+                  )}
                   {marks.map((object) => (
-                    <option key={object[0]} value={object[0]}>
+                    <option
+                      key={object[0]}
+                      value={object[0]}
+                      className={equip.mark == object[0] ? "d-none" : ""}
+                    >
                       {object[1]}
                     </option>
                   ))}
@@ -231,6 +333,11 @@ function DevicesForm() {
                   +
                 </button>
               </div>
+              {errors.mark?.type == "required" && (
+                <p className="errorMsg" style={{ margin: "0px" }}>
+                  Este campo es requerido
+                </p>
+              )}
             </div>
             <div className=" col-12 col-sm-3 col-md-3">
               <label>Tipo de equipo</label>
@@ -238,12 +345,17 @@ function DevicesForm() {
                 <select
                   className="form-select form-select-sm"
                   id="selectChanger"
-                  {...register("equip_type")}
+                  {...register("equip_type", { required: true })}
                   onChange={() => {
                     handleChange();
                   }}
                 >
                   <option value="">Selecciona el tipo...</option>
+                  {params.id && (
+                    <option value={equip.equipment_type} selected>
+                      {equip.equipment_type_name}
+                    </option>
+                  )}
                   {type.map((object) => (
                     <option key={object[0]} value={object[0]}>
                       {object[1]}
@@ -260,6 +372,11 @@ function DevicesForm() {
                   +
                 </button>
               </div>
+              {errors.equip_type?.type == "required" && (
+                <p className="errorMsg" style={{ margin: "0px" }}>
+                  Este campo es requerido
+                </p>
+              )}
             </div>
             {/* Quinta fila */}
             <div className="col-12 col-sm-6 col-md-3 ">
@@ -276,8 +393,12 @@ function DevicesForm() {
                   style={{ width: "80px" }}
                   {...register("formatRam")}
                 >
-                  <option value="GB">GB</option>
-                  <option value="TB">TB</option>
+                  <option value="GB" selected={ramQty == "GB" ? true : false}>
+                    GB
+                  </option>
+                  <option value="TB" selected={ramQty == "TB" ? true : false}>
+                    TB
+                  </option>
                 </select>
               </div>
             </div>
@@ -295,8 +416,13 @@ function DevicesForm() {
                   style={{ width: "80px" }}
                   {...register("formatDisk")}
                 >
-                  <option value="GB">GB</option>
-                  <option value="TB">TB</option>
+                  <option value="GB" selected={diskQty == "GB" ? true : false}>
+                    GB
+                  </option>
+                  <option value="TB" selected={diskQty == "TB" ? true : false}>
+                    {" "}
+                    TB
+                  </option>
                 </select>
               </div>
             </div>
@@ -304,16 +430,26 @@ function DevicesForm() {
               <label>Tipo de ram</label>
               <div className="d-flex flex-row">
                 <select
-                  {...register("ram_type")}
+                  {...register("ram_type", { required: true })}
                   className="form-select form-select-sm"
                 >
                   <option value="">Tipo de ram</option>
+                  {params.id && (
+                    <option value={equip.ram_type} selected>
+                      {equip.ram_type_name}
+                    </option>
+                  )}
                   {ram.map((object) => (
-                    <option key={object[0]} value={object[0]}>
+                    <option
+                      key={object[0]}
+                      value={object[0]}
+                      className={equip.ram_type == object[0] ? "d-none" : ""}
+                    >
                       {object[1]}
                     </option>
                   ))}
                 </select>
+
                 <button
                   type="button"
                   className="btn btn-secondary addBtn px-2"
@@ -324,21 +460,36 @@ function DevicesForm() {
                   +
                 </button>
               </div>
+              {errors.ram_type?.type == "required" && (
+                <p className="errorMsg" style={{ margin: "0px" }}>
+                  Este campo es requerido
+                </p>
+              )}
             </div>
             <div className=" col-12 col-sm-3 col-md-3">
               <label>Tipo de disco duro</label>
               <div className="d-flex flex-row">
                 <select
-                  {...register("hard_type")}
+                  {...register("hard_type", { required: true })}
                   className="form-select form-select-sm"
                 >
                   <option value="">Selecciona el tipo...</option>
+                  {params.id && (
+                    <option value={equip.hard_type} selected>
+                      {equip.hard_type_name}
+                    </option>
+                  )}
                   {disk.map((object) => (
-                    <option key={object[0]} value={object[0]}>
+                    <option
+                      key={object[0]}
+                      value={object[0]}
+                      className={equip.hard_type == object[0] ? "d-none" : ""}
+                    >
                       {object[1]}
                     </option>
                   ))}
                 </select>
+
                 <button
                   type="button"
                   className="btn btn-secondary btn-sm  addBtn px-2 "
@@ -349,6 +500,11 @@ function DevicesForm() {
                   +
                 </button>
               </div>
+              {errors.hard_type?.type == "required" && (
+                <p className="errorMsg" style={{ margin: "0px" }}>
+                  Este campo es requerido
+                </p>
+              )}
             </div>
             {/* Sexta fila */}
             <div className="col-md-3">
@@ -428,40 +584,45 @@ function DevicesForm() {
               />
             </div>
             {params.id ? (
-              <> <div className="col-md-3  d-flex flex-row ">
-              <div>
-                <label>Agregar/descargar archivos</label>
-                <input
-                  type="file"
-                  multiple
-                  {...register("files")}
-                  className="form-control form-control-sm"
-                />
-              </div>
-              <div className="align-self-end ">
-                <button
-                  className="btn btn-dark w-100"
-                  style={{ maxHeight: "31px" }}
-                >
-                  <MdOutlineFileDownload  size={"1.5rem"} className="mb-5 align-self-center" />
-                </button>
-              </div>
-            </div>
-               
+              <>
+                <div className="col-md-3  d-flex flex-row ">
+                  <div>
+                    <label>Agregar/descargar archivos</label>
+                    <input
+                      type="file"
+                      multiple
+                      {...register("files")}
+                      className="form-control form-control-sm"
+                    />
+                  </div>
+                  <div className="align-self-end ">
+                    <button
+                      type="button"
+                      className="btn btn-dark w-100"
+                      style={{ maxHeight: "31px" }}
+                      onClick={()=>{
+                        document.getElementById("addModal").classList.remove("d-none")
+                      }}
+                    >
+                      <MdOutlineFileDownload
+                        size={"1.5rem"}
+                        className="mb-5 align-self-center"
+                      />
+                    </button>
+                  </div>
+                </div>
               </>
             ) : (
               <>
                 <div className="col-md-3  ">
-                 
-                 <label>Agregar archivos</label>
-                 <input
-                   type="file"
-                   multiple
-                   {...register("files")}
-                   className="form-control form-control-sm"
-                 />
-             
-             </div>
+                  <label>Agregar archivos</label>
+                  <input
+                    type="file"
+                    multiple
+                    {...register("files")}
+                    className="form-control form-control-sm"
+                  />
+                </div>
               </>
             )}
 
@@ -473,6 +634,7 @@ function DevicesForm() {
                 className="form-control form-control-sm"
               />
             </div>
+
             {isPhone ? (
               <div className="col-md-3 ">
                 <label>Numero Celular</label>
@@ -504,26 +666,76 @@ function DevicesForm() {
             </div>
 
             {/* Boton de envio */}
-            <div className="col-md-12">
-              <button
-                className=" btn btn-primary text-center my-3"
-                 disabled={user.rol == 272 ? true : false}
-              >
-                Agregar
-                <img alt="" style={{ marginLeft: "10px" }} />
-              </button>
-              <Link className="btn btn-success mx-3 " to={"/equipments"}>
-                Ver todo
-              </Link>
-              <button
-                className="btn btn-secondary"
-                type="button"
-                onClick={masive}
-                 disabled={user.rol == 272 ? true : false}
-              >
-                Carga masiva
-              </button>
-            </div>
+            {params.id ? (
+              <div className="col-md-12">
+                <button
+                  className="btn btn-success text-center my-3 btn-sm py-2"
+                  disabled={user.rol == 272 ? true : false}
+                >
+                  <img alt="" />
+                  <span className="px-1">Editar</span>
+                </button>
+                <Link
+                  className="btn btn-dark mx-1 py-2  btn-sm"
+                  to={`/AllEvents/${params.id}`}
+                >
+                  Ver eventos de este equipo
+                </Link>
+
+                {user.rol == 272 ? (
+                  " "
+                ) : (
+                  <>
+                    <Link
+                      className="btn btn-primary   py-2 btn-sm "
+                      to={`/create_event/${params.id}`}
+                    >
+                      <span className="px-1">Añadir evento </span>
+                      <img alt="" />
+                    </Link>
+
+                    {user.rol == 273 ? (
+                      ""
+                    ) : (
+                      <Link
+                        style={{ maxHeight: "39px" }}
+                        className="btn btn-danger mx-1 btn-sm"
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                        }}
+                        onClick={() => {
+                          onDelete(params.id);
+                        }}
+                      >
+                        <MdDelete size={"1.8rem"} />
+                      </Link>
+                    )}
+                  </>
+                )}
+                <DownloadHistorical id={params.id} />
+              </div>
+            ) : (
+              <div className="col-md-12">
+                <button
+                  className=" btn btn-primary text-center my-3"
+                  disabled={user.rol == 272 ? true : false}
+                >
+                  Agregar
+                  <img alt="" style={{ marginLeft: "10px" }} />
+                </button>
+                <Link className="btn btn-success mx-3 " to={"/equipments"}>
+                  Ver todo
+                </Link>
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                  onClick={masive}
+                  disabled={user.rol == 272 ? true : false}
+                >
+                  Carga masiva
+                </button>
+              </div>
+            )}
           </div>
         </form>
       </div>

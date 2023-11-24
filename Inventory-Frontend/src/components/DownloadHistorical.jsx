@@ -50,7 +50,7 @@ function DownloadHistorical({ id }) {
       doc.text(`Serial: ${Data[0].serial}`, 120, x + 20);
       doc.text(`Marca: ${Data[0].mark_name}`, 10, x + 30);
       doc.text(`Estado: ${Data[0].status_name}`, 120, x + 30);
-      doc.text(`Reponsable: ${Data[0].client}`, 10, x + 40);
+      doc.text(`Reponsable: ${Data[0].user_name}`, 10, x + 40);
       doc.text(`Creado el: ${Data[0].created_at.split("T")[0]}`, 120, x + 40);
 
       doc.text("Eventos de este equipo", 65, 60);
@@ -64,14 +64,14 @@ function DownloadHistorical({ id }) {
         theme: "striped",
         headStyles: {
           lineWidth: 1,
-          fillColor: [0, 0, 250],
-          textColor: [255, 255, 255],
+          fillColor: [153, 153, 255],
+          textColor: [0, 0, 0],
         },
       });
       //Guardar documento
       doc.save(`Hoja del vida del equipo ${Data[0].equipment_name}.pdf`);
     } catch (error) {
-      swal.fire("Este equipo no tiene eventos", "", "info");
+      swal.fire("Este equipo no tiene eventos", "Si intentas descargar la informacion de solamente el equipo lo puede haces desde la pagina de equipos", "info");
       console.log(error);
     }
   };

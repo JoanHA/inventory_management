@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
       data.push(element);
     });
 
-    console.log(data)
+ 
     res.send(data);
    })
 })
@@ -45,7 +45,6 @@ router.get("/:id",(req,res)=>{
           data.push(element);
         });
     
-        console.log(data)
         res.send(data);
        })
 })

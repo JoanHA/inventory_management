@@ -1,7 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db.js");
-//middlewares
+const helper = require("../lib/helpers.js")
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const util = require("util");
+
+//Configuracion del storage
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "../public/uploads/"),
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
 
 router.use((req, res, next) => {
   next();
@@ -13,7 +26,7 @@ router.use((req, res, next) => {
 router.get("/equip", (req, res) => {
   try {
     const sql =
-      "SELECT equipments.*, params.name as paramName,(SELECT name from params where params.id = equipments.status) AS statusName FROM equipments INNER JOIN params on params.id = equipments.mark WHERE equipments.status <> 3";
+      "SELECT equipments.*, params.name as paramName,(SELECT name from params where params.id = equipments.status) AS statusName,(select name from workers where workers.id = equipments.user) AS user_name FROM equipments INNER JOIN params on params.id = equipments.mark WHERE equipments.status <> 3";
     db.query(sql, (err, result) => {
       res.status(200).send(result);
     });
@@ -21,62 +34,143 @@ router.get("/equip", (req, res) => {
     console.log(error);
   }
 });
+
+
 //Create equip
-router.post("/equip", (req, res) => {
+const upload =multer({ storage }).array('files',5)
+router.post("/equip",upload, async (req, res) => {
   const {
-    name,
-    user,
-    model,
-    office,
-    description,
-    serial,
-    mark,
     equip_type,
     ram,
     formatDisk,
     formatRam,
     hard_disk,
-    ram_type,
-    hard_type,
-    proccesor,
-    system,
-    status,
-    antivirus,
   } = req.body;
+  const archivos = req.files 
 
   const completeRam = ram + " " + formatRam;
   const completeDisk = hard_disk + " " + formatDisk;
   const datos = {
-    name,
-    user,
-    model,
-    office,
-    description,
-    serial,
-    mark,
-    equipment_type: equip_type,
-    ram: completeRam,
-    hard_disk: completeDisk,
-    ram_type,
-    hard_type,
-    proccesor,
-    system,
-    antivirus,
-
-    status,
+    name          :            req.body.name,
+    user          :            req.body.user == "" ? 0 : parseInt(req.body.user),
+    model         :            req.body.model,
+    office        :            req.body.office,
+    description   :            req.body.description,
+    serial        :            req.body.serial,
+    mark          :            req.body.mark == "" ? 232 : parseInt(req.body.mark),
+    ram_type      :            req.body.ram_type == "" ? 232 : parseInt(req.body.ram_type),
+    hard_type     :            req.body.hard_type == "" ? 232: parseInt(req.body.hard_type),
+    proccesor     :            req.body.proccesor,
+    system        :            req.body.system,
+    antivirus     :            req.body.antivirus,
+    status        :            req.body.status == "" ? 1 : parseInt(req.body.status),
+    init_value    :            req.body.init_value == "" ? 0 : parseInt(req.body.init_value),
+    final_value   :            req.body.final_value == "" ? 0 : parseInt(req.body.final_value),
+    sub_value     :            req.body.sub_value,
+    deliver_at    :            req.body.deliver_at,
+    bought_at     :            req.body.bought_at,
+    phone         :            req.body.phone,
+    equipment_type:            parseInt(equip_type),
+    ram           :            completeRam,
+    hard_disk     :            completeDisk,
   };
-  db.query(
-    `INSERT INTO equipments(name,user,model,office,description,serial,mark,equipment_type,ram,hard_disk,ram_type,hard_type,proccesor,system,antivirus,status) VALUES('${datos.name}','${datos.user}','${datos.model}','${datos.office}','${datos.description}','${datos.serial}',${datos.mark},${datos.equipment_type},'${datos.ram}','${datos.hard_disk}',${datos.ram_type},${datos.hard_type},'${datos.proccesor}','${datos.system}','${datos.antivirus}',${datos.status})`,
-    (error, result) => {
-      if (error) {
-        console.log(error);
+
+ 
+    
+ db.query("INSERT INTO equipments SET ? ",[datos],(err,result)=>{
+  if (err) {
+    console.log(err)
+    res.status(302).send("Tuvimos un error Intenta mas tarde")
+    return;
+  }
+//Insertarle los archivos 
+  if(archivos.length >0){
+      archivos.map(file=>{
+        db.query(`INSERT INTO files (file_name,file_type,equipment)values(?,?,?)`,[file.filename,file.mimetype,result.insertId],(err,result)=>{
+          if (err) {
+            console.log(err);
+            res.status(302).send("Tuvimos un error al guardar los archivos intenta mas tarde")
+            return;
+          }
+          console.log(result)
+
+        })
+      })
+  }
+  res.send({ status: 204, message: "Producto creado exitosamente" });
+
+ })
+
+});
+//Agregar archivos a este equipo
+router.post("/equip/addFiles/:id",upload,(req,res)=>{
+  const archivos = req.files 
+  const id = req.params.id;
+
+  if(archivos.length >0){
+    archivos.map(file=>{
+      db.query(`INSERT INTO files (file_name,file_type,equipment,status)values(?,?,?,?)`,[file.filename,file.mimetype, id , 1],(err,result)=>{
+        if (err) {
+          console.log(err);
+          res.status(302).send("Tuvimos un error Intenta mas tarde")
+          return;
+        }
+        console.log(result)
+        res.send("Archivo guardado con exito!")
+      })
+    })
+}
+})
+
+//Obteneer archivos de un equipo
+router.get("/equip/files/:id",(req, res)=>{
+
+  const id = req.params.id;
+  try {
+    if (id  != undefined) {
+      const sql = `SELECT *, (select name from equipments where equipments.id = files.equipment) AS equip_name FROM files WHERE equipment = ${id} AND status = 1`;
+      db.query(sql, (error, result) => {
+        if(error){
+          console.log(error);
+          res.status(302).send("Tuvimos un error intenta mas tarde")
+          return;
+        }
+        if (result.length <= 0) {
+          res.status(404).send({
+            status: 404,
+            message: "No se encontraron archivos para este equipo",
+          });
+          return;
+        }
+        res.send(result);
+      });
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+})
+//Eliminar archivo
+router.delete("/equip/files/:id",(req,res)=>{
+  const id = req.params.id;
+  try {
+    const sql = `UPDATE files SET status = 3 where id = ${id}`;
+    db.query(sql, (error, result) => {
+      if (result.length <= 0) {
+        res.status(404).send({
+          status: 404,
+          message: "No se encontró este archivo",
+        });
         return;
       }
+      res.send(result);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+})
 
-      res.send({ status: 204, message: "Producto creado exitosamente" });
-    }
-  );
-});
+
 //Delete equip
 router.delete("/equip/:id", (req, res) => {
   try {
@@ -100,72 +194,52 @@ router.delete("/equip/:id", (req, res) => {
 router.put("/equip/:id", (req, res) => {
   try {
     const {
-      name,
-      user,
-      model,
-      office,
-      description,
-      serial,
-      mark,
       equip_type,
       ram,
       formatDisk,
       formatRam,
       hard_disk,
-      ram_type,
-      hard_type,
-      proccesor,
-      system,
-      status,
-      antivirus,
     } = req.body;
-
+   
+  
     const completeRam = ram + " " + formatRam;
     const completeDisk = hard_disk + " " + formatDisk;
     const datos = {
-      name,
-      user,
-      model,
-      office,
-      description,
-      serial,
-      mark,
-      equipment_type: equip_type,
-      ram: completeRam,
-      hard_disk: completeDisk,
-      ram_type,
-      hard_type,
-      proccesor,
-      system,
-      antivirus,
-      status,
+      name          :            req.body.name,
+      user          :            req.body.user == "" ? 0 : parseInt(req.body.user),
+      model         :            req.body.model,
+      office        :            req.body.office,
+      description   :            req.body.description,
+      serial        :            req.body.serial,
+      mark          :            req.body.mark == "" ? 232 : parseInt(req.body.mark),
+      ram_type      :            req.body.ram_type == "" ? 232 : parseInt(req.body.ram_type),
+      hard_type     :            req.body.hard_type == "" ? 232: parseInt(req.body.hard_type),
+      proccesor     :            req.body.proccesor,
+      system        :            req.body.system,
+      antivirus     :            req.body.antivirus,
+      status        :            req.body.status == "" ? 1 : parseInt(req.body.status),
+      init_value    :            req.body.init_value == "" ? 0 : parseInt(req.body.init_value),
+      final_value   :            req.body.final_value == "" ? 0 : parseInt(req.body.final_value),
+      sub_value     :            req.body.sub_value,
+      deliver_at    :            req.body.deliver_at,
+      bought_at     :            req.body.bought_at,
+      phone         :            req.body.phone,
+      equipment_type:            parseInt(equip_type),
+      ram           :            completeRam,
+      hard_disk     :            completeDisk,
+      updated_at    :            new Date()
     };
-    const sql = `UPDATE equipments
-  SET 
-    name = '${datos.name}',
-    user = '${datos.user}',
-    model = '${datos.model}',
-    office = '${datos.office}',
-    description = '${datos.description}',
-    mark = ${datos.mark},
-    equipment_type = ${datos.equipment_type},
-    ram = '${datos.ram}',
-    hard_disk = '${datos.hard_disk}',
-    ram_type = ${datos.ram_type},
-    hard_type = ${datos.hard_type},
-    proccesor = '${datos.proccesor}',
-    system = '${datos.system}',
-    antivirus = '${datos.antivirus}',
-    status = ${datos.status},
-    serial = '${datos.serial}'
-  WHERE id = ${req.params.id};`;
+  
+   
+    const sql = `UPDATE equipments SET ? WHERE id = ${req.params.id};`;
 
-    db.query(sql, (error, result) => {
+
+    db.query(sql,[datos], (error, result) => {
       if (error) {
         return res.status(500).send({ error: "Tuvimos un error" });
       }
 
-      console.log(result);
+    
       if (result.affectedRows < 1) {
         res.status(404).send({ status: 404, message: "Equipo no encontrado" });
         return;
@@ -186,12 +260,22 @@ router.get("/equip/:id", (req, res) => {
     (SELECT name FROM params WHERE params.id = equipments.hard_type) AS hard_type_name 
     FROM equipments WHERE equipments.id = ${req.params.id};`;
     db.query(sql, (error, result) => {
+      console.log(error)
       if (result.length <= 0) {
         res.send({ status: 404, message: "Equipo no encontrado" });
         return;
       }
+      const data = [];
 
-      res.send(result);
+      result.forEach((element) => {
+        element.deliver_at =   helper.convertTime(element.deliver_at)
+        element.bought_at =   helper.convertTime(element.bought_at)
+        data.push(element);
+      });
+  
+      res.send(data);
+
+   
     });
   } catch (error) {
     console.log(error);
@@ -234,6 +318,7 @@ router.get("/equip/historical/:id", (req, res) => {
     prm.name AS ram_type_name,
     pht.name AS hard_type_name,
     pst.name AS status_name,
+    (select name from workers where workers.id = e.user) AS user_name,
 
     pevt.name AS event_type_name,
     pim.name AS event_importance,

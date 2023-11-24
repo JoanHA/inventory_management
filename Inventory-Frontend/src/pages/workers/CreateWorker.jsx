@@ -8,9 +8,9 @@ function CreateWorker() {
   <div>
      <div className="event_header d-flex justify-content-between p">
         Crear colaboradores
-        <Link>
+        {/* <Link>
           <button className="btn btn-secondary btn-sm my-0">Volver</button>
-        </Link>
+        </Link> */}
       </div>
       <div>
         <Form/>

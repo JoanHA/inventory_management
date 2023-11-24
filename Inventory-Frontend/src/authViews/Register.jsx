@@ -103,11 +103,14 @@ function Register() {
                     type="password"
                     className="form-control form-control-sm inputs"
                     id="floatingPassword"
-                    {...register("password", { required: true })}
+                    {...register("password", { required: true ,minLength:8 })}
                   />
                   {errors.password && errors.password.type === "required" ? (
                     <div className="errorMsg">Este campo es requerido</div>
                   ) : null}
+                    {errors.password?.type === "minLength" && (
+                    <p className="errorMsg">La contraseña debe de tener minimo 8 carácteres</p>
+                  )}
                   <label htmlFor="floatingPassword">Contraseña</label>
                 </div>
 

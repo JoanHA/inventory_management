@@ -31,7 +31,7 @@ function View_events() {
     },
     {
       header: "Responsable",
-      accessorKey: "client",
+      accessorKey: "user_name",
     },
     {
       header: "Fecha realización",

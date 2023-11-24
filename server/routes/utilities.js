@@ -4,6 +4,8 @@ const db = require("../db.js");
 const helper = require("./../lib/helpers.js");
 const jwt = require("jsonwebtoken");
 const { compareSync } = require("bcrypt");
+
+//traer parametros, ya no me acuerdo que parametros eran
 router.get("/", (req, res) => {
   db.query(
     "SELECT paramtype_id, name, id FROM params WHERE paramtype_id = 204 OR paramtype_id = 203 OR paramtype_id = 208 OR paramtype_id = 201 AND param_state=1 ",

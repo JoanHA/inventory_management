@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
-import { FaUserCircle, FaUsers } from "react-icons/fa";
+import { FaUserCircle, FaUsers,FaRegUser  } from "react-icons/fa";
 import { LiaEditSolid } from "react-icons/lia";
 import { GiAutoRepair } from "react-icons/gi";
 import { PiDesktopTower, PiUserCirclePlusLight   } from "react-icons/pi";
@@ -10,7 +10,7 @@ import logo from "../assets/img/logoBioart.png";
 import { Link } from "react-router-dom";
 import { HiOutlineHome } from "react-icons/hi";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
-import {FiUserPlus} from "react-icons/fi"
+import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { TbUsersPlus } from "react-icons/tb";
 function Sidebar() {
@@ -51,7 +51,7 @@ function Sidebar() {
 
         <div className="sidebarHeader  d-flex  flex-row  justify-content-between align-items-center">
           <div className="icon  d-flex  flex-row py-2 px-3 align-items-center ">
-            <FaUserCircle size={"2.5rem"} className="" />
+            <FaRegUser  size={"2rem"} className="" />
             <h5 className="tittles px-2 mb-0 ">
               {logUser && logUser.username}
             </h5>
@@ -95,20 +95,7 @@ function Sidebar() {
                     <span className="tittles"> Usuarios</span>
                   </Link>
                 </li>
-                <li className="sidebarLi">
-                  <Link
-                    to="/createUser"
-                    className={
-                      path == "/createUser"
-                        ? " SidebarLinks active"
-                        : " SidebarLinks"
-                    }
-                    
-                  >
-                    <PiUserCirclePlusLight   size={"2rem"} />
-                    <span className="tittles"> Crear usuario</span>
-                  </Link>
-                </li>
+             
                 <li className="sidebarLi">
                   <Link
                     to="/createWorker"
@@ -125,6 +112,18 @@ function Sidebar() {
                 </li>
               </>
             ):""}
+             <li>
+              <Link to={"/Workers"}
+                className={
+                  path == "/Workers" ? " SidebarLinks active" : " SidebarLinks"
+                }
+              >
+                <BiSolidUserDetail   size={"2rem"} fill="#fff"/>
+                <span className="tittles">Colaboradores</span>
+
+
+              </Link>
+            </li>
 
             <li className="sidebarLi">
               <Link
@@ -150,18 +149,7 @@ function Sidebar() {
                 <span className="tittles">Equipos</span>
               </Link>
             </li>
-            <li>
-              <Link to={"/Workers"}
-                className={
-                  path == "/Workers" ? " SidebarLinks active" : " SidebarLinks"
-                }
-              >
-                <BiSolidUserDetail   size={"2rem"} fill="#fff"/>
-                <span className="tittles">Colaboradores</span>
-
-
-              </Link>
-            </li>
+           
             <li className="sidebarLi">
               <Link
                 to="/create"
@@ -172,6 +160,18 @@ function Sidebar() {
               >
                 <AiOutlineAppstoreAdd size={"2rem"} />
                 <span className="tittles">Añadir equipos</span>
+              </Link>
+            </li>
+            <li className="sidebarLi">
+              <Link
+                to="/cellphones"
+                className={
+                  path == "/cellphones" ? " SidebarLinks active" : " SidebarLinks"
+                }
+                
+              >
+                <HiOutlineDevicePhoneMobile   size={"2rem"} />
+                <span className="tittles">Celulares</span>
               </Link>
             </li>
           </ul>

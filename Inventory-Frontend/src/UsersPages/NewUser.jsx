@@ -34,12 +34,14 @@ function NewUser() {
       setErrors(error.response.data);
     }
   };
-  const changeEye  = ()=>{
-    document.getElementById("eye-outline").classList.toggle("inactive")
-    document.getElementById("eye-line").classList.toggle("inactive")
-    document.getElementById("input-pass").type = document.getElementById("input-pass").type  == "text"? "password":"text"
-    
-  }
+  const changeEye = () => {
+    document.getElementById("eye-outline").classList.toggle("inactive");
+    document.getElementById("eye-line").classList.toggle("inactive");
+    document.getElementById("input-pass").type =
+      document.getElementById("input-pass").type == "text"
+        ? "password"
+        : "text";
+  };
 
   return (
     <div>
@@ -60,8 +62,8 @@ function NewUser() {
         <div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="w-50 mx-auto my-auto">
-              <div className="form-group">
-                <h1>Crear nuevo usuario </h1>
+              <div className="form-group mt-1">
+                <h3><strong> Crear nuevo usuario</strong> </h3>
                 {Errors &&
                   Errors.map((error) => (
                     <div key={0} className="spanError">
@@ -74,16 +76,18 @@ function NewUser() {
                   type="text"
                   className="form-control"
                   placeholder="Nombre de usuario"
-                  {...register("username", { required: true,maxLength:8 })}
+                  {...register("username", { required: true, maxLength: 10 })}
                 />
                 {errors.username?.type == "required" && (
                   <p className="errorMsg mb-0">Este campo es requerido</p>
                 )}
-                 {errors.username && errors.username.type === "maxLength" ? (
-                    <div className="errorMsg">
-                      El nombre de usuario no puede tener más de 8 caracteres
-                    </div>
-                 ):""}
+                {errors.username && errors.username.type === "maxLength" ? (
+                  <div className="errorMsg">
+                    El nombre de usuario no puede tener más de 10 caracteres
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="form-group">
                 <label>Correo</label>
@@ -126,23 +130,26 @@ function NewUser() {
                 <label htmlFor="">Contraseña</label>
                 <div className="d-flex flex-row">
                   <input
-                  id="input-pass"
+                    id="input-pass"
                     type="password"
                     {...register("password", { required: true, minLength: 8 })}
                     className="form-control form-control-sm rounded "
                     placeholder="Contraseña..."
-                  
                   />
                   <span
                     className="input-group-text fa fa-eye-slash"
                     id="basic-addon1"
-                  > 
+                  >
                     <a onClick={changeEye} id="eye-line">
-                      <AiFillEyeInvisible size={"2rem"} className="eye"/>
+                      <AiFillEyeInvisible size={"2rem"} className="eye" />
                     </a>
 
-                    <a   onClick={changeEye} className="inactive"   id="eye-outline">
-                      <AiOutlineEye  size={"2rem"} className="eye"/>
+                    <a
+                      onClick={changeEye}
+                      className="inactive"
+                      id="eye-outline"
+                    >
+                      <AiOutlineEye size={"2rem"} className="eye" />
                     </a>
                   </span>
                 </div>

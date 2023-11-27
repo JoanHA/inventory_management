@@ -85,11 +85,11 @@ function Register() {
                     type="text"
                     className="form-control  form-control-sm inputs"
                     id="floatingUser"
-                    {...register("username", { required: true, maxLength: 8 })}
+                    {...register("username", { required: true, maxLength: 10 })}
                   />
                   {errors.username && errors.username.type === "maxLength" ? (
                     <div className="errorMsg">
-                      El usuario no puede tener más de 8 caracteres
+                      El usuario no puede tener más de 10 caracteres
                     </div>
                   ) : null}
                   {errors.username && errors.username.type === "required" ? (

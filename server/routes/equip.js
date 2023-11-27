@@ -22,6 +22,37 @@ router.use((req, res, next) => {
 
 //Routes
 
+
+//Get all Cellphones
+router.get("/equip/cellphones/all",(req,res)=>{
+
+  const sql = `SELECT equipments.*, 
+  (SELECT name  from workers where workers.id  = equipments.user) AS responsible_name,
+  (SELECT name from params where params.id = equipments.status) AS status_name
+  FROM equipments 
+  WHERE equipments.equipment_type = 263`;
+  db.query(sql, (error, result) => {
+    if(error){
+      console.error(error)
+      return res.status(500).send("Tuvimos un error ",error)
+    }
+    const data = [];
+
+      result.forEach((element) => {
+        element.deliver_at =   helper.convertTime(element.deliver_at)
+        element.bought_at =   helper.convertTime(element.bought_at)
+        data.push(element);
+      });
+  
+      res.send(data);
+
+
+
+  })
+
+})
+
+
 //Get all
 router.get("/equip", (req, res) => {
   try {
@@ -73,6 +104,7 @@ router.post("/equip",upload, async (req, res) => {
     equipment_type:            parseInt(equip_type),
     ram           :            completeRam,
     hard_disk     :            completeDisk,
+    location      :            req.body.location
   };
 
  
@@ -227,7 +259,8 @@ router.put("/equip/:id", (req, res) => {
       equipment_type:            parseInt(equip_type),
       ram           :            completeRam,
       hard_disk     :            completeDisk,
-      updated_at    :            new Date()
+      updated_at    :            new Date(),
+      location      :            req.body.location
     };
   
    
@@ -281,6 +314,8 @@ router.get("/equip/:id", (req, res) => {
     console.log(error);
   }
 });
+
+//get device life 
 router.get("/equip/historical/:id", (req, res) => {
   const equipId = req.params.id;
 
@@ -366,4 +401,7 @@ WHERE
       })
 
 });
+
+
+
 module.exports = router;

@@ -41,6 +41,7 @@ function EditUser() {
       confirmButtonText: "Si, Actualizar!",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        data.rol == "" ? data.rol = 271: data.rol= data.rol
         const res = await updateUser(params.id, data);
         if (res.status == 200) {
           swal
@@ -93,7 +94,7 @@ function EditUser() {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="w-50 mx-auto my-auto">
               <div className="form-group">
-                <h1>Editar usuario </h1>
+                <h3> <strong>Editar usuario</strong> </h3>
                 <Link
                   className="my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                   onClick={masive}
@@ -147,7 +148,6 @@ function EditUser() {
               <div>
                 <button
                   className="btn btn-success my-2"
-                  disabled={editUser.rol == 271 ? true : false}
                 >
                   Editar
                 </button>

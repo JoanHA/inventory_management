@@ -95,3 +95,7 @@ export const getFiles = async (id) => axios.get(URI+`api/equip/files/${id}`)
 
 //Eliminar archivos
 export const deleteFiles = async (id) => axios.delete(URI+`api/equip/files/${id}`)
+
+
+//Obtener todos los moviles
+export const getAllMobiles =  async ()=> axios.get(URI+`api/equip/cellphones/all`);

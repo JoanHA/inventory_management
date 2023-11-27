@@ -45,10 +45,7 @@ function Workers() {
 
       <div className="px-4 py-0 ">
         <div className="d-flex w-100 justify-content-end mt-1 ">
-        <Link to={"/createWorker"}>
-          <button className=" btn-primary btn btn-sm">Nuevo usuario</button>
-          </Link>
-         
+
         </div>
         <Table columns={columns} data={data} editType={"editWorker"}></Table>
       </div>

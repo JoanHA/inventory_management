@@ -6,6 +6,7 @@ const db = require("./../../db.js");
 const fs = require("fs");
 const readXlsxFile = require("read-excel-file/node");
 const util = require("util");
+const { resourceLimits } = require("worker_threads");
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "../../public/uploads/masive"),
   filename: function (req, file, cb) {
@@ -33,7 +34,7 @@ async function getParamId(params, name, type) {
       (row) => row.name.toUpperCase() == name.toUpperCase()
     );
     if (resultado) {
-      console.log("Parametro encontrado", resultado);
+    
       return resultado.id;
     } else {
       //Buscar el ultimo parametro
@@ -60,7 +61,26 @@ async function getParamId(params, name, type) {
     return 262;
   }
 }
-
+async function getUserId(name) {
+  try {
+    db.query = util.promisify(db.query);
+   
+   
+      //Buscar el ultimo parametro
+      const result = await db.query(
+        `SELECT id FROM workers WHERE name LIKE'%${name.trim()}%'`
+      );
+      console.log("Resultasdo: ",result)
+        if(result.length <=0){
+          return null          
+        }
+       return result[0].id;
+    
+  } catch (error) {
+    console.log(error);
+    return 262;
+  }
+}
 async function saveInDb(exFile) {
   try {
     var datos = [];
@@ -102,11 +122,12 @@ async function saveInDb(exFile) {
         const newHard = await getParamId(p, element.hard_type, 203);
         const newMark = await getParamId(p, element.mark, 201);
         const newtype = await getParamId(p, element.equipment_type, 208);
-
+        const userId = await getUserId (element.user);
+      
         //Equipo a guardar
         const equip = {
           name: element.name,
-          user: element.user,
+          user: userId,
           model: element.model,
           office: element.office,
           description: element.description,
@@ -122,6 +143,7 @@ async function saveInDb(exFile) {
           status: element.status,
           antivirus: element.antivirus,
         };
+        console.log(equip)
         db.query("INSERT INTO equipments SET ?", [equip], (err, result) => {
           if (err) throw new Error(err);
           return true;

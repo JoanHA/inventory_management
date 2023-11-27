@@ -85,8 +85,14 @@ function DevicesForm() {
   const onSubmit = async (data) => {
     //Editando
     if (params.id) {
+      var Editado = false;
       const res = await update(params.id, data);
-    
+      if (res.status === 200) {
+        Editado  = true;
+      }else{
+        Editado  = false;
+      }
+
       if (data.files.length > 0) {
         try {
           const formData = new FormData();
@@ -96,13 +102,20 @@ function DevicesForm() {
           const res = await saveFiles(params.id, formData);
        
           if (res.status == 200) {
-            swal.fire("Datos actualizados", "", "success").then(() => {
-              window.location.reload();
-            });
+            Editado  = true;
+          }else{
+            Editado  = false;
           }
         } catch (error) {
           swal.fire("El archivo que le agregaste al equipo no se pudo agregar, intenta mas tarde","","error")
         }
+      }
+      if(Editado){
+        swal.fire("Datos actualizados", "", "success").then(() => {
+          window.location.reload();
+        });
+      }else{
+        swal.fire("No se pudo actualizar los datos", "", "error");
       }
       //creando
     } else {
@@ -153,6 +166,9 @@ function DevicesForm() {
       const id = params.id;
       const res = await getOneDevice(id);
       const equipData = res.data[0];
+      if (equipData.equipment_type == 263) {
+        SetIsPhone(true);
+      }
 
       setEquip(res.data[0]); //Darle formato a el valor de ram y disco duro
       var ramFormat = equipData.ram.toString().split(" ");
@@ -183,6 +199,8 @@ function DevicesForm() {
         init_value: equipData.init_value,
         final_value: equipData.final_value,
         sub_value: equipData.sub_value,
+        phone: equipData.phone,
+        location :equipData.location
       });
     } catch (error) {
       console.log(error);
@@ -339,7 +357,7 @@ function DevicesForm() {
                 </p>
               )}
             </div>
-            <div className=" col-12 col-sm-3 col-md-3">
+            <div className=" col-12 col-sm-3 col-md-2">
               <label>Tipo de equipo</label>
               <div className="d-flex flex-row">
                 <select
@@ -379,7 +397,7 @@ function DevicesForm() {
               )}
             </div>
             {/* Quinta fila */}
-            <div className="col-12 col-sm-6 col-md-3 ">
+            <div className="col-12 col-sm-6 col-md-2 ">
               <label>Cantidad de ram</label>
               <div className="d-flex align-item-center justify-content-center">
                 <input
@@ -402,7 +420,7 @@ function DevicesForm() {
                 </select>
               </div>
             </div>
-            <div className=" col-12  col-sm-6 col-md-3 ">
+            <div className=" col-12  col-sm-6 col-md-2 ">
               <label htmlFor="">Cantidad de disco duro</label>
               <div className="d-flex justify-content-center">
                 <input
@@ -556,7 +574,7 @@ function DevicesForm() {
                 className="form-control form-control-sm"
               />
             </div>
-            <div className="col-md-2 ">
+            <div className="col-md-3 ">
               <label htmlFor="">Valor inicial</label>
               <input
                 type="number"
@@ -631,6 +649,15 @@ function DevicesForm() {
               <input
                 type="date"
                 {...register("deliver_at")}
+                className="form-control form-control-sm"
+              />
+            </div>
+            <div className="col-md-2 ">
+              <label htmlFor="">Ubicación</label>
+              <input
+                type="text"
+                placeholder="Cali, Bogota ..."
+                {...register("location")}
                 className="form-control form-control-sm"
               />
             </div>

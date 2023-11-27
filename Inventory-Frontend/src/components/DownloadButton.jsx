@@ -10,7 +10,6 @@ function DownloadButton({ data = [], filter }) {
   const [pathname, SetPathname] = useState("");
  
   useEffect(() => {
-    console.log(data)
     const path = window.location.pathname;
     SetPathname(path);
 

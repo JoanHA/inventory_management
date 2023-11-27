@@ -13,7 +13,7 @@ function FileList({ id }) {
         console.log(res.data);
         setDatos(res.data);
       } catch (error) {
-        console.log(error)
+       
       }
    
     };

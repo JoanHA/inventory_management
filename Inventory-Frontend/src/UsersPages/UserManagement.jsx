@@ -45,7 +45,7 @@ function UserManagement() {
       </div>
       <div className="roles px-4 pt-2">
         <div>
-          <h3>Roles y permisos</h3>
+          <h3> <strong>Roles y permisos</strong></h3>
         </div>
         <div>
           <ul className="list-group list-group-flush row flex-row flex-wrap ">

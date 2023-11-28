@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import{ getAllEvents } from "../../api/events.controller";
+import { Helmet } from "react-helmet";
 
 import Table from "../../components/Table";
 function View_events() {
@@ -42,6 +43,9 @@ function View_events() {
     <div>
       <div className="event_header mb-2">Cambios realizados</div>
       <div className="px-5 table-responsive">
+      <Helmet>
+          <title>Eventos</title>
+        </Helmet>
         <Table data={events} columns={columns} editType={"view_event"}/>
       </div>
     </div>

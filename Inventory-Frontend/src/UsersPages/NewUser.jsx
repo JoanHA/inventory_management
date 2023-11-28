@@ -3,6 +3,9 @@ import { CreateUser } from "../api/user.controller";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import Volver from "../components/Volver";
+import { Helmet } from "react-helmet";
+
 function NewUser() {
   const [Errors, setErrors] = useState([]);
   const navigate = useNavigate();
@@ -45,17 +48,15 @@ function NewUser() {
 
   return (
     <div>
+       <Helmet>
+          <title>Nuevo usuario</title>
+        </Helmet>
       <div className="title">
         <div className="event_header d-flex justify-content-between">
           <span>
             <> Administración de usuarios</>
           </span>
-          <Link
-            to={"/userManagement"}
-            className="btn btn-secondary mt-0 btn-sm"
-          >
-            Volver
-          </Link>
+          <Volver />
         </div>
       </div>
       <div className="py-2">

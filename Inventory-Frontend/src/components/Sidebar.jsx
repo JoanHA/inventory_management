@@ -162,7 +162,7 @@ function Sidebar() {
                 <span className="tittles">Añadir equipos</span>
               </Link>
             </li>
-            <li className="sidebarLi">
+            {/* <li className="sidebarLi">
               <Link
                 to="/cellphones"
                 className={
@@ -173,7 +173,7 @@ function Sidebar() {
                 <HiOutlineDevicePhoneMobile   size={"2rem"} />
                 <span className="tittles">Celulares</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

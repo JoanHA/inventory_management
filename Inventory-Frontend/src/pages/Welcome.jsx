@@ -6,6 +6,8 @@ import people from "../assets/img/PeopleLogo.jpg";
 import { MdAddToQueue } from "react-icons/md";
 import { FaUsersGear } from "react-icons/fa6";
 import { AiOutlineFundView } from "react-icons/ai";
+import { Helmet } from "react-helmet";
+
 function Welcome() {
   const { user } = useAuth();
   const [pageSize, setPageSize] = useState(window.innerWidth);
@@ -23,6 +25,9 @@ function Welcome() {
   }, [pageSize]);
   return (
     <div className=" my-1 w-100">
+       <Helmet>
+          <title>Bioart S.A</title>
+        </Helmet>
       <div className="mx-auto   text-center">
         <div className="event_header">
           <h3>Bienvenido al sistema de inventarios de Bioart SA</h3>

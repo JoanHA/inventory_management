@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { getAllMobiles } from "../../api/devices.controller";
 import Table from "../../components/Table"
+import Volver from "../../components/Volver";
+import { Helmet } from "react-helmet";
+
 function Cellphones() {
   const [data, setData] = useState([]);
   
@@ -52,8 +55,12 @@ function Cellphones() {
   }, []);
   return (
     <div>
-      <div>
-        <div className="event_header">Celulares asignados</div>
+       <Helmet>
+          <title>Celulares</title>
+        </Helmet>
+      <div className="event_header d-flex flex-row align-items-center justify-content-between">
+        Celulares asignados
+          <Volver />
       </div>
       <div className="px-4 py-3">
         <Table data={data} columns={columns} editType={"edit"} />

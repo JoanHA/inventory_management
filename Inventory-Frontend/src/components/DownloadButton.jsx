@@ -180,7 +180,7 @@ function DownloadButton({ data = [], filter }) {
             theme: "striped",
             headStyles: {
               lineWidth: 1,
-              fillColor: [153, 153, 255],
+              fillColor: [204, 204, 255],
               textColor: [0, 0, 0],
             },
           });

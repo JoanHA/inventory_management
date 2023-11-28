@@ -7,6 +7,9 @@ import { URI } from "../../../config";
 import { updateStatus } from "../../api/events.controller";
 import fileDownload from "js-file-download";
 import axios from "axios";
+import { Helmet } from "react-helmet";
+
+import Volver from "../../components/Volver";
 import { useAuth } from "../../context/AuthContext";
 import "../../assets/css/event.css"
 function View_one_event() {
@@ -15,6 +18,7 @@ function View_one_event() {
   const [ChangeStatus, setChangeStatus] = useState("NONE");
   const params = useParams();
   const [equipo, setEquipo] = useState(null);
+ 
 
   const {
     register,
@@ -41,7 +45,7 @@ function View_one_event() {
         importance: datos.importance_name,
         event_reason: datos.reason_name,
         event_type: datos.event_type_name,
-        client: datos.client,
+        client: datos.user_name,
         user: datos.user,
         status: datos.status_name,
         serial: datos.serial,
@@ -70,6 +74,8 @@ function View_one_event() {
       })
       .then((res) => {
         fileDownload(res.data, filename);
+      }).catch(error=>{
+        swal.fire("Este evento no tiene archivos para descargar","","info")
       });
   };
 
@@ -77,9 +83,11 @@ function View_one_event() {
     <>
       <div className="event_header mb-2  d-flex justify-content-between">
         Evento del equipo{" "}
-        <Link to="/events" className="btn btn-secondary btn-sm">
-          Volver
-        </Link>
+        <Volver />
+      
+        <Helmet>
+          <title>Eventos equipo</title>
+        </Helmet>
       </div>
       <div className="d-flex flex-column px-3 py-1">
         {/* equip data */}
@@ -207,6 +215,9 @@ function View_one_event() {
                     className="form-control  form-control-sm"
                   />
                 </div>
+           
+             
+           
               </div>
               <div className="form-group mb-2 col-md-4">
                 <div>
@@ -267,7 +278,7 @@ function View_one_event() {
                     {errors.newStatus?.type == "required" && (
                       <p className="errorMsg">Este campo es requerido</p>
                     )}
-                    <button className="btn btn-dark my-1">
+                    <button className="btn btn-dark my-1 ">
                       Cambiar estado
                     </button>
                   </form>
@@ -300,7 +311,7 @@ function View_one_event() {
                   ""
                 ) : (
                   <button
-                    className="btn btn-warning mx-2 my-2 "
+                    className="btn btn-warning mx-2 my-2 py-2 "
                     onClick={() => {
                       setChangeStatus("BLOCK");
                     }}

@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import ChangePassword from "../components/changePassword";
 import { useAuth } from "../context/AuthContext";
+import Volver from "../components/Volver";
+import { Helmet } from "react-helmet";
+
 function EditUser() {
   const [editUser, setEditUser] = useState({});
   const params = useParams();
@@ -79,14 +82,15 @@ function EditUser() {
   return (
     <div>
       <ChangePassword />
+      <Helmet>
+          <title>Editar usuario</title>
+        </Helmet>
       <div className="title">
         <div className="event_header d-flex justify-content-between">
           <span>
             <strong> Administracion de usuarios</strong>
           </span>
-          <Link to={"/userManagement"} className="btn btn-dark mt-0 btn-sm">
-            Volver
-          </Link>
+          <Volver />
         </div>
       </div>
       <div className="py-2">

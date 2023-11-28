@@ -250,8 +250,8 @@ router.put("/equip/:id", (req, res) => {
       system        :            req.body.system,
       antivirus     :            req.body.antivirus,
       status        :            req.body.status == "" ? 1 : parseInt(req.body.status),
-      init_value    :            req.body.init_value == "" ? 0 : parseInt(req.body.init_value),
-      final_value   :            req.body.final_value == "" ? 0 : parseInt(req.body.final_value),
+      init_value    :            req.body.init_value,
+      final_value   :            req.body.final_value,
       sub_value     :            req.body.sub_value,
       deliver_at    :            req.body.deliver_at,
       bought_at     :            req.body.bought_at,
@@ -269,6 +269,7 @@ router.put("/equip/:id", (req, res) => {
 
     db.query(sql,[datos], (error, result) => {
       if (error) {
+        console.log(error)
         return res.status(500).send({ error: "Tuvimos un error" });
       }
 
@@ -290,7 +291,8 @@ router.get("/equip/:id", (req, res) => {
     (SELECT name FROM params WHERE params.id = equipments.mark) AS mark_name,
     (SELECT name FROM params WHERE params.id = equipments.equipment_type) AS equipment_type_name,
     (SELECT name FROM params WHERE params.id = equipments.ram_type) AS ram_type_name, 
-    (SELECT name FROM params WHERE params.id = equipments.hard_type) AS hard_type_name 
+    (SELECT name FROM params WHERE params.id = equipments.hard_type) AS hard_type_name,
+    (SELECT name FROM workers WHERE workers.id = equipments.user) AS user_name
     FROM equipments WHERE equipments.id = ${req.params.id};`;
     db.query(sql, (error, result) => {
       console.log(error)

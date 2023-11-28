@@ -11,7 +11,7 @@ router.post("/login", async (req, res) => {
     "SELECT users.*, params.name FROM users INNER JOIN params on params.id = users.rol WHERE users.email = ? ",
     [email],
     async (err, result) => {
-      console.log(result)
+     
       if (err) {
         console.log(err);
         res.status(500).send({ message: err });

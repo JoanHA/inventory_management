@@ -8,6 +8,9 @@ import { getDevice } from "../../api/events.controller";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { getEvents_type } from "../../api/events.controller";
+import { getWorkers } from "../../api/workers.controllers";
+import Volver from "../../components/Volver";
+import { Helmet } from "react-helmet";
 function Create_event() {
   //Data from the equipment
   const [event_type, setEventType] = useState([]);
@@ -18,7 +21,7 @@ function Create_event() {
   const [id, setId] = useState(); //Equipment's id
   const params = useParams(); //params
   const { user } = useAuth(); //context
-
+  const [workers,setWorkers] = useState([])
   const navigate = useNavigate();
   const {
     register,
@@ -29,20 +32,35 @@ function Create_event() {
 
   //UseEffect for getting the equipment's data
   useEffect(() => {
+   
     const getDev = async () => {
       const id = params.id;
       const res = await getDevice(id);
+      await getWork();
       const equipo = res.data[0];
       setNombre(equipo.name);
       setSerial(equipo.serial);
-      setClient(equipo.user);
+      setClient(equipo.user_name);
       setId(equipo.id);
+      reset({
+        client: res.data[0].user
+      })
     };
     getDev();
+  
   }, []);
 
   //Functions
 
+   //Llenar los select de los trabajadore
+   const getWork = async () => {
+    try {
+      const res = await getWorkers();
+      setWorkers(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //function for submitting the form
   const onSubmit = async (values) => {
     Swal.fire({
@@ -107,15 +125,14 @@ function Create_event() {
   return (
     <>
       <div> {parametro && <Add param={parametro[0]} val={parametro[1]}  OnSaving={handleSave}/>}</div>
-
+      <Helmet>
+          <title> Crear Evento</title>
+        </Helmet>
       <div className="card vh-100 w-100 py-1 px-2" style={{ border: "None" }}>
         <div className="contenedor">
           <div className="event_header d-flex justify-content-between">
             Nuevo evento{" "}
-            <Link className="btn btn-secondary btn-sm mx-2" to={"/equipments"}>
-              {" "}
-              Volver
-            </Link>
+            <Volver />
           </div>
           <div className="equip_data">
             <div className="event_title">
@@ -279,7 +296,7 @@ function Create_event() {
                   />
                 </div>
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
-                  <label htmlFor="">Responsable</label>
+                  {/* <label htmlFor="">Responsable</label>
                   <input
                     type="text"
                     className="form-control form-control-sm "
@@ -289,7 +306,26 @@ function Create_event() {
                     onChange={(e) => {
                       setClient(e.target.value);
                     }}
-                  />
+                  /> */}
+                   <label>Responsable</label>
+              <select
+               style={{ width: "90% ", height: "20px" }}
+                {...register("client")}
+                className="form-select form-select-sm"
+              >
+                <option value="" > Selecciona un responsable</option>
+                {workers &&
+                  workers.map((worker) => (
+                    <option key={worker.id} value={worker.id}>
+                      {worker.name}
+                    </option>
+                  ))}
+              </select>
+              {errors.user?.type === "required" && (
+                <p className="errorMsg" style={{ margin: "0px" }}>
+                  Este campo es requerido
+                </p>
+              )}
                 </div>
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
                   <label htmlFor="">Estado</label>

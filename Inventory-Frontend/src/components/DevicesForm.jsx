@@ -699,7 +699,6 @@ function DevicesForm() {
                   className="btn btn-success text-center my-3 btn-sm py-2"
                   disabled={user.rol == 272 ? true : false}
                 >
-                  <img alt="" />
                   <span className="px-1">Editar</span>
                 </button>
                 <Link
@@ -718,7 +717,7 @@ function DevicesForm() {
                       to={`/create_event/${params.id}`}
                     >
                       <span className="px-1">Añadir evento </span>
-                      <img alt="" />
+                   
                     </Link>
 
                     {user.rol == 273 ? (
@@ -748,7 +747,7 @@ function DevicesForm() {
                   disabled={user.rol == 272 ? true : false}
                 >
                   Agregar
-                  <img alt="" style={{ marginLeft: "10px" }} />
+               
                 </button>
                 <Link className="btn btn-success mx-3 " to={"/equipments"}>
                   Ver todo

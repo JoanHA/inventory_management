@@ -4,13 +4,16 @@ import { URI } from "../../config";
 import axios from "axios";
 import "../assets/css/event_container.css"
 function EventsForm({ event,index }) {  
-  const handleClick = (url, filename) => {
+  const handleClick = async(url, filename) => {
+    console.log(filename)
       axios
         .get(url, {
           responseType: "blob",
         })
         .then((res) => {
           fileDownload(res.data, filename);
+        }).catch(error=>{
+          swal.fire("Este evento no tiene archivo para descargar","","info")
         });
     };
   return (

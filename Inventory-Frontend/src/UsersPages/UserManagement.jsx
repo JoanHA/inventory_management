@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getUsers } from "../api/user.controller";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Helmet } from "react-helmet";
+
 import Table from "../components/Table";
 function UserManagement() {
   const [users, setUsers] = useState([]);
@@ -40,6 +42,9 @@ function UserManagement() {
   ];
   return (
     <div>
+       <Helmet>
+          <title>Usuarios</title>
+        </Helmet>
       <div className="UserTitle">
         <div className="event_header">Administración de Usuarios</div>
       </div>

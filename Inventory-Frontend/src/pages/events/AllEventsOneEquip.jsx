@@ -4,6 +4,8 @@ import EventsForm from "../../components/EventsForm";
 import { Link } from "react-router-dom";
 import { getAll } from "../../api/events.controller";
 import { Helmet } from "react-helmet";
+import Volver from "../../components/Volver";
+
 function AllEventsOneEquip() {
   const params = useParams();//Obtener los parametros
 
@@ -57,9 +59,7 @@ function AllEventsOneEquip() {
           <title>Eventos de equipo</title>
         </Helmet>
         Evento del equipo
-        <Link to={`/events`} className="btn btn-secondary btn-sm">
-          Volver
-        </Link>
+   <Volver />
       </div>
       <div className="d-flex flex-column px-3 py-1">
         {/* equip data */}

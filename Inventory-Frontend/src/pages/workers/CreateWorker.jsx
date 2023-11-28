@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom"
 import Form from "../../components/Form"
+import { Helmet } from "react-helmet";
 
 function CreateWorker() {
 
@@ -8,9 +9,9 @@ function CreateWorker() {
   <div>
      <div className="event_header d-flex justify-content-between p">
         Crear colaboradores
-        {/* <Link>
-          <button className="btn btn-secondary btn-sm my-0">Volver</button>
-        </Link> */}
+        <Helmet>
+          <title>Crear colaborador</title>
+        </Helmet>
       </div>
       <div>
         <Form/>

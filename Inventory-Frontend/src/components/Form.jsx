@@ -204,7 +204,7 @@ function Form() {
             <div className="form-group">
               <label>Correo</label>
               <input
-                {...register("email", { required: true })}
+                {...register("email")}
                 type="email"
                 className="form-control form-control-sm"
                 placeholder="email@ejemplo..."

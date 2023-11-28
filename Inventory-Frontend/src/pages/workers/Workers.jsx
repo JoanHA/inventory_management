@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Table from "../../components/Table";
 import { Link } from "react-router-dom";
 import { getWorkers } from "../../api/workers.controllers";
+import Volver from "../../components/Volver";
+import { Helmet } from "react-helmet";
+
 function Workers() {
   const [data, setData] = useState([]);
 
@@ -36,11 +39,12 @@ function Workers() {
   ];
   return (
     <div>
+       <Helmet>
+          <title>Colaboradores</title>
+        </Helmet>
       <div className="event_header d-flex justify-content-between p">
         Administrar colaboradores
-        <Link>
-          <button className="btn btn-secondary btn-sm my-0">Volver</button>
-        </Link>
+        <Volver />
       </div>
 
       <div className="px-4 py-0 ">

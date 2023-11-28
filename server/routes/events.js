@@ -99,8 +99,8 @@ router.get("/:id", (req, res) => {
     (SELECT name FROM params WHERE params.id = events.event_reason) AS reason_name,
     (SELECT name FROM equipments WHERE equipments.id = events.equip) AS equip_name,
     (SELECT serial FROM equipments WHERE equipments.id = events.equip) AS serial,
-    (SELECT   username FROM users where users.id = events.created_by) AS user,
-    (SELECT   name  FROM params where params.id = events.status) AS status_name,
+    (SELECT username FROM users where users.id = events.created_by) AS user,
+    (SELECT name  FROM params where params.id = events.status) AS status_name,
     (SELECT name FROM workers WHERE workers.id = events.client) AS user_name
     FROM events WHERE events.id = ${req.params.id}`;
 

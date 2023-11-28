@@ -115,6 +115,7 @@ function Form() {
           enroll_date: res.data[0].enroll_date.replaceAll("/", "-"),
           branch: res.data[0].branch,
           area: res.data[0].area,
+          occupation: res.data[0].occupation
         });
       } catch (error) {
         console.log(error);
@@ -208,6 +209,18 @@ function Form() {
                 type="email"
                 className="form-control form-control-sm"
                 placeholder="email@ejemplo..."
+              />
+              {errors.email && (
+                <div className="errorMsg">Este campo es requerido</div>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Cargo</label>
+              <input
+                {...register("occupation")}
+                type="text"
+                className="form-control form-control-sm"
+                placeholder="Mensajero, analista..."
               />
               {errors.email && (
                 <div className="errorMsg">Este campo es requerido</div>

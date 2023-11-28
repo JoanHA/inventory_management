@@ -88,7 +88,7 @@ router.put("/:id",(req,res)=>{
 //delete
 router.delete("/:id",(req,res)=>{
     const id = req.params.id
-    db.query(`UPDATE workers SET status = 3, email =${Date.now()}, nit=${Date.now()}  where workers.id = ? `,[id],(err,result)=>{
+    db.query(`UPDATE workers SET status = 3, email =${Date.now()}, dni=${Date.now()}  where workers.id = ? `,[id],(err,result)=>{
         if(err){
             console.log(err)
             return  res.status(300).send("Tuvimos un error intenta mas tarde");

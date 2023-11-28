@@ -22,3 +22,7 @@ export const saveParam = (data)=> axios.post(URI+"api/utils/params",data).then((
                   })
             }
 })
+
+export const editParams = async(id,data) => axios.put(URI + `api/utils/editParams/${id}`,data)
+export const GetParams = async() => axios.get(URI + "api/utils")
+export const DeleteParams = async(id) => axios.delete(URI + `api/utils/deleteParams/${id}`)

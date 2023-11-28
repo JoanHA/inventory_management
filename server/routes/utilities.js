@@ -8,13 +8,15 @@ const { compareSync } = require("bcrypt");
 //traer parametros, ya no me acuerdo que parametros eran
 router.get("/", (req, res) => {
   db.query(
-    "SELECT paramtype_id, name, id FROM params WHERE paramtype_id = 204 OR paramtype_id = 203 OR paramtype_id = 208 OR paramtype_id = 201 AND param_state=1 ",
+    "SELECT paramtype_id, name, id, param_state FROM params WHERE paramtype_id = 204 OR paramtype_id = 203 OR paramtype_id = 208 OR paramtype_id = 201  ",
     (error, result) => {
       res.send(result);
     }
   );
 });
 
+
+//Guardar un parametro
 router.post("/params", (req, res) => {
   const { paramType_Id, value } = req.body;
   var idRows;
@@ -154,4 +156,39 @@ router.post("/changePassword", (req, res) => {
   );
 
 });
+
+
+//Manejo de parametros
+router.put("/editParams/:id",(req,res)=>{
+  const id = req.params.id;
+  const{ name}  =req.body 
+  const año  =   new Date().getFullYear()
+  const dia  =   new Date().getDay()
+  const mes  =   new Date().getMonth()
+  
+   db.query(`UPDATE params SET name = ?, updated_at = ${año}-${mes}-${dia} WHERE id = ? `,[name,id],(error,result)=>{
+    if(error){
+      console.log(error)
+      return  res.status(500).send("Tuvimos un error")
+    }
+        res.send("Editado Correctamente")
+
+   })
+
+
+})
+router.delete("/deleteParams/:id",(req,res)=>{
+  const id = req.params.id;
+  const año  =   new Date().getFullYear()
+  const dia  =   new Date().getDay()
+  const mes  =   new Date().getMonth()
+  db.query(`UPDATE params SET param_state = 3, updated_at = ${año}-${mes}-${dia} WHERE id = ? `,[id],(error,result)=>{
+    if(error){
+      console.log(error)
+      return  res.status(500).send("Tuvimos un error")
+    }
+        res.send("Eliminado Correctamente")
+
+   })
+})
 module.exports = router;

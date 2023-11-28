@@ -97,14 +97,23 @@ function EditUser() {
         <div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="w-50 mx-auto my-auto">
+              
               <div className="form-group">
                 <h3> <strong>Editar usuario</strong> </h3>
+                
                 <Link
                   className="my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                   onClick={masive}
                 >
                   Cambiar contraseña
                 </Link>
+                { 
+                  user.rol && user.rol == 271 &&  user.id == params.id && (
+                    <Link className="px-3 my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" to={"/editParams"}>Editar parametros</Link>
+                  )
+
+                }
+              
                 <br />
                 <label className="mt-2">Nombre de usuario</label>
                 <input

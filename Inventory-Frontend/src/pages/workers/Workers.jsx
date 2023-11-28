@@ -33,9 +33,12 @@ function Workers() {
       accessorKey: "status_name",
     },
     {
-      header: "fecha de ingreso",
+      header: "Fecha de ingreso",
       accessorKey: "enroll_date",
-    },
+    },{
+      header: "Cargo",
+      accessorKey: "occupation",
+    }
   ];
   return (
     <div>

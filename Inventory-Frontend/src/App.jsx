@@ -26,6 +26,7 @@ const EditUser = lazy(() => import("./UsersPages/EditUser"));
 const NewUser = lazy(() => import("./UsersPages/NewUser"));
 const Table = lazy(() => import("./components/Table"));
 const Cellphones = lazy(() => import("./pages/devices/Cellphones"));
+const Params = lazy(() => import("./pages/Params"));
 
 const AllEventsOneEquip = lazy(() =>
   import("./pages/events/AllEventsOneEquip")
@@ -58,6 +59,7 @@ function App() {
                   <Route element={<IsAdmin />}>
                     <Route path="/userManagement" element={<UserManagement />} />
                     <Route path="/createUser" element={<NewUser />} />
+                    <Route path="/editParams" element={<Params/>} />
                   </Route>
                 </Route>
               </Routes>

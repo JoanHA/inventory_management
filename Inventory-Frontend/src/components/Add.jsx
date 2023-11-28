@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../assets/css/add.css";
-import {  useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { saveParam } from "../lib/saveParams";
 function Add(props) {
   const [param, setParam] = useState();
@@ -14,13 +14,10 @@ function Add(props) {
   }, [props]);
 
   const onSubmit = async (values) => {
-      saveParam(values);
-      if(props.OnSaving){
-
-        props.OnSaving()
-      
-
-       }
+    saveParam(values);
+    if (props.OnSaving) {
+      props.OnSaving();
+    }
   };
   const {
     register,
@@ -79,12 +76,10 @@ function Add(props) {
                 type="button"
                 className="btn btn-danger"
                 onClick={() => {
-                
                   document.querySelector("#addModal").classList.add("inactive");
                   reset({
                     value: "",
                   });
-                 
                 }}
               >
                 Cancelar

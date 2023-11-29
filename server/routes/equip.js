@@ -141,7 +141,7 @@ router.post("/equip/addFiles/:id",upload,(req,res)=>{
 
   if(archivos.length >0){
     archivos.map(file=>{
-      db.query(`INSERT INTO files (file_name,file_type,equipment,status)values(?,?,?,?)`,[file.filename,file.mimetype, id , 1],(err,result)=>{
+      db.query(`INSERT INTO files (file_name,file_type, original_name,equipment,status)values(?,?,?,?,?)`,[file.filename,file.mimetype,file.originalname, id , 1],(err,result)=>{
         if (err) {
           console.log(err);
           res.status(302).send("Tuvimos un error Intenta mas tarde")

@@ -63,6 +63,7 @@ function Create_event() {
   };
   //function for submitting the form
   const onSubmit = async (values) => {
+  
     Swal.fire({
       title: "Quieres guardar los cambios?",
       showDenyButton: true,
@@ -72,7 +73,7 @@ function Create_event() {
     }).then(async (result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        values.client = client;
+   
         values.equip = id;
         values.user = user.id;
         values.file = values.file[0];
@@ -91,6 +92,7 @@ function Create_event() {
         formData.append("event_reason", values.event_reason);
         formData.append("importance", values.importance);
         formData.append("status", values.status);
+        console.log(values)
 
         const res = await SaveEvent(formData); //this the one that call tthe function in the backend
         if (res.status == 200) {
@@ -296,17 +298,7 @@ function Create_event() {
                   />
                 </div>
                 <div className="input-group d-flex flex-column  w-50  mb-2 flex-wrap">
-                  {/* <label htmlFor="">Responsable</label>
-                  <input
-                    type="text"
-                    className="form-control form-control-sm "
-                    placeholder="Responsable"
-                    style={{ width: "90% ", height: "20px" }}
-                    value={client}
-                    onChange={(e) => {
-                      setClient(e.target.value);
-                    }}
-                  /> */}
+              
                    <label>Responsable</label>
               <select
                style={{ width: "90% ", height: "20px" }}

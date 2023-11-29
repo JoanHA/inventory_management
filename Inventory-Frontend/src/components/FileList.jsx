@@ -51,6 +51,7 @@ function FileList({ id }) {
     });
   };
   const handleDownload = (url, filename) => {
+    // console.log(filename)
     axios
       .get(url, {
         responseType: "blob",
@@ -86,7 +87,7 @@ function FileList({ id }) {
               <thead>
                 <tr>
                   <th>Nombre</th>
-                  <th>Tipo de archivo</th>
+                 
                   <th>Equipo</th>
                   <th>Fecha de subida</th>
                   <th colSpan={2}>Opciones</th>
@@ -97,8 +98,8 @@ function FileList({ id }) {
                   datos.map((element, index) => {
                     return (
                       <tr key={index}>
-                        <td>{element && element.file_name.split("-")[1]}</td>
-                        <td>{element && element.file_type.split("/")[1]}</td>
+                        <td>{element && element.original_name}</td>
+                     
                         <td>{element && element.equip_name}</td>
                         <td>{element && element.created_at.split("T")[0]}</td>
                         <td colSpan={2}>
@@ -107,7 +108,7 @@ function FileList({ id }) {
                             onClick={() => {
                               handleDownload(
                                 `${URI}${element.file_name}`,
-                                element.file_name.split("-")[1]
+                                element.original_name
                               );
                             }}
                           >

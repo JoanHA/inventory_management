@@ -35,7 +35,7 @@ router.get("/", (req, res) => {
         data.push(element);
       });
 
-      res.send(data);
+      res.status(200).send(data);
     });
   } catch (error) {
     console.log(error);
@@ -58,8 +58,11 @@ router.post("/", multer({ storage }).single("file"), (req, res) => {
     user,
     status
   } = body;
-
-  const FilePath = file.filename;
+var  FilePath = "";
+  if(file){
+     FilePath = file.filename;
+  }
+ 
   data = {
     name,
     description,
@@ -73,9 +76,10 @@ router.post("/", multer({ storage }).single("file"), (req, res) => {
     file: FilePath,
     created_by: parseInt(user),
   };
-  console.log(data);
+
   db.query("INSERT INTO events SET ?", [data], (err, result) => {
     if (err) {
+      console.log(err);
       return res.status(500).json({ message: err });
     }
     if (result.affectedRows > 0) {
@@ -112,7 +116,7 @@ router.get("/:id", (req, res) => {
       }
       console.log("evento encontrado exitosamente");
 
-      res.json(result);
+      res.send(result);
     });
   } catch (error) {
     console.log(error);

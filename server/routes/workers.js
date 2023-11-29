@@ -9,13 +9,12 @@ const helper = require("../lib/helpers.js")
 //Get all
 router.get("/", (req, res) => {
    db.query("SELECT *,  (select name from params where params.id = workers.status) as status_name FROM workers where status <> 3",(err,result)=>{
-    if(err){
+    console.log(err)
+    if(err !=null){
         console.log(err)
-         return  res.status(300).send("Tuvimos un error intenta mas tarde");
+         return  res.status(300).status("Tuvimos un error intenta mas tarde",err);
     }
-    if (result.length < 1) {
-        return res.status(404).send("No hay colaboradores registrados");
-    }
+  
  const data = []
     result.forEach((element) => {
       element.enroll_date = helper.convertTime(element.enroll_date)

@@ -10,8 +10,13 @@ function Workers() {
 
   useEffect(() => {
     const getData = async () => {
-      const res = await getWorkers();
-      setData(res.data);
+      try {
+        const res = await getWorkers();
+        setData(res.data);
+      } catch (error) {
+       console.log(error);
+      }
+
     };
     getData();
   }, []);

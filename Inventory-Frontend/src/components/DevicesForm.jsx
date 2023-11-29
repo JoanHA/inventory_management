@@ -4,7 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import Add from "./Add";
 import Masive from "./Masive";
 import { useAuth } from "../context/AuthContext";
-import { getParameters, getOneDevice, onDelete } from "../api/devices.controller";
+import {
+  getParameters,
+  getOneDevice,
+  onDelete,
+} from "../api/devices.controller";
 import "./../assets/css/create.css";
 import { getWorkers } from "../api/workers.controllers";
 import DownloadHistorical from "./DownloadHistorical";
@@ -53,23 +57,37 @@ function DevicesForm() {
       const datos = res.data; // datos
       datos.map((dato) => {
         //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
-
-        switch (dato.paramtype_id) {
-          case 201:
+     if(dato.param_state == 1){
+      switch (dato.paramtype_id) {
+        case 201:
+         
             marcas.push([dato.id, dato.name]);
-            break;
-          case 203:
+       
+
+          break;
+        case 203:
+        
             discos.push([dato.id, dato.name]);
-            break;
-          case 204:
+       
+
+          break;
+        case 204:
+          
             rams.push([dato.id, dato.name]);
-            break;
-          case 208:
+          
+
+          break;
+        case 208:
+          
             equipos.push([dato.id, dato.name]);
-            break;
-          default:
-            break;
-        }
+          
+
+          break;
+        default:
+          break;
+      }
+     }
+     
       });
       ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
       setMarks(marcas);
@@ -88,9 +106,9 @@ function DevicesForm() {
       var Editado = false;
       const res = await update(params.id, data);
       if (res.status === 200) {
-        Editado  = true;
-      }else{
-        Editado  = false;
+        Editado = true;
+      } else {
+        Editado = false;
       }
 
       if (data.files.length > 0) {
@@ -100,21 +118,25 @@ function DevicesForm() {
             formData.append("files", data.files[i]);
           }
           const res = await saveFiles(params.id, formData);
-       
+
           if (res.status == 200) {
-            Editado  = true;
-          }else{
-            Editado  = false;
+            Editado = true;
+          } else {
+            Editado = false;
           }
         } catch (error) {
-          swal.fire("El archivo que le agregaste al equipo no se pudo agregar, intenta mas tarde","","error")
+          swal.fire(
+            "El archivo que le agregaste al equipo no se pudo agregar, intenta mas tarde",
+            "",
+            "error"
+          );
         }
       }
-      if(Editado){
+      if (Editado) {
         swal.fire("Datos actualizados", "", "success").then(() => {
           window.location.reload();
         });
-      }else{
+      } else {
         swal.fire("No se pudo actualizar los datos", "", "error");
       }
       //creando
@@ -200,7 +222,7 @@ function DevicesForm() {
         final_value: equipData.final_value,
         sub_value: equipData.sub_value,
         phone: equipData.phone,
-        location :equipData.location
+        location: equipData.location,
       });
     } catch (error) {
       console.log(error);
@@ -212,6 +234,7 @@ function DevicesForm() {
   useEffect(() => {
     getWork();
     getParamFunction();
+    
 
     if (params.id) {
       getOne();
@@ -233,7 +256,7 @@ function DevicesForm() {
         </div>
         <Masive></Masive>
       </div>
-      <FileList  id ={params.id}/>
+      <FileList id={params.id} />
       <div className="px-4 py-3">
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className="row" id="Equip-row">
@@ -618,8 +641,10 @@ function DevicesForm() {
                       type="button"
                       className="btn btn-dark w-100"
                       style={{ maxHeight: "31px" }}
-                      onClick={()=>{
-                        document.getElementById("addModal").classList.remove("d-none")
+                      onClick={() => {
+                        document
+                          .getElementById("addModal")
+                          .classList.remove("d-none");
                       }}
                     >
                       <MdOutlineFileDownload
@@ -717,7 +742,6 @@ function DevicesForm() {
                       to={`/create_event/${params.id}`}
                     >
                       <span className="px-1">Añadir evento </span>
-                   
                     </Link>
 
                     {user.rol == 273 ? (
@@ -747,7 +771,6 @@ function DevicesForm() {
                   disabled={user.rol == 272 ? true : false}
                 >
                   Agregar
-               
                 </button>
                 <Link className="btn btn-success mx-3 " to={"/equipments"}>
                   Ver todo

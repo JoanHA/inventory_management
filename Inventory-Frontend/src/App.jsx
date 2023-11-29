@@ -27,7 +27,7 @@ const NewUser = lazy(() => import("./UsersPages/NewUser"));
 const Table = lazy(() => import("./components/Table"));
 const Cellphones = lazy(() => import("./pages/devices/Cellphones"));
 const Params = lazy(() => import("./pages/Params"));
-
+const Not_found = lazy(() => import("./pages/Not_Found"));
 
 const AllEventsOneEquip = lazy(() =>
   import("./pages/events/AllEventsOneEquip")
@@ -41,6 +41,7 @@ function App() {
           <BrowserRouter>
             <Header>
               <Routes>
+                <Route path="*" element={<Not_found/>}/>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route element={<ProtectedRoute />}>

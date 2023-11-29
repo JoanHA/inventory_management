@@ -13,7 +13,7 @@ function Header({ children }) {
       <div className="d-flex flex-row">
         <Sidebar></Sidebar>
         <div id="headerContainer" className="w-100 h-100">
-          <nav className="navbar bg-body-tertiary  justify-content-between">
+          <nav className="navbar bg-body-tertiary  justify-content-between" id="navbar">
             <button  className={isAuthenticated? "menu-icon": "menu-icon d-none"} onClick={click}>
               <span className="navbar-toggler-icon"></span>
             </button>

@@ -136,6 +136,25 @@ router.put("/:id", (req, res) => {
     }
   );
 });
+
+//update event
+router.put("/edit/:id",(req,res)=>{
+  const id = req.params.id
+  const {name, description}=(req.body.data)
+ 
+  db.query(`UPDATE events SET name = '${name}', description = '${description}' WHERE id = ${id}`,(error,result)=>{
+    if(error){
+      console.log(error)
+      res.status(500).json({message:error})
+      return;
+    }
+    if(result.affectedRows>0){
+      res.send({status:200,data:"Evento actualizado correctamente"})
+    }
+  })
+
+
+})
 //traer todos los eventos de un equipo
 router.get("/all/:id", (req, res) => {
   const id = req.params.id;

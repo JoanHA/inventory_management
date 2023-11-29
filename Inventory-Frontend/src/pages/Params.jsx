@@ -5,6 +5,7 @@ import Volver from "../components/Volver";
 import { Link, useAsyncError } from "react-router-dom";
 import ManageParam from "../components/ManageParam";
 import Add from "../components/Add";
+import { MdAddTask } from "react-icons/md";
 
 function Params() {
   const [mark, setMark] = useState([]);
@@ -12,8 +13,7 @@ function Params() {
   const [ram, setRam] = useState([]);
   const [disk_type, setDisk_type] = useState([]);
   //Valores para agregar
-  const [param_name, setParam_name] = useState("");
-  const [param_id, setParam_id] = useState(1);
+  const [addData, setAddData] = useState([]);
 
   //Valores para editar
   const [param, setParam] = useState("");
@@ -27,7 +27,6 @@ function Params() {
     const tipo_ram = [];
     const tipo_disco = [];
     datos.map((e) => {
-        console.log(e)
       switch (e.paramtype_id) {
         case 201: //Marcas
           if (e.param_state == 1) {
@@ -67,8 +66,12 @@ function Params() {
   };
   useEffect(() => {
     get();
+    document.querySelector("#addModal").classList.add("inactive");
   }, []);
-  const handleSave = () => {};
+  const handleSave = (name, id) => {
+    setAddData([name, id]);
+    document.querySelector("#addModal").classList.remove("inactive");
+  };
   const editParam = (name, id, val) => {
     setParam(name);
     setId(id);
@@ -76,25 +79,50 @@ function Params() {
     setVal(val);
     document.getElementById("addParam").classList.remove("d-none");
   };
+  const Button = ({name, id})=>{
+    return(
+      <>
+        <button className="btn btn-dark px-2 py-2 my-1"
+        style={{maxHeight:"44px"}}
+          onClick={()=>{
+            handleSave(name,id)
+          }}
+        
+        ><MdAddTask   size={"1.5rem"}/></button>
+      </>
+    )
+  }
+  const refresh = ()=>{
+    get();
+  }
   return (
     <div>
+      <Helmet>
+        <title>Parametros</title>
+      </Helmet>
       <ManageParam name={param} id={id} value={val} />
-      <div className="d-none" id="addContainer">
-        <Add param={param_name} val={param_id} OnSaving={handleSave} />
-      </div>
-
+      <Add param={addData[0]} val={addData[1]} OnSaving={refresh} />
       <div className="event_header d-flex flex-align-items justify-content-between">
         Administrar Parametros <Volver />
       </div>
       <div className="px-4 py-2">
         <div className="text-center my-0 mt-1">
-          <h4 className="my-0"> <strong>Selecciona uno para editar o borrar</strong></h4>
+          <h4 className="my-0">
+            {" "}
+            <strong>Selecciona uno para editar o borrar</strong>
+          </h4>
+         
         </div>
         <div>
-          <div>
+          <div className="d-flex align-items-center gap-1">
             <label className="event_header my-2 ">
               <strong>Marcas</strong>
+             
             </label>
+            <div className=""> 
+                <Button name={"Marcas"} id={"201"}/>
+            </div>
+          
           </div>
           <div className="text-dark d-flex flex-wrap gap-2 px-3">
             {mark &&
@@ -116,10 +144,13 @@ function Params() {
           </div>
         </div>
         <div>
-          <div>
+          <div className="d-flex align-items-center gap-1">
             <label className="event_header my-2">
               <strong>Tipo de equipo</strong>
             </label>
+            <div className=""> 
+                <Button name={"Tipo de equipo"} id={"208"}/>
+            </div>
           </div>
           <div className="text-dark d-flex gap-2 px-3">
             {equip_type &&
@@ -141,10 +172,13 @@ function Params() {
           </div>
         </div>
         <div>
-          <div>
+          <div className="d-flex align-items-center gap-1">
             <label className="event_header my-2">
               <strong>Tipo de Ram</strong>
             </label>
+            <div className=""> 
+                <Button name={"Tipo de ram"} id={"204"}/>
+            </div>
           </div>
           <div className="text-dark d-flex gap-2 px-3">
             {ram &&
@@ -166,10 +200,13 @@ function Params() {
           </div>
         </div>
         <div>
-          <div>
+          <div className="d-flex align-items-center gap-1">
             <label className="event_header my-2">
               <strong>Tipo de disco duro</strong>
             </label>
+            <div className=""> 
+                <Button name={"Tipo de disco duro"} id={"203"}/>
+            </div>
           </div>
           <div className="text-dark d-flex gap-2 px-3">
             {disk_type &&

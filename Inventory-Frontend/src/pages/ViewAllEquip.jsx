@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Table from "../components/Table";
 import { getAllDevices } from "../api/devices.controller";
-import { HiOutlineDevicePhoneMobile } from "react-icons/hi2";
 import { Helmet } from "react-helmet";
 
 import { Link } from "react-router-dom";
@@ -53,7 +52,7 @@ function ViewAllEquip() {
         </Helmet>
       <div className="event_header mb-2">Equipos registrados</div>
       <Link
-      className="px-5"
+      className="my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-5 "
         to="/cellphones"
       >
         <span className="">Celulares</span>

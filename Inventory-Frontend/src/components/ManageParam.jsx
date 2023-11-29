@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { editParams, DeleteParams } from "../lib/saveParams";
+import { useNavigate } from "react-router-dom";
+
 function ManageParam({ name, id, value }) {
+
+  const navigate = useNavigate()
   //id es el id del parametro
   const {
     reset,
@@ -36,7 +40,8 @@ function ManageParam({ name, id, value }) {
 
           if (res.status == 200) {
             swal.fire("Editado correctamente", "", "success").then(() => {
-              window.location.reload();
+              // window.location.reload();
+              navigate(0)
             });
           }
         } catch (error) {
@@ -62,7 +67,7 @@ function ManageParam({ name, id, value }) {
 
           if (res.status == 200) {
             swal.fire("Eliminado correctamente", "", "success").then(() => {
-              window.location.reload();
+              navigate(0)
             });
           }
         } catch (error) {

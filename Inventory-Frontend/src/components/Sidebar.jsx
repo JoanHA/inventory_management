@@ -96,7 +96,10 @@ function Sidebar() {
                   </Link>
                 </li>
              
-                <li className="sidebarLi">
+               
+              </>
+            ):""}
+             <li className="sidebarLi">
                   <Link
                     to="/createWorker"
                     className={
@@ -110,8 +113,6 @@ function Sidebar() {
                     <span className="tittles"> Crear Colaborador</span>
                   </Link>
                 </li>
-              </>
-            ):""}
              <li>
               <Link to={"/Workers"}
                 className={

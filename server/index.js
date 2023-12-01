@@ -12,6 +12,7 @@ const user = require("./controllers/userControllers/user.js")
 const cors = require("cors");
 const workers = require("./routes/workers.js")
 const MasiveSaveWorkers = require("./controllers/others/MasiveSaveWorkers.js")
+const recover = require("./routes/recover.js")
 //initialize
 const app = express();
 app.set("port", process.env.PORT);
@@ -32,7 +33,7 @@ app.use("/api/events", events); //Route for events
 app.use("/api/users",user)
 app.use("/api/workers",workers)
 app.use("/api/worker/masive",MasiveSaveWorkers)
-
+app.use("/api/recover",recover)
 //Route to save the data from the excel
 app.use("/api/masive",masive)
 

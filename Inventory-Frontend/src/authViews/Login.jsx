@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import logo from "../assets/img/grupo-carval-Logo-Bioart.png";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 
+import RecoverCode from "../components/Recovering/RecoverCode";
 function Login() {
+
+
   const navigate = useNavigate();
   const { GetIn, Errores } = useAuth();
   const {
@@ -15,7 +18,7 @@ function Login() {
   const onSubmit = async (data) => {
     try {
       const res = await GetIn(data);
-    
+
       if (Errores == null) {
         if (res.data.status == 200) {
           Swal.fire({
@@ -44,16 +47,16 @@ function Login() {
 
   return (
     <div>
-      <div className="d-flex  align-items-center justify-content-center">
+      <div className="d-flex  align-items-center justify-content-center ">
         <div
           id="form-container"
           className="  gap-3 py-3  mt-4"
           style={{ width: "300px", maxWidth: "30rem" }}
         >
           <div className="d-flex justify-content-center flex-column align-items-center">
-            <div className="signUpHeader">
-              <h4>Iniciar sesión</h4>
-            </div>
+            {/* <div className="signUpHeader">
+            <h3> <strong>Bienvenido</strong> </h3>
+            </div> */}
             <div
               className="d-flex align-items-center px-3"
               style={{ height: "80px", borderRadius: "200px" }}
@@ -61,14 +64,16 @@ function Login() {
               <img src={logo} alt="" width={200} />
             </div>
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center align-items-center flex-column">
             <form action="" className="w-75" onSubmit={handleSubmit(onSubmit)}>
               <div className="d-flex flex-column gap-2 justify-content-center ">
-                {Errores && Errores.map((error) => (<div key={0} className="spanError">
-                  <div ></div>
-                  {error}
-          
-                  </div>))}
+                {Errores &&
+                  Errores.map((error) => (
+                    <div key={0} className="spanError">
+                      <div></div>
+                      {error}
+                    </div>
+                  ))}
                 <div className="form-floating rounded ">
                   <input
                     type="email"
@@ -86,30 +91,33 @@ function Login() {
                     type="password"
                     className="form-control form-control-sm inputs"
                     id="floatingPassword"
-                    {...register("password", { required: true})}
+                    {...register("password", { required: true })}
                   />
                   {errors.password?.type === "required" && (
                     <p className="errorMsg">Este campo es requerido</p>
                   )}
-                  
 
                   <label htmlFor="floatingPassword">Contraseña</label>
                 </div>
-                {/* <div className="align-self-end ">
-                  <Link className="initLink">Olvide mi contraseña</Link>
-                </div> */}
+
                 <div className="d-flex justify-content-center w-100 mt-3">
                   <button className="btn btn-success w-75">
                     Iniciar sesión
                   </button>
                 </div>
-                <div className="align-self-center ">
-                  <Link to={"/register"} className="w-75  initLink">
-                    No tengo cuenta
-                  </Link>
-                </div>
               </div>
             </form>
+            <div className="d-flex  flex-column mt-3  align-items-center justify-content-between w-100 px-2 ">
+              <div>
+                <Link className="initLink " to={"/enterEmail"} >¿Olvidaste tu contraseña?</Link>
+              </div>
+              <div className="">
+              <label className="initLabel"> ¿No tienes cuenta?</label>
+                <Link to={"/register"} className=" initLink ">
+               Crea una cuenta
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </div>

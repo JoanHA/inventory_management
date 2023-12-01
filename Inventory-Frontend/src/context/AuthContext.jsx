@@ -20,27 +20,28 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setisAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [Errores, setErrores] = useState(null)
+  const [Errores, setErrores] = useState(null);
+  const [otp, setOtp] = useState(null);
+  const [email, setEmail] = useState("");
 
- 
   const logOut = () => {
     Cookies.remove("token");
     setUser(null);
     setisAuthenticated(false);
   };
-useEffect(()=>{
-  const time = setTimeout(()=>{
-    setErrores(null)
-  },3000)
-  return ()=>{
-    clearTimeout(time)
-  }
-},[Errores])
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setErrores(null);
+    }, 3000);
+    return () => {
+      clearTimeout(time);
+    };
+  }, [Errores]);
 
   const GetIn = async (data) => {
     try {
       const res = await Login(data);
-   
+
       if (res.status === 200) {
         setisAuthenticated(true);
         setUser(res.data.data.user);
@@ -49,16 +50,15 @@ useEffect(()=>{
         return res;
       }
     } catch (error) {
-   
       setLoading(false);
-      setErrores(error.response.data)
-      setisAuthenticated(false)
+      setErrores(error.response.data);
+      setisAuthenticated(false);
     }
   };
   const signup = async (user) => {
     try {
       const res = await SignUp(user);
-      console.log(res.data)
+      console.log(res.data);
       if (res) {
         if (res.data.status === 200) {
           setUser(res.data.message);
@@ -69,29 +69,25 @@ useEffect(()=>{
         }
       }
     } catch (error) {
-     
-      setErrores(error.response.data)
-      setisAuthenticated(false)
-      setLoading(false)
+      setErrores(error.response.data);
+      setisAuthenticated(false);
+      setLoading(false);
     }
     return false;
   };
 
-  const PasswordChanger = async (newData)=>{
+  const PasswordChanger = async (newData) => {
     try {
       const res = await changePassword(newData);
-      if(res.status==200){
+      if (res.status == 200) {
         setLoading(false);
         return 200;
       }
     } catch (error) {
-      console.log(error)
-      setErrores(error.response.data)
-      
+      console.log(error);
+      setErrores(error.response.data);
     }
-     
-
-  }
+  };
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -105,13 +101,13 @@ useEffect(()=>{
 
       try {
         const res = await verifyToken({ token: cookies.token });
-        if(!res.data){
+        if (!res.data) {
           setisAuthenticated(false);
           return;
         }
         setisAuthenticated(true);
         setUser(res.data.user);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.log(error);
         logOut();
@@ -130,7 +126,11 @@ useEffect(()=>{
         logOut,
         isAuthenticated,
         Errores,
-        PasswordChanger
+        PasswordChanger,
+        email,
+        setEmail,
+        otp,
+        setOtp,
       }}
     >
       {children}

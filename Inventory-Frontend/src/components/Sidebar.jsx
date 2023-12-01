@@ -29,7 +29,7 @@ function Sidebar() {
     const urlActual = history.pathname;
        setPath(urlActual)
     
-    if (urlActual == "/login" || urlActual == "/register") {
+    if (urlActual == "/login" || urlActual == "/register" ||urlActual == "/otp" || urlActual == "/reset" || urlActual == "/enterEmail") {
       document.getElementById("sidebarContainer").style.display = "None";
     } else {
       document.getElementById("sidebarContainer").style.display = "block";

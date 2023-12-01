@@ -43,7 +43,7 @@ router.post("/params", (req, res) => {
     }
   );
 });
-
+//Obtener los tipos de eventos 
 router.get("/events_type", (req, res) => {
   db.query(
     "SELECT id, name FROM params where paramtype_id=200",
@@ -78,6 +78,8 @@ router.post("/verifyToken", async (req, res) => {
     }
   });
 });
+
+//Cambiar contraseña para usuario
 router.post("/changePassword", (req, res) => {
   const { id } = req.body;
 //Buscat el usuario que tenga ese id
@@ -157,8 +159,43 @@ router.post("/changePassword", (req, res) => {
 
 });
 
+//cambiar contraseña con email
+router.put("/changePassword/email", (req, res) => {
+  const { email,password } = req.body;
 
-//Manejo de parametros
+//Buscar el usuario que tenga ese email
+  db.query(
+    "SELECT * from users where email = ? ",
+    [email],
+    async (err, rows) => {
+      if (err) throw new Error(err);
+      //Validar que hayan usuarios con ese email
+      if (rows.length > 0) {
+        //Validar si es usuario es administrar o no
+            const hashPassword = await helper.encypt(password); //Si son iguales encriptar la contraseña nueva
+            //Actualizar usuario
+            db.query(
+              "UPDATE users SET password = ? where email = ?",
+              [hashPassword, email],
+              (error, result) => {
+                if (error) throw new Error(error);
+                console.log(result);
+                res.send("Usuario actualizado Correctamente!"); //Usuario  Actualizado
+              }
+            );
+         
+         
+     
+      }else {
+        res.status(300).send(["No hay usuarios con ese email"]);
+      }
+    }
+  );
+
+});
+
+
+//editar de parametros
 router.put("/editParams/:id",(req,res)=>{
   const id = req.params.id;
   const{ name}  =req.body 
@@ -177,6 +214,7 @@ router.put("/editParams/:id",(req,res)=>{
 
 
 })
+//eliminar parametro
 router.delete("/deleteParams/:id",(req,res)=>{
   const id = req.params.id;
   const año  =   new Date().getFullYear()

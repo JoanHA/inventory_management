@@ -9,3 +9,4 @@ export const updateUser =async (id,data)=> axios.post(`${URI}api/users/${id}`,da
 export const CreateUser =async (data)=> axios.post(`${URI}api/users/create`,data); 
 
 export const changePassword = async (data) => axios.post(`${URI}api/utils/changePassword`,data)
+export const changePasswordEmail = async (data) => axios.put(`${URI}api/utils/changePassword/email`,data)

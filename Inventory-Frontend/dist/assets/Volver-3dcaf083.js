@@ -1,0 +1,1 @@
+import{j as n}from"./index-ff15ffff.js";function r(){return n.jsx("div",{children:n.jsx("button",{className:"btn btn-secondary btn-sm",onClick:()=>{window.history.back()},children:" Volver"})})}export{r as V};

@@ -113,7 +113,7 @@ function RecoverCode() {
             }}
             onClick={() => resendOTP()}
           >
-            {disable ? `Reenviar código en ${timerCount}s` : "Resend OTP"}
+            {disable ? `Reenviar código en ${timerCount}s` : "Reenviar código"}
           </Link>
         </div>
       </div>

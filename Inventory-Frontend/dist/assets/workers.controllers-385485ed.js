@@ -1,1 +1,0 @@
-import{b as e,U as r}from"./index-ff15ffff.js";const t=async()=>e.get(r+"api/workers/"),c=async s=>e.get(r+`api/workers/${s}`),n=async s=>e.post(r+"api/workers/",s),k=async(s,a)=>e.put(r+`api/workers/${s}`,a),i=async s=>e.delete(r+`api/workers/${s}`),p=async s=>e.post(r+"api/worker/masive",s);export{c as a,n as c,i as d,k as e,t as g,p as s};

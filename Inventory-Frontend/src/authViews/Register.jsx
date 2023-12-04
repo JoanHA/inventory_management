@@ -47,9 +47,9 @@ function Register() {
           style={{ width: "320px", maxWidth: "25rem" }}
         >
           <div className="d-flex justify-content-center flex-column align-items-center">
-            <div className="signUpHeader">
+            {/* <div className="signUpHeader">
               <h4>Registrarse</h4>
-            </div>
+            </div> */}
             <div
               className="  d-flex align-items-center px-3"
               style={{ height: "80px", borderRadius: "200px" }}
@@ -57,13 +57,12 @@ function Register() {
               <img src={logo} alt="" width={200} />
             </div>
           </div>
-          <div className="d-flex justify-content-center">
-            <form className="w-75" onSubmit={handleSubmit(onSubmit)}>
-              <div className="d-flex flex-column gap-2 justify-content-center ">
+          <div className="">
+            <form className="w-100 mx-auto d-flex justify-content-center" onSubmit={handleSubmit(onSubmit)}>
+              <div className="d-flex flex-column gap-2 justify-content-center w-75">
                 {Errores &&
                   Errores.map((error) => (
                     <div key={0} className="spanError">
-                      <div></div>
                       {error}
                     </div>
                   ))}
@@ -103,30 +102,34 @@ function Register() {
                     type="password"
                     className="form-control form-control-sm inputs"
                     id="floatingPassword"
-                    {...register("password", { required: true ,minLength:8 })}
+                    {...register("password", { required: true, minLength: 8 })}
                   />
                   {errors.password && errors.password.type === "required" ? (
                     <div className="errorMsg">Este campo es requerido</div>
                   ) : null}
-                    {errors.password?.type === "minLength" && (
-                    <p className="errorMsg">La contraseña debe de tener minimo 8 carácteres</p>
+                  {errors.password?.type === "minLength" && (
+                    <p className="errorMsg">
+                      La contraseña debe de tener minimo 8 carácteres
+                    </p>
                   )}
                   <label htmlFor="floatingPassword">Contraseña</label>
                 </div>
 
                 <div className="d-flex justify-content-center w-100 mt-3">
-                  <button className="btn btn-success w-75">Registrarse</button>
+                  <button className="btn btn-success w-100">Registrarse</button>
                 </div>
-                <div className=" align-self-center  ">
-              
-              <Link to={"/login"} className="initLink">
-                ¿Ya tienes cuenta?
-              </Link>
-            </div>
+             
               </div>
             </form>
+            <div className=" d-flex mt-2 justify-content-center ">
+                  <label htmlFor="" className="initLabel">
+                    ¿Ya tienes cuenta?
+                  </label>
+                  <Link to={"/login"} className="initLink">
+                    Inicia sesión
+                  </Link>
+                </div>
           </div>
-        
         </div>
       </div>
     </div>

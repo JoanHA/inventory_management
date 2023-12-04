@@ -103,7 +103,7 @@ function RecoverCode() {
         </form>
 
         <div className="d-flex flex-row gap-2 ">
-          <p>No recibiste un correo?</p>{" "}
+          <p>No recibiste un correo?</p>
           <Link
             className="flex flex-row items-center"
             style={{
@@ -113,8 +113,8 @@ function RecoverCode() {
             }}
             onClick={() => resendOTP()}
           >
-            {disable ? `Resend OTP in ${timerCount}s` : "Resend OTP"}
-          </Link>{" "}
+            {disable ? `Reenviar código en ${timerCount}s` : "Resend OTP"}
+          </Link>
         </div>
       </div>
     </div>

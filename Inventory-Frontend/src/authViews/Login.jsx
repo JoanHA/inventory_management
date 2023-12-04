@@ -6,8 +6,6 @@ import { useAuth } from "../context/AuthContext";
 
 import RecoverCode from "../components/Recovering/RecoverCode";
 function Login() {
-
-
   const navigate = useNavigate();
   const { GetIn, Errores } = useAuth();
   const {
@@ -109,12 +107,14 @@ function Login() {
             </form>
             <div className="d-flex  flex-column mt-3  align-items-center justify-content-between w-100 px-2 ">
               <div>
-                <Link className="initLink " to={"/enterEmail"} >¿Olvidaste tu contraseña?</Link>
+                <Link className="initLink " to={"/enterEmail"}>
+                  ¿Olvidaste tu contraseña?
+                </Link>
               </div>
-              <div className="">
-              <label className="initLabel"> ¿No tienes cuenta?</label>
-                <Link to={"/register"} className=" initLink ">
-               Crea una cuenta
+              <div>
+                <label className="initLabel"> ¿No tienes cuenta?</label>
+                <Link to={"/register"} className="initLink ">
+                  Crea una cuenta
                 </Link>
               </div>
             </div>

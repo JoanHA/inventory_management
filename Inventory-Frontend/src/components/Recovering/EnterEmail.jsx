@@ -62,7 +62,7 @@ function EnterEmail() {
               )}
             </div>
             <div className="w-100">
-              <button className="btn-primary btn btn-lg mt-1 btn-block w-100">
+              <button className="btn-success btn btn-lg mt-1 btn-block w-100">
                 Continuar
               </button>
             </div>

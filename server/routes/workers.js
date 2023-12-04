@@ -68,7 +68,6 @@ router.post("/",(req,res)=>{
 //Edit
 router.put("/:id",(req,res)=>{
     const datos = req.body
-    datos.updated_at = new Date();
     const id = req.params.id
     db.query(`UPDATE workers SET ? where workers.id = ? `,[datos,id],(err,result)=>{
         if(err){

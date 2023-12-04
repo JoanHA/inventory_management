@@ -74,7 +74,7 @@ function UserManagement() {
       <div className="Users">
         <div className="userTable table-responsive px-3 py-1">
           <div className="d-flex justify-content-end">
-            <Link to="/createUser" className="btn btn-primary mx-5">
+            <Link to="/createUser" className="btn btn-primary mx-1">
               Nuevo Usuario
             </Link>
           </div>

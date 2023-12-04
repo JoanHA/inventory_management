@@ -259,7 +259,6 @@ router.put("/equip/:id", (req, res) => {
       equipment_type:            parseInt(equip_type),
       ram           :            completeRam,
       hard_disk     :            completeDisk,
-      updated_at    :            new Date(),
       location      :            req.body.location
     };
   

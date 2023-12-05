@@ -27,5 +27,12 @@ helper.convertTime = (timeStamp)=>{
         .padStart(2, "0")}/${day.toString().padStart(2, "0")}`;
       return formattedDate;
 }
+helper.convertDate = (Stringdate)=>{
+  const año = Stringdate.toString().substring(0,4)
+  const mes = Stringdate.toString().substring(4,6)
+  const dia = Stringdate.toString().substring(6,8)
+  const fecha = (`${año}-${mes}-${dia}`)
+  return fecha
+}
 
 module.exports = helper

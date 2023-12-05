@@ -96,5 +96,21 @@ router.delete("/:id",(req,res)=>{
 
     })
 })
+//Obtener equipos de un trabajador
+router.get("/equip/:id",(req,res)=>{
+    const id = req.params.id;
+console.log(id)
+    db.query(`SELECT equipments.*,
+     (SELECT name from params where params.id = equipments.status) AS status_name,
+    (SELECT name FROM params WHERE params.id = equipments.equipment_type) AS equipment_type_name 
+    FROM equipments WHERE equipments.user = ?`,[id],(err,result)=>{
+        if(err){
+            console.log(err)
+            return res.status(500).send("tuvimos un error")
+        }
+        res.send(result)
+    })
+})
+
 
 module.exports = router;

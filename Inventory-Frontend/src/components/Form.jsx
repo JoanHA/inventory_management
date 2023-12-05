@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-
+import Asigned from "./Asigned";
 import MasiveWorkers from "./MasiveWorkers";
 import {
   createWorkers,
@@ -157,11 +157,14 @@ function Form() {
       setErrors(error.response.data);
     }
   };
-
+  const open = ()=>{
+    document.getElementById("asignedModal").classList.add("d-block")
+  }
   return (
     <div className="">
       <MasiveWorkers />
-      <div className="d-flex flex-column justify-content-center w-50 mx-auto py-3">
+      <Asigned id={params.id} />
+      <div className="d-flex flex-column justify-content-center w-50 mx-auto py-1">
         <div>
           <h3>
             <strong>{params.id ? "Editar" : "Crear"} colaborador</strong>
@@ -183,7 +186,7 @@ function Form() {
               <input
                 {...register("dni", { required: true })}
                 type="number"
-                placeholder=" CC... "
+                placeholder="CC... "
                 className="form-control form-control-sm"
               />
               {errors.nit?.type == "required" && (
@@ -208,7 +211,7 @@ function Form() {
                 {...register("email")}
                 type="email"
                 className="form-control form-control-sm"
-                placeholder="email@ejemplo..."
+                placeholder="Email@ejemplo..."
               />
               {errors.email && (
                 <div className="errorMsg">Este campo es requerido</div>
@@ -238,7 +241,7 @@ function Form() {
               </select>
             </div>
             <div className="form-group">
-              <label>fecha de ingreso</label>
+              <label>Fecha de ingreso</label>
               <input
                 {...register("enroll_date", { required: true })}
                 type="date"
@@ -278,6 +281,7 @@ function Form() {
                   >
                     Borrar
                   </button>
+                  <button className="btn btn-info btn-sm" type="button" onClick={open}>Equipos asignados</button>
                 </>
               ) : (
                 <>
@@ -288,6 +292,7 @@ function Form() {
                
                 </>
               )}
+            
             </div>
           </form>
         </div>

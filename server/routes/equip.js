@@ -138,19 +138,27 @@ router.post("/equip",upload, async (req, res) => {
 router.post("/equip/addFiles/:id",upload,(req,res)=>{
   const archivos = req.files 
   const id = req.params.id;
+  var enviados =0;
 
   if(archivos.length >0){
     archivos.map(file=>{
       db.query(`INSERT INTO files (file_name,file_type, original_name,equipment,status)values(?,?,?,?,?)`,[file.filename,file.mimetype,file.originalname, id , 1],(err,result)=>{
         if (err) {
           console.log(err);
-          res.status(302).send("Tuvimos un error Intenta mas tarde")
-          return;
+          return res.status(302).send("Tuvimos un error Intenta mas tarde")
+        
+        }else{
+          console.log(result)
+          enviados++
+          if(enviados == archivos.length){
+            res.send("Archivos guardados con exito!")
+          }
         }
-        console.log(result)
-        res.send("Archivo guardado con exito!")
+       
       })
+
     })
+   
 }
 })
 
@@ -228,14 +236,10 @@ router.put("/equip/:id", (req, res) => {
     const {
       equip_type,
       ram,
-      formatDisk,
-      formatRam,
       hard_disk,
     } = req.body;
    
   
-    const completeRam = ram + " " + formatRam;
-    const completeDisk = hard_disk + " " + formatDisk;
     const datos = {
       name          :            req.body.name,
       user          :            req.body.user == "" ? 0 : parseInt(req.body.user),
@@ -257,8 +261,8 @@ router.put("/equip/:id", (req, res) => {
       bought_at     :            req.body.bought_at,
       phone         :            req.body.phone,
       equipment_type:            parseInt(equip_type),
-      ram           :            completeRam,
-      hard_disk     :            completeDisk,
+      ram           :            ram,
+      hard_disk     :            hard_disk,
       location      :            req.body.location
     };
   

@@ -30,8 +30,6 @@ function DevicesForm() {
   const [isPhone, SetIsPhone] = useState(false);
 
   const [equip, setEquip] = useState({});
-  const [ramQty, setramQty] = useState("");
-  const [diskQty, setdiskQty] = useState("");
 
   const {
     register,
@@ -57,37 +55,28 @@ function DevicesForm() {
       const datos = res.data; // datos
       datos.map((dato) => {
         //201: Marcas, 203: tipo de disco duro, 204: tipo de ram,  208: tipo de equipo
-     if(dato.param_state == 1){
-      switch (dato.paramtype_id) {
-        case 201:
-         
-            marcas.push([dato.id, dato.name]);
-       
+        if (dato.param_state == 1) {
+          switch (dato.paramtype_id) {
+            case 201:
+              marcas.push([dato.id, dato.name]);
 
-          break;
-        case 203:
-        
-            discos.push([dato.id, dato.name]);
-       
+              break;
+            case 203:
+              discos.push([dato.id, dato.name]);
 
-          break;
-        case 204:
-          
-            rams.push([dato.id, dato.name]);
-          
+              break;
+            case 204:
+              rams.push([dato.id, dato.name]);
 
-          break;
-        case 208:
-          
-            equipos.push([dato.id, dato.name]);
-          
+              break;
+            case 208:
+              equipos.push([dato.id, dato.name]);
 
-          break;
-        default:
-          break;
-      }
-     }
-     
+              break;
+            default:
+              break;
+          }
+        }
       });
       ///// desde AQUI GUARDO LOS DATOS EN LOS ESTADOS
       setMarks(marcas);
@@ -151,6 +140,7 @@ function DevicesForm() {
           formData.append(key, data[key]);
         }
       }
+
       await createEquip(formData);
     }
   };
@@ -193,15 +183,16 @@ function DevicesForm() {
       }
 
       setEquip(res.data[0]); //Darle formato a el valor de ram y disco duro
-      var ramFormat = equipData.ram.toString().split(" ");
-      var diskFormat = equipData.hard_disk.toString().split(" ");
-      const ram = ramFormat[0];
-      const disk = diskFormat[0];
-      const ramQty = ramFormat[1];
-      const diskQty = diskFormat[1];
+      // var ramFormat = equipData.ram.toString().split(" ");
+      // var diskFormat = equipData.hard_disk.toString().split(" ");
+      // const ram = ramFormat[0];
+      // const disk = diskFormat[0];
+      // const ramQty = ramFormat[1];
+      // const diskQty = diskFormat[1];
+      // // console.log(ram)
 
-      setdiskQty(diskQty);
-      setramQty(ramQty);
+      // setdiskQty(diskQty);
+      // setramQty(ramQty);
 
       reset({
         name: equipData.name,
@@ -213,8 +204,8 @@ function DevicesForm() {
         proccesor: equipData.proccesor,
         system: equipData.system,
         antivirus: equipData.antivirus,
-        ram: ram,
-        hard_disk: disk,
+        ram: equipData.ram,
+        hard_disk: equipData.hard_disk,
         status: equipData.status,
         bought_at: equipData.bought_at.replaceAll("/", "-"),
         deliver_at: equipData.deliver_at.replaceAll("/", "-"),
@@ -234,7 +225,6 @@ function DevicesForm() {
   useEffect(() => {
     getWork();
     getParamFunction();
-    
 
     if (params.id) {
       getOne();
@@ -424,12 +414,12 @@ function DevicesForm() {
               <label>Cantidad de ram</label>
               <div className="d-flex align-item-center justify-content-center">
                 <input
-                  type="number"
+                  type="text"
                   {...register("ram")}
                   className="form-control GB-TB form-control-sm"
-                  placeholder="0"
+                  placeholder="0 GB"
                 />
-                <select
+                {/* <select
                   className="form-select form-select-sm md-3"
                   style={{ width: "80px" }}
                   {...register("formatRam")}
@@ -440,19 +430,19 @@ function DevicesForm() {
                   <option value="TB" selected={ramQty == "TB" ? true : false}>
                     TB
                   </option>
-                </select>
+                </select> */}
               </div>
             </div>
             <div className=" col-12  col-sm-6 col-md-2 ">
               <label htmlFor="">Cantidad de disco duro</label>
               <div className="d-flex justify-content-center">
                 <input
-                  type="number"
+                  type="text"
                   {...register("hard_disk")}
                   className="form-control form-control-sm"
-                  placeholder="0"
+                  placeholder="0TB"
                 />
-                <select
+                {/* <select
                   className="form-select form-select-sm md-3 GB-TB"
                   style={{ width: "80px" }}
                   {...register("formatDisk")}
@@ -464,7 +454,7 @@ function DevicesForm() {
                     {" "}
                     TB
                   </option>
-                </select>
+                </select> */}
               </div>
             </div>
             <div className=" col-12 col-sm-3 col-md-3">

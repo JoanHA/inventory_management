@@ -49,7 +49,7 @@ function Header({ children }) {
               </div>
             </div>
           </nav>
-          <div id="Contenedor" className="w-100 vh-100">
+          <div id="Contenedor" className="w-100 ">
             {children}
           </div>
         </div>

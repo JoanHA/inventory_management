@@ -39,7 +39,7 @@ function Table({ data, columns, editType }) {
     if (window.innerWidth < 1148) {
       table.setPageSize(Number(6));
     } else {
-      table.setPageSize(Number(10));
+      table.setPageSize(Number(8));
     }
   }, [pageSize]);
 

@@ -18,29 +18,24 @@ function Masive() {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    formData.append("file",data.file[0])
+    formData.append("file", data.file[0]);
     try {
-          const res = await   saveMasive(formData)
-          console.log( res)   
-          if(res.status ==200){
-            swal.fire("Datos guardados","","success").then(()=>{
-              reset();
-              close();
+      const res = await saveMasive(formData);
 
-            })
-          }  else{
-            swal.fire("Lo sentimos algo salio mal","","error").then(()=>{
-              reset();
-              close();
-
-            })
-
-          }
+      if (res.status == 200) {
+        swal.fire("Datos guardados", "", "success").then(() => {
+          reset();
+          close();
+        });
+      } else {
+        swal.fire("Lo sentimos algo salio mal", "", "error").then(() => {
+          reset();
+          close();
+        });
+      }
     } catch (error) {
-      console.log(error)
-      
+      console.log(error);
     }
-
   };
 
   return (
@@ -56,9 +51,15 @@ function Masive() {
               <div className=" text-center"></div>
             </div>
             <div className="text-center d-flex flex-column mb-2 align-items-center">
-            {errors.file?.type == "required" && (<p className="errorMsg mb-0">Este campo no puede ir vacio</p>)}
-              <input type="file" className="form-control mb-3"  {...register("file",{required:true})}/>
-           
+              {errors.file?.type == "required" && (
+                <p className="errorMsg mb-0">Este campo no puede ir vacio</p>
+              )}
+              <input
+                type="file"
+                className="form-control mb-3"
+                {...register("file", { required: true })}
+              />
+
               <p className="errorMsg align-self-center">
                 Recuerda que debe ser un archivo excel (.xls)
               </p>

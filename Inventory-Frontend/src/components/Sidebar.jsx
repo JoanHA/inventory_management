@@ -20,6 +20,7 @@ function Sidebar() {
   const [path,setPath]= useState(history.pathname);
 
   useEffect(() => {
+    console.log(user)
     setLogUser(user);
   }, [user]);
 
@@ -99,20 +100,23 @@ function Sidebar() {
                
               </>
             ):""}
-             <li className="sidebarLi">
-                  <Link
-                    to="/createWorker"
-                    className={
-                      path == "/createWorker"
-                        ? " SidebarLinks active"
-                        : " SidebarLinks"
-                    }
-                    
-                  >
-                    <TbUsersPlus  size={"2rem"} />
-                    <span className="tittles"> Crear Colaborador</span>
-                  </Link>
-                </li>
+            {
+              user && user.rol != 272 ? (  <li className="sidebarLi">
+              <Link
+                to="/createWorker"
+                className={
+                  path == "/createWorker"
+                    ? " SidebarLinks active"
+                    : " SidebarLinks"
+                }
+                
+              >
+                <TbUsersPlus  size={"2rem"} />
+                <span className="tittles"> Crear Colaborador</span>
+              </Link>
+            </li>):""
+            }
+          
              <li>
               <Link to={"/Workers"}
                 className={

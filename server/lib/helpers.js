@@ -29,7 +29,7 @@ helper.convertTime = (timeStamp)=>{
 }
 helper.convertDate = (Stringdate)=>{
   if (Stringdate == null || Stringdate =="") {
-    return null;
+    return "0000-00-00";
   }
   const año = Stringdate.toString().substring(0,4)
   const mes = Stringdate.toString().substring(4,6)

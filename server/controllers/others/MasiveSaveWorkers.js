@@ -31,7 +31,7 @@ async function saveInDb(exFile) {
       
         db.query("INSERT INTO workers SET ?", [datos], (err, result) => {
           if (err) throw new Error(err);
-          return true;
+          return  ;
         });
       });
     });

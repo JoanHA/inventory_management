@@ -82,8 +82,7 @@ router.post("/equip",upload, async (req, res) => {
   if (equip_type == null || equip_type == "") {
     equip_type  =232
   }
-  const completeRam = ram + " " + formatRam;
-  const completeDisk = hard_disk + " " + formatDisk;
+ 
   const datos = {
     name          :            req.body.name,
     user          :            req.body.user == "" ? 0 : parseInt(req.body.user),
@@ -101,12 +100,12 @@ router.post("/equip",upload, async (req, res) => {
     init_value    :            req.body.init_value == "" ? 0 : parseInt(req.body.init_value),
     final_value   :            req.body.final_value == "" ? 0 : parseInt(req.body.final_value),
     sub_value     :            req.body.sub_value,
-    deliver_at    :            req.body.deliver_at,
-    bought_at     :            req.body.bought_at,
+    deliver_at    :            req.body.deliver_at == ""? "0000-00-00":req.body.deliver_at,
+    bought_at     :            req.body.bought_at == ""? "0000-00-00":req.body.bought_at,
     phone         :            req.body.phone,
     equipment_type:            parseInt(equip_type),
-    ram           :            completeRam,
-    hard_disk     :            completeDisk,
+    ram           :            hard_disk,
+    hard_disk     :            hard_disk,
     location      :            req.body.location
   };
 
@@ -178,13 +177,13 @@ router.get("/equip/files/:id",(req, res)=>{
           res.status(302).send("Tuvimos un error intenta mas tarde")
           return;
         }
-        if (result.length <= 0) {
-          res.status(404).send({
-            status: 404,
-            message: "No se encontraron archivos para este equipo",
-          });
-          return;
-        }
+        // if (result.length <= 0) {
+        //   res.status(404).send({
+        //     status: 404,
+        //     message: "No se encontraron archivos para este equipo",
+        //   });
+        //   return;
+        // }
         res.send(result);
       });
     }

@@ -13,7 +13,7 @@ function DownloadHistorical({ id }) {
     
 
       var x = 10;
-      var y = 70;
+      var y = 80;
       var body = [];
 
       //Cabeceras de la tabla
@@ -51,9 +51,9 @@ function DownloadHistorical({ id }) {
       doc.text(`Marca: ${Data[0].mark_name}`, 10, x + 30);
       doc.text(`Estado: ${Data[0].status_name}`, 120, x + 30);
       doc.text(`Reponsable: ${Data[0].user_name}`, 10, x + 40);
-      doc.text(`Creado el: ${Data[0].created_at.split("T")[0]}`, 120, x + 40);
+      doc.text(`Creado el: ${Data[0].created_at.split("T")[0]}`, 10, x + 50);
 
-      doc.text("Eventos de este equipo", 65, 60);
+      doc.text("Eventos de este equipo", 70, 70);
 
       //Imprimir tabla de eventos
 
@@ -63,8 +63,8 @@ function DownloadHistorical({ id }) {
         head: [headers],
         theme: "striped",
         headStyles: {
-          lineWidth: 1,
-              fillColor: [204, 204, 255],
+          
+              fillColor: [240,248,255],
           textColor: [0, 0, 0],
         },
       });

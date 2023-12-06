@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Add from "./Add";
 import Masive from "./Masive";
 import { useAuth } from "../context/AuthContext";
@@ -21,6 +21,7 @@ function DevicesForm() {
   const params = useParams();
   const [parametro, setParametro] = useState();
   const { user } = useAuth();
+const navigate =   useNavigate()
 
   const [marks, setMarks] = useState([]);
   const [type, setType] = useState([]);
@@ -123,7 +124,8 @@ function DevicesForm() {
       }
       if (Editado) {
         swal.fire("Datos actualizados", "", "success").then(() => {
-          window.location.reload();
+          // window.location.reload();
+          navigate(0)
         });
       } else {
         swal.fire("No se pudo actualizar los datos", "", "error");

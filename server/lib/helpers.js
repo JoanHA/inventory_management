@@ -28,6 +28,9 @@ helper.convertTime = (timeStamp)=>{
       return formattedDate;
 }
 helper.convertDate = (Stringdate)=>{
+  if (Stringdate == null || Stringdate =="") {
+    return null;
+  }
   const año = Stringdate.toString().substring(0,4)
   const mes = Stringdate.toString().substring(4,6)
   const dia = Stringdate.toString().substring(6,8)

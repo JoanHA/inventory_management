@@ -16,7 +16,7 @@ function Register() {
 
   const onSubmit = async (values) => {
     const signed = await signup(values);
-    console.log(signed);
+   
     if (Errores == null) {
       if (signed.data.status == 200) {
         Swal.fire({

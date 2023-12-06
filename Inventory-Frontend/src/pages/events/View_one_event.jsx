@@ -62,7 +62,7 @@ function View_one_event() {
   const onSubmit = (data) => {
     async function update(status) {
       const res = await updateStatus(params.id, status);
-      console.log(res);
+   
       if (res.status === 200) {
         swal.fire("Estado Cambiado", "", "success").then(() => {
           location.reload();

@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (user) => {
     try {
       const res = await SignUp(user);
-      console.log(res.data);
+    
       if (res) {
         if (res.data.status === 200) {
           setUser(res.data.message);

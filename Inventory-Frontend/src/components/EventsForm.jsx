@@ -5,7 +5,7 @@ import axios from "axios";
 import "../assets/css/event_container.css"
 function EventsForm({ event,index }) {  
   const handleClick = async(url, filename) => {
-    console.log(filename)
+    
       axios
         .get(url, {
           responseType: "blob",

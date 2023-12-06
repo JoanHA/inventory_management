@@ -50,7 +50,7 @@ function Form() {
         if (result.isConfirmed) {
           try {
             const res = await createWorkers(data);
-            console.log(res.data);
+          
             if (res.status == 200) {
               swal
                 .fire("Colaborador creado con exito!", "", "success")
@@ -142,7 +142,7 @@ function Form() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const res = await deleteWorkers(params.id);
-          console.log(res.data);
+          
           if (res.status == 200) {
             swal
               .fire("Colaborador eliminado con exito!", "", "success")

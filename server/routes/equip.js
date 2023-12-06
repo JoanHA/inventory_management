@@ -79,6 +79,9 @@ router.post("/equip",upload, async (req, res) => {
   } = req.body;
   const archivos = req.files 
 
+  if (equip_type == null || equip_type == "") {
+    equip_type  =232
+  }
   const completeRam = ram + " " + formatRam;
   const completeDisk = hard_disk + " " + formatDisk;
   const datos = {

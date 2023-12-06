@@ -10,7 +10,7 @@ function FileList({ id }) {
     const get = async () => {
       try {
         const res = await getFiles(id);
-        console.log(res.data);
+       
         setDatos(res.data);
       } catch (error) {
        

@@ -92,7 +92,7 @@ function Create_event() {
         formData.append("event_reason", values.event_reason);
         formData.append("importance", values.importance);
         formData.append("status", values.status);
-        console.log(values)
+        
 
         const res = await SaveEvent(formData); //this the one that call tthe function in the backend
         if (res.status == 200) {

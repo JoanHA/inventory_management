@@ -10,7 +10,7 @@ function DownloadHistorical({ id }) {
       const doc = new jsPDF();
       const res = await downloadHistoric(id);
       const Data = res.data;
-      console.log(Data);
+    
 
       var x = 10;
       var y = 70;

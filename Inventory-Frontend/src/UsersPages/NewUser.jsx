@@ -26,7 +26,7 @@ function NewUser() {
     try {
       const res = await CreateUser(data);
 
-      console.log(res);
+    
       if (res.status == 200) {
         swal.fire("Usuario creado con exito!", "", "success").then(() => {
           navigate("/userManagement");

@@ -20,7 +20,7 @@ function Sidebar() {
   const [path,setPath]= useState(history.pathname);
 
   useEffect(() => {
-    console.log(user)
+
     setLogUser(user);
   }, [user]);
 
@@ -35,12 +35,14 @@ function Sidebar() {
     } else {
       document.getElementById("sidebarContainer").style.display = "block";
     }
+
+  
   }, [history]);
 
   return (
   
   <div id="sidebarContainer">
-      <div id="sidebar" className="h-100  vh-100">
+      <div id="sidebar" className="h-100  vh-100  ">
         <div className="bioartTitle w-100 py-2">
           <div className=" logoContainer  d-flex justify-content-center align-items-center    py-1 rounded">
             <img src={logo} alt="" width={60} className="  img-logo  " />

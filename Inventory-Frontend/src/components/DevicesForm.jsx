@@ -189,7 +189,7 @@ function DevicesForm() {
       // const disk = diskFormat[0];
       // const ramQty = ramFormat[1];
       // const diskQty = diskFormat[1];
-      // // console.log(ram)
+  
 
       // setdiskQty(diskQty);
       // setramQty(ramQty);

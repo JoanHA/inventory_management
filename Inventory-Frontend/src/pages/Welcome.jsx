@@ -39,8 +39,10 @@ function Welcome() {
           <h6>{user.email}</h6>
         </div>
         <div className="d-flex flex-row mx-4  align-items-center  justify-content-evenly ">
-          <div className="d-flex flex-column flex-wrap align-items-center justify-content-center gap-4 mt-5">
-          <Link className="GoLink" to={"/userManagement"}>
+          
+          <div className="d-flex flex-column flex-wrap align-items-center justify-content-center gap-3 mt-5">
+         
+              <Link className="GoLink" to={ user && user.rol == 271 ? "/userManagement":"#"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "
                 style={{
@@ -63,7 +65,10 @@ function Welcome() {
                   </span>
                 </div>
               </div>
+           
             </Link>
+         
+         
            <Link className="GoLink" to={"/create"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "

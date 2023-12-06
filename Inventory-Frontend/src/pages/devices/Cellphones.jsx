@@ -46,7 +46,7 @@ function Cellphones() {
       try {
         const res = await getAllMobiles();
         setData(res.data);
-        console.log(res.data)
+        
       } catch (error) {
         console.log(error);
       }

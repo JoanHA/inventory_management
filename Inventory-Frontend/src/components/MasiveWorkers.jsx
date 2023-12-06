@@ -20,7 +20,7 @@ function MasiveWorkers() {
     const formData = new FormData();
     formData.append("file",data.file[0])
     try {
-      console.log("Carga masiva")
+    
            const res = await   saveMasiveWorkers(formData)
             
           if(res.status ==200){

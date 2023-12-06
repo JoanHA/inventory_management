@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getOneEvent } from "../../api/events.controller";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -15,6 +15,7 @@ import "../../assets/css/event.css";
 
 function View_one_event() {
   const { user } = useAuth();
+  const navigate = useNavigate()
   //change the status of the status changer
   const [ChangeStatus, setChangeStatus] = useState("NONE");
   const params = useParams();
@@ -65,7 +66,7 @@ function View_one_event() {
    
       if (res.status === 200) {
         swal.fire("Estado Cambiado", "", "success").then(() => {
-          location.reload();
+       navigate("/events")
         });
       }
     }
@@ -94,7 +95,7 @@ function View_one_event() {
 
       if (res.status === 200) {
         swal.fire("Editado correctamente", "", "success").then(() => {
-          location.reload();
+          navigate("/events")
         });
       }
     } catch (error) {

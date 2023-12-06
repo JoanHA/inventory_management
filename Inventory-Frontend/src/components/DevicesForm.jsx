@@ -125,7 +125,7 @@ const navigate =   useNavigate()
       if (Editado) {
         swal.fire("Datos actualizados", "", "success").then(() => {
           // window.location.reload();
-          navigate(0)
+          navigate("/equipments")
         });
       } else {
         swal.fire("No se pudo actualizar los datos", "", "error");

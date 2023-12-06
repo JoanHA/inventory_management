@@ -22,7 +22,7 @@ export const createEquip = async(values)=> axios.post(URI + "api/equip", values)
               showConfirmButton: true,
               timer: 3000,
             }).then(() => {
-                location.reload()
+                window.location.href ="/equipments"
             });
           }
     } catch (error) {

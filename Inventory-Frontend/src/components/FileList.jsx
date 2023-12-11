@@ -82,7 +82,7 @@ function FileList({ id }) {
             <h3 className="mx-4">Lista de archivos de este equipo</h3>
           </div>
 
-          <div>
+          <div id="asignedDiv">
             <table className="table table-striped table-hover px-3 py-2 table-responsive">
               <thead>
                 <tr>

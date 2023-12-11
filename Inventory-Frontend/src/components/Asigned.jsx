@@ -45,7 +45,7 @@ function Asigned({ id }) {
           </h2>
         </div>
 
-        <div className="px-5 ">
+        <div className="px-5 " id="asignedDiv">
           <div className="mb-2">
          
             <button className="btn btn-danger rounded" onClick={close}>Cerrar</button>

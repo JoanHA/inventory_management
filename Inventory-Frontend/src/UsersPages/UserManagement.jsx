@@ -62,7 +62,7 @@ function UserManagement() {
               <strong> Administrador:</strong> (Ver, Crear, Editar, Eliminar)
             </li>
             <li className="py-1  w-50">
-              <strong>Operador: </strong>(Ver,Crear, Eliminar)
+              <strong>Operador: </strong>(Ver,Crear, Editar)
             </li>
             <li className="py-1 w-50">
               <strong>Visitante:</strong>(Ver)

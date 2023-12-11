@@ -13,12 +13,12 @@ function Header({ children }) {
       <div className="d-flex flex-row">
         <Sidebar></Sidebar>
         <div id="headerContainer" className="w-100 h-100">
-          <nav className="navbar bg-body-tertiary  justify-content-between" id="navbar">
+          <nav className="navbar bg-body-tertiary" id="navbar">
             <button  className={isAuthenticated? "menu-icon": "menu-icon d-none"} onClick={click}>
               <span className="navbar-toggler-icon"></span>
             </button>
 
-            <div className="d-flex flex-row flex-wrap px-5">
+            <div className="d-flex flex-row flex-wrap px-2 mx-2">
               <a className="navbar-brand  " href="/">
                 Inventario Bioart
               </a>
@@ -49,7 +49,7 @@ function Header({ children }) {
               </div>
             </div>
           </nav>
-          <div id="Contenedor" className="w-100 ">
+          <div id="Contenedor" className="w-100 mx-2">
             {children}
           </div>
         </div>

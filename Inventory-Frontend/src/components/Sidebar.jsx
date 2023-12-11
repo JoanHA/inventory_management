@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import { FaUserCircle, FaUsers,FaRegUser  } from "react-icons/fa";
@@ -39,9 +39,10 @@ function Sidebar() {
   
   }, [history]);
 
+  
   return (
   
-  <div id="sidebarContainer">
+  <div id="sidebarContainer"  >
       <div id="sidebar" className="h-100  vh-100  ">
         <div className="bioartTitle w-100 py-2">
           <div className=" logoContainer  d-flex justify-content-center align-items-center    py-1 rounded">

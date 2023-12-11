@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
@@ -11,23 +11,23 @@ import { Helmet } from "react-helmet";
 function Welcome() {
   const { user } = useAuth();
   const [pageSize, setPageSize] = useState(window.innerWidth);
-  const [display,setDisplay] = useState("none")
+  const [display, setDisplay] = useState("none");
   window.onresize = () => {
     setPageSize(window.innerWidth);
   };
-  
+
   useEffect(() => {
     if (window.innerWidth < 906) {
-     setDisplay("d-none")
+      setDisplay("d-none");
     } else {
-      setDisplay("d-block")
+      setDisplay("d-block");
     }
   }, [pageSize]);
   return (
     <div className=" my-1 w-100">
-       <Helmet>
-          <title>Bioart S.A</title>
-        </Helmet>
+      <Helmet>
+        <title>Bioart S.A</title>
+      </Helmet>
       <div className="mx-auto   text-center">
         <div className="event_header">
           <h3>Bienvenido al sistema de inventarios de Bioart SA</h3>
@@ -39,10 +39,8 @@ function Welcome() {
           <h6>{user.email}</h6>
         </div>
         <div className="d-flex flex-row mx-4  align-items-center  justify-content-evenly ">
-          
           <div className="d-flex flex-column flex-wrap align-items-center justify-content-center gap-3 mt-5">
-         
-              <Link className="GoLink" to={ user && user.rol == 271 ? "/userManagement":"#"}>
+            <Link className="GoLink" to={"/Workers"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "
                 style={{
@@ -55,7 +53,7 @@ function Welcome() {
                 <div className=" ">
                   <h5 className="my-0 text-center">
                     {" "}
-                    <span className="mx-1">Administrar usuarios</span>
+                    <span className="mx-1">Colaboradores</span>
                   </h5>
                 </div>
 
@@ -65,11 +63,9 @@ function Welcome() {
                   </span>
                 </div>
               </div>
-           
             </Link>
-         
-         
-           <Link className="GoLink" to={"/create"}>
+
+            <Link className="GoLink" to={"/create"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "
                 style={{
@@ -93,8 +89,8 @@ function Welcome() {
                 </div>
               </div>
             </Link>
-           
-             <Link className="GoLink" to={"/events"}>
+
+            <Link className="GoLink" to={"/events"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "
                 style={{
@@ -118,12 +114,15 @@ function Welcome() {
                 </div>
               </div>
             </Link>
-            
-           
           </div>
           <div>
             {" "}
-            <img src={people} alt="Image in the welcome page" className={`${display}`} width={350} />
+            <img
+              src={people}
+              alt="Image in the welcome page"
+              className={`${display}`}
+              width={350}
+            />
           </div>
         </div>
       </div>

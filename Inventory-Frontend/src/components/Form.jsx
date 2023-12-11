@@ -288,7 +288,7 @@ function Form() {
                    <button className="btn btn-success btn-sm ">
                     Agregar
                   </button>
-                  <button className="btn btn-dark btn-sm mx-2" onClick={masive} type="button">Carga masiva</button>
+                  <button className="btn btn-dark btn-sm mx-1 my-2" onClick={masive} type="button">Carga masiva</button>
                
                 </>
               )}

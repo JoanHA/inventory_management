@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 function EditUser() {
   const [editUser, setEditUser] = useState({});
   const params = useParams();
-  const {user} = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -44,7 +44,7 @@ function EditUser() {
       confirmButtonText: "Si, Actualizar!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        data.rol == "" ? data.rol = 271: data.rol= data.rol
+        data.rol == "" ? (data.rol = 271) : (data.rol = data.rol);
         const res = await updateUser(params.id, data);
         if (res.status == 200) {
           swal
@@ -83,8 +83,8 @@ function EditUser() {
     <div>
       <ChangePassword />
       <Helmet>
-          <title>Editar usuario</title>
-        </Helmet>
+        <title>Editar usuario</title>
+      </Helmet>
       <div className="title">
         <div className="event_header d-flex justify-content-between">
           <span>
@@ -97,23 +97,27 @@ function EditUser() {
         <div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="w-50 mx-auto my-auto">
-              
               <div className="form-group">
-                <h3> <strong>Editar usuario</strong> </h3>
+                <h3>
                 
+                  <strong>Editar usuario</strong>
+                </h3>
+
                 <Link
                   className="my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
                   onClick={masive}
                 >
                   Cambiar contraseña
                 </Link>
-                { 
-                  user.rol && user.rol == 271 &&  user.id == params.id && (
-                    <Link className="px-3 my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" to={"/editParams"}>Editar parametros</Link>
-                  )
+                {user.rol && user.rol == 271 && user.id == params.id && (
+                  <Link
+                    className="px-3 my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                    to={"/editParams"}
+                  >
+                    Editar parametros
+                  </Link>
+                )}
 
-                }
-              
                 <br />
                 <label className="mt-2">Nombre de usuario</label>
                 <input
@@ -128,7 +132,6 @@ function EditUser() {
                   type="text"
                   className="form-control"
                   {...register("email")}
-                
                 />
               </div>
               <div className="form-group">
@@ -136,7 +139,7 @@ function EditUser() {
                 <select
                   className="form-select"
                   {...register("rol")}
-                  disabled={editUser.id == user.id? true : false}
+                  disabled={editUser.id == user.id ? true : false}
                 >
                   {editUser.rol == 271 ? (
                     <option selected value={""}>
@@ -145,39 +148,44 @@ function EditUser() {
                   ) : (
                     false
                   )}
-                  <option value="270">Administrador</option>
-                  <option value="273">Operador</option>
-                  <option value="272">Visitante</option>
+                  {editUser.id == user.id ? (
+                  ""
+                  ) : (
+                    <>
+                      <option value="270">Administrador</option>
+                      <option value="273">Operador</option>
+                      <option value="272">Visitante</option>
+                    </>
+                  )}
                 </select>
               </div>
               <div className="form-group">
                 <label>Estado</label>
-                <select className="form-select" {...register("status")}    disabled={editUser.rol == 271 ? true : false}>
+                <select
+                  className="form-select"
+                  {...register("status")}
+                  disabled={editUser.rol == 271 ? true : false}
+                >
                   <option value="1">Activo</option>
                   <option value="2">Inactivo</option>
                   <option value="3">Eliminado</option>
                 </select>
               </div>
               <div>
-                <button
-                  className="btn btn-success my-2"
-                >
-                  Editar
-                </button>
+                <button className="btn btn-success my-2">Editar</button>
                 {editUser.rol == 271 ? (
                   ""
                 ) : (
                   <div></div>
-                //   <button
-                //   className="btn btn-danger mx-1 my-3"
-                //   type="button"
-                //   onClick={deleteUser2}
-                //   disabled={user.rol == 272 || user.rol==273 ? true:false}
-                // >
-                //   Eliminar usuario
-                // </button>
+                  //   <button
+                  //   className="btn btn-danger mx-1 my-3"
+                  //   type="button"
+                  //   onClick={deleteUser2}
+                  //   disabled={user.rol == 272 || user.rol==273 ? true:false}
+                  // >
+                  //   Eliminar usuario
+                  // </button>
                 )}
-               
               </div>
             </div>
           </form>

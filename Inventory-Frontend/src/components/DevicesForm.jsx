@@ -148,8 +148,8 @@ const navigate =   useNavigate()
   };
 
   //Recargar los selects si se crea un nuevo parametro
-  const handleSave = () => {
-    getParamFunction();
+  const handleSave = async() => {
+   await getParamFunction();
   };
 
   //Abrir la vista para la carga masiva

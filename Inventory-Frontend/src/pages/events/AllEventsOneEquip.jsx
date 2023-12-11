@@ -61,13 +61,13 @@ function AllEventsOneEquip() {
         Evento del equipo
    <Volver />
       </div>
-      <div className="d-flex flex-column px-3 py-1">
+      <div className="d-flex flex-column px-3 ">
         {/* equip data */}
         <div className="d-flex  flex-column  ">
           <div className="event_title">
             <h2>Equipo</h2>
           </div>
-          <div className="d-flex gap-3  w-100  flex-row justify-content-center ">
+          <div className="d-flex gap-2  w-100  flex-row justify-content-center ">
             <div className="form-group col-md-2">
               <label htmlFor="">Serial</label>
               <input

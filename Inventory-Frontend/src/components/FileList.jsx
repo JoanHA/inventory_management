@@ -66,7 +66,7 @@ function FileList({ id }) {
       className="back w-100 vh-100 d-flex justify-content-center d-none "
     >
       <div className="mt-1">
-        <div className="bg-light h-50 w-100 px-4 py-3 rounded">
+        <div className="bg-light w-100 px-4 py-3 rounded">
           <div className="d-flex flex-row gap-5 ">
             <div className="">
               <button

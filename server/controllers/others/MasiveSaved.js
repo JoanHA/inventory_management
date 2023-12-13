@@ -117,10 +117,10 @@ async function saveInDb(exFile) {
         campos = {};
       }
       // console.log(datos)
-      const p = await getParam(); //Parametros desde la DB
       for (let index = 1; index < datos.length; index++) {
         //Empieza en 1 porque el 0 son los encabezados
         const element = datos[index];
+        const p = await getParam(); //Parametros desde la DB
         const newRam_type = await getParamId(p, element.ram_type, 204);
         const newHard = await getParamId(p, element.hard_type, 203);
         const newMark = await getParamId(p, element.mark, 201);
@@ -152,9 +152,9 @@ async function saveInDb(exFile) {
           final_value: element.final_value,
           deliver_at: element.deliver_at,
         };
-        // console.log(equip);
+        console.log(equip);
         db.query("INSERT INTO equipments SET ?", [equip], (err, result) => {
-          if (err) throw new Error(err);
+          if (err) return console.log(err);
           return true;
         });
       }
@@ -164,6 +164,7 @@ async function saveInDb(exFile) {
     return false;
   }
 }
+//=CONCATENAR(IZQUIERDA(C2, ENCONTRAR(" ", C2) - 1), ".", MEDIO(C2, ENCONTRAR(" ", C2) + 1, ENCONTRAR(" ", C2 & " ", ENCONTRAR(" ", C2) + 1) - ENCONTRAR(" ", C2) - 1), "@gmail.com")
 
 router.post("/", multer({ storage }).single("file"), async (req, res) => {
   const file = req.file;

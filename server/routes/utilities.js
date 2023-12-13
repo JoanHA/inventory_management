@@ -220,7 +220,7 @@ router.delete("/deleteParams/:id",(req,res)=>{
   const año  =   new Date().getFullYear()
   const dia  =   new Date().getDay()
   const mes  =   new Date().getMonth()
-  db.query(`UPDATE params SET param_state = 3, updated_at = ${año}-${mes}-${dia} WHERE id = ? `,[id],(error,result)=>{
+  db.query(`UPDATE params SET param_state = 3 WHERE id = ? `,[id],(error,result)=>{
     if(error){
       console.log(error)
       return  res.status(500).send("Tuvimos un error")

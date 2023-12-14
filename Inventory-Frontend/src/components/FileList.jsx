@@ -7,21 +7,16 @@ import { useNavigate } from "react-router-dom";
 
 function FileList({ id }) {
   const [datos, setDatos] = useState([]);
-  const  navigate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     const get = async () => {
       try {
         const res = await getFiles(id);
-       
         setDatos(res.data);
-      } catch (error) {
-       
-      }
-   
+      } catch (error) {}
     };
     if (id) {
-
-      get()
+      get();
     }
   }, []);
   const deleteFile = (id) => {
@@ -39,7 +34,7 @@ function FileList({ id }) {
           await deleteFiles(id);
           Swal.fire("Deleted!", "Your file has been deleted.", "success").then(
             () => {
-              navigate("/Workers")
+              navigate("/equipments");
             }
           );
         } catch (error) {
@@ -64,7 +59,7 @@ function FileList({ id }) {
   };
   return (
     <div
-      id="addModal"
+      id="addModal2"
       className="back w-100 vh-100 d-flex justify-content-center d-none "
     >
       <div className="mt-1">
@@ -75,7 +70,7 @@ function FileList({ id }) {
                 className=" btn btn-dark btn-sm mb-2"
                 type="button"
                 onClick={() => {
-                  document.getElementById("addModal").classList.add("d-none");
+                  document.getElementById("addModal2").classList.add("d-none");
                 }}
               >
                 Cerrar
@@ -89,7 +84,7 @@ function FileList({ id }) {
               <thead>
                 <tr>
                   <th>Nombre</th>
-                 
+
                   <th>Equipo</th>
                   <th>Fecha de subida</th>
                   <th colSpan={2}>Opciones</th>
@@ -101,7 +96,7 @@ function FileList({ id }) {
                     return (
                       <tr key={index}>
                         <td>{element && element.original_name}</td>
-                     
+
                         <td>{element && element.equip_name}</td>
                         <td>{element && element.created_at.split("T")[0]}</td>
                         <td colSpan={2}>

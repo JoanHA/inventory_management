@@ -82,10 +82,10 @@ router.post("/equip",upload, async (req, res) => {
   if (equip_type == null || equip_type == "") {
     equip_type  =232
   }
- 
+
   const datos = {
     name          :            req.body.name,
-    user          :            req.body.user == "" ? 0 : parseInt(req.body.user),
+    user          :            req.body.user,
     model         :            req.body.model,
     office        :            req.body.office,
     description   :            req.body.description,
@@ -244,7 +244,7 @@ router.put("/equip/:id", (req, res) => {
   
     const datos = {
       name          :            req.body.name,
-      user          :            req.body.user == "" ? 0 : parseInt(req.body.user),
+      user          :            req.body.user,
       model         :            req.body.model,
       office        :            req.body.office,
       description   :            req.body.description,

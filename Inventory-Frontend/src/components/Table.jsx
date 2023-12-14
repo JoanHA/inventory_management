@@ -63,8 +63,25 @@ function Table({ data, columns, editType }) {
         <div>
           <DownloadButton filter={filtering} data={data} />
         </div>
+       
 
         <div className="d-flex justify-content-center align-items-center text-center">
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+          style={{
+            width:"100px"
+          }}
+          className="p-2 form-select form-select-sm "
+        >
+          {[5,8, 10, 15, 20].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Mostrar {pageSize}
+            </option>
+          ))}
+        </select>
           <button
             className="btn"
             onClick={() => {
@@ -110,6 +127,7 @@ function Table({ data, columns, editType }) {
       </div>
 
       <div>
+      
         <table className="table   table-hover py-3 px-4 mt-1">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -165,19 +183,7 @@ function Table({ data, columns, editType }) {
             ))}
           </tbody>
         </table>
-        {/* <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-          className="p-2 "
-        >
-          {[5, 10, 20, 30, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select> */}
+        
       </div>
     </div>
   );

@@ -48,7 +48,7 @@ async function getParamId(params, name, type) {
       const lastId = idRows[idRows.length - 1];
 
       //SQL
-      const sql = `INSERT INTO params 
+      const sql = `INSERT INTO params
       (id, paramtype_id ,name, param_state)
       values
       (${100 + lastId + 1},${type},'${name.toUpperCase()}',1)`;
@@ -61,6 +61,7 @@ async function getParamId(params, name, type) {
     return 262;
   }
 }
+
 async function getUserId(name) {
   //Name has been change for dni
   try {
@@ -78,6 +79,7 @@ async function getUserId(name) {
     return 262;
   }
 }
+
 async function saveInDb(exFile) {
   try {
     var datos = [];
@@ -116,6 +118,7 @@ async function saveInDb(exFile) {
         datos.push(campos);
         campos = {};
       }
+      
       // console.log(datos)
       for (let index = 1; index < datos.length; index++) {
         //Empieza en 1 porque el 0 son los encabezados
@@ -164,7 +167,7 @@ async function saveInDb(exFile) {
     return false;
   }
 }
-//=CONCATENAR(IZQUIERDA(C2, ENCONTRAR(" ", C2) - 1), ".", MEDIO(C2, ENCONTRAR(" ", C2) + 1, ENCONTRAR(" ", C2 & " ", ENCONTRAR(" ", C2) + 1) - ENCONTRAR(" ", C2) - 1), "@gmail.com")
+
 
 router.post("/", multer({ storage }).single("file"), async (req, res) => {
   const file = req.file;

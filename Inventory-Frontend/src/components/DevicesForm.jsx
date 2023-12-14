@@ -92,6 +92,10 @@ const navigate =   useNavigate()
   //Guardar/editar datos
   const onSubmit = async (data) => {
     //Editando
+  
+     data.init_value= data.init_value.substring(1);
+     data.final_value = data.final_value.substring(1);
+   
     if (params.id) {
       var Editado = false;
       const res = await update(params.id, data);
@@ -211,8 +215,8 @@ const navigate =   useNavigate()
         status: equipData.status,
         bought_at: equipData.bought_at.replaceAll("/", "-"),
         deliver_at: equipData.deliver_at.replaceAll("/", "-"),
-        init_value: equipData.init_value,
-        final_value: equipData.final_value,
+        init_value: "$ " + equipData.init_value,
+        final_value: "$ " + equipData.final_value,
         sub_value: equipData.sub_value,
         phone: equipData.phone,
         location: equipData.location,
@@ -592,7 +596,7 @@ const navigate =   useNavigate()
             <div className="col-md-3 ">
               <label htmlFor="">Valor inicial</label>
               <input
-                type="number"
+                type="text"
                 placeholder="00..."
                 {...register("init_value")}
                 className="form-control form-control-sm"
@@ -601,7 +605,7 @@ const navigate =   useNavigate()
             <div className="col-md-2 ">
               <label htmlFor="">Valor final</label>
               <input
-                type="number"
+                type="text"
                 placeholder="00..."
                 {...register("final_value")}
                 className="form-control form-control-sm"

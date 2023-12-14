@@ -126,7 +126,7 @@ router.post("/changePassword", (req, res) => {
           console.log(isMatch)
           //Si es igual
           if (isMatch == true) {
-    
+
             const newPassword = req.body.Newpassword;
             const confirmPassword = req.body.Confirmpassword;
             if (newPassword === confirmPassword) {
@@ -143,13 +143,13 @@ router.post("/changePassword", (req, res) => {
                 );
                 //Si son diferentes Enviar el error
               } else {
-             
+
                 res.status(300).send(["Las contraseñas no son iguales..."]);
               }
 
               //Si la contraseña actual es erronea
           }else{
-             
+
                 res.status(300).send(["La contraseña actual es incorrecta..."])
           }
         }
@@ -159,51 +159,49 @@ router.post("/changePassword", (req, res) => {
 
 });
 
+
 //cambiar contraseña con email
 router.put("/changePassword/email", (req, res) => {
   const { email,password } = req.body;
-
 //Buscar el usuario que tenga ese email
-  db.query(
-    "SELECT * from users where email = ? ",
-    [email],
-    async (err, rows) => {
-      if (err) throw new Error(err);
-      //Validar que hayan usuarios con ese email
-      if (rows.length > 0) {
-        //Validar si es usuario es administrar o no
-            const hashPassword = await helper.encypt(password); //Si son iguales encriptar la contraseña nueva
-            //Actualizar usuario
-            db.query(
-              "UPDATE users SET password = ? where email = ?",
-              [hashPassword, email],
-              (error, result) => {
-                if (error) throw new Error(error);
-                console.log(result);
-                res.send("Usuario actualizado Correctamente!"); //Usuario  Actualizado
-              }
-            );
-         
-         
-     
-      }else {
-        res.status(300).send(["No hay usuarios con ese email"]);
-      }
+db.query(
+  "SELECT * from users where email = ? ",
+  [email],
+  async (err, rows) => {
+    if (err) throw new Error(err);
+    //Validar que hayan usuarios con ese email
+    if (rows.length > 0) {
+      //Validar si es usuario es administrar o no
+          const hashPassword = await helper.encypt(password); //Si son iguales encriptar la contraseña nueva
+          //Actualizar usuario
+          db.query(
+            "UPDATE users SET password = ? where email = ?",
+            [hashPassword, email],
+            (error, result) => {
+              if (error) throw new Error(error);
+              console.log(result);
+              res.send("Usuario actualizado Correctamente!"); //Usuario  Actualizado
+            }
+          );
+    }else {
+      res.status(300).send(["No hay usuarios con ese email"]);
     }
-  );
+  }
+);
 
 });
+
 
 
 //editar de parametros
 router.put("/editParams/:id",(req,res)=>{
   const id = req.params.id;
-  const{ name}  =req.body 
+  const{ name}  =req.body
   const año  =   new Date().getFullYear()
   const dia  =   new Date().getDay()
   const mes  =   new Date().getMonth()
-  
-   db.query(`UPDATE params SET name = ?, updated_at = ${año}-${mes}-${dia} WHERE id = ? `,[name,id],(error,result)=>{
+
+   db.query(`UPDATE params SET name = ? WHERE id = ? `,[name,id],(error,result)=>{
     if(error){
       console.log(error)
       return  res.status(500).send("Tuvimos un error")
@@ -214,6 +212,7 @@ router.put("/editParams/:id",(req,res)=>{
 
 
 })
+
 //eliminar parametro
 router.delete("/deleteParams/:id",(req,res)=>{
   const id = req.params.id;
@@ -229,4 +228,5 @@ router.delete("/deleteParams/:id",(req,res)=>{
 
    })
 })
+
 module.exports = router;

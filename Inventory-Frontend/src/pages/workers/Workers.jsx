@@ -30,10 +30,6 @@ function Workers() {
       accessorKey: "name",
     },
     {
-      header: "Correo",
-      accessorKey: "email",
-    },
-    {
       header: "Estado",
       accessorKey: "status_name",
     },

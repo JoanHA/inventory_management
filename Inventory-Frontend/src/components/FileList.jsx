@@ -3,9 +3,11 @@ import { getFiles, deleteFiles } from "../api/devices.controller";
 import axios from "axios";
 import fileDownload from "js-file-download";
 import { URI } from "../../config";
+import { useNavigate } from "react-router-dom";
 
 function FileList({ id }) {
   const [datos, setDatos] = useState([]);
+  const  navigate = useNavigate();
   useEffect(() => {
     const get = async () => {
       try {
@@ -37,7 +39,7 @@ function FileList({ id }) {
           await deleteFiles(id);
           Swal.fire("Deleted!", "Your file has been deleted.", "success").then(
             () => {
-              window.location.reload();
+              navigate("/Workers")
             }
           );
         } catch (error) {

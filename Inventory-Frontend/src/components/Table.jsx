@@ -40,12 +40,42 @@ function Table({ data, columns, editType, files }) {
   };
   useEffect(() => {
     if (window.innerWidth < 1148) {
-      table.setPageSize(Number(6));
+      table.setPageSize(Number(5));
     } else {
-      table.setPageSize(Number(8));
+      table.setPageSize(Number(10));
     }
   }, [pageSize]);
+  // const sortColum = () => {
+  //   const asc = document.getElementById("asc");
+  //   const desc= document.getElementById("desc")
+  //   if (asc.classList.contains("1")) {
+  //     asc.classList.remove("d-none")
+  //     asc.classList.remove("1")
+  //   }else{
+  //     asc.classList.add("d-none")
+  //     asc.classList.add("1")
+  //   }
+  //   if (desc.classList.contains("1")) {
+  //     desc.classList.remove("d-none")
+  //     desc.classList.remove("1")
+  //   }else{
+  //     desc.classList.add("d-none")
+  //     desc.classList.add("1")
+  //   }
+  
 
+  // };
+  // const exitSort =()=>{
+  //   const asc = document.getElementById("asc");
+  //   const desc= document.getElementById("desc");
+  //   desc.classList.remove("d-none")
+  //   desc.classList.remove("1")
+  //   asc.classList.remove("d-none")
+  //   asc.classList.remove("1")
+  //   asc.classList.add("d-none")
+  //   desc.classList.add("d-none")
+  //   asc.classList.add("1")
+  // }
   return (
     <div>
       <div
@@ -78,7 +108,7 @@ function Table({ data, columns, editType, files }) {
             }}
             className="p-2 form-select form-select-sm "
           >
-            {[5, 8, 10, 15, 20].map((pageSize) => (
+            {[5, 10, 15, 20].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 Mostrar {pageSize}
               </option>
@@ -158,9 +188,12 @@ function Table({ data, columns, editType, files }) {
                 ))}
                 {files && (
                   <th>
-                  Adjunto{" "}
-                
-                </th>
+                    <div>
+                      Adjunto
+                      <span className="d-none 1" id="asc">↓</span>
+                      <span className="d-none" id="desc">↑</span>
+                    </div>
+                  </th>
                 )}
 
                 <th colSpan={1}>Opciones</th>

@@ -40,7 +40,6 @@ function ViewAllEquip() {
       header: "Estado",
       accessorKey: "statusName",
     },
-   
     {
       header: "Responsable",
       accessorKey: "user_name",
@@ -66,5 +65,6 @@ function ViewAllEquip() {
     </>
   );
 }
+
 
 export default ViewAllEquip;

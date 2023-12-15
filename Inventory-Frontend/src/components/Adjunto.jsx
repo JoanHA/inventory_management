@@ -12,7 +12,6 @@ function Adjunto({ id }) {
     const res = await getFiles(id);
     setFileQty(res.data.length);
     if (res.data.length > 0)  {
-        console.log(res.data[0])
         setFileName(res.data[0].file_name)
         setOriginalName(res.data[0].original_name)
     }
@@ -38,7 +37,7 @@ function Adjunto({ id }) {
             <GrAttachment size={"1.4rem"}/>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {fileQty}
-              <span class="visually-hidden">unread messages</span>
+              <span class="visually-hidden"></span>
             </span>
           </button>
         ):""}

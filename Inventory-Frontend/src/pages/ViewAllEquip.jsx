@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Table from "../components/Table";
-import { getAllDevices } from "../api/devices.controller";
+import { bringAllFiles, getAllDevices } from "../api/devices.controller";
 import { Helmet } from "react-helmet";
 
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ function ViewAllEquip() {
   useEffect(() => {
     const getAll = async () => {
       try {
+        
         const res = await getAllDevices();
         setDatos(res.data);
       } catch (error) {
@@ -39,10 +40,12 @@ function ViewAllEquip() {
       header: "Estado",
       accessorKey: "statusName",
     },
+   
     {
       header: "Responsable",
       accessorKey: "user_name",
-    },
+    },    
+   
   ];
 
   return (
@@ -55,10 +58,10 @@ function ViewAllEquip() {
       className="my-1 link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-5 "
         to="/cellphones"
       >
-        <span className="">Celulares</span>
+        <span >Celulares</span>
       </Link>
       <div className="px-5  table-responsive">
-        <Table data={datos} columns={columns} editType={"edit"} />
+        <Table data={datos} columns={columns} editType={"edit"} files={true} />
       </div>
     </>
   );

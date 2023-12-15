@@ -99,3 +99,7 @@ export const deleteFiles = async (id) => axios.delete(URI+`api/equip/files/${id}
 
 //Obtener todos los moviles
 export const getAllMobiles =  async ()=> axios.get(URI+`api/equip/cellphones/all`);
+
+//Obtener todos los archivos de todos los equipos
+export const bringAllFiles = async () => axios.get(URI+`api/equip/bringFiles`)
+//falta crear la funcion para llamar el API de api/equip/bringFiles

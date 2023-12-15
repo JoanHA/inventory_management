@@ -70,6 +70,7 @@ function DownloadButton({ data = [], filter }) {
   };
 
   const handlePDF = () => {
+    
     Swal.fire({
       title: "Espera!",
       text: "Recuerda que si estan filtrando los datos, mientras mas especifico seas, mejor 😉",
@@ -193,24 +194,31 @@ function DownloadButton({ data = [], filter }) {
   //Funcion para filtrar los datos
   const mapear = (map) => {
     var retorno = false;
+   
+   
     map.map((element) => {
       const datas = element.toString().toLowerCase();
-      if (datas.match(filter)) {
+      if (datas.match(filter.toLowerCase())) {
         retorno = true;
       }
     });
-    return retorno;
+      return retorno
   };
   //obtener los datos Filtrados
   const getData = () => {
+   
     if (filter) {
-      if (data) {
+      
+      if (data != null) {
+       
         const FilteredData = data.filter((equip) => {
+          console.log()
           const map = Object.values(equip).filter(Boolean);
           if (mapear(map)) {
             return true;
           }
         });
+        
         setFiltering(FilteredData);
         if (FilteredData.length == 0) {
           return swal.fire(

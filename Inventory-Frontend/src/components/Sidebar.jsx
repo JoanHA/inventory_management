@@ -20,8 +20,11 @@ function Sidebar() {
   const [path,setPath]= useState(history.pathname);
 
   useEffect(() => {
-
     setLogUser(user);
+    if (user) {
+      document.getElementById("sidebarContainer").classList.remove("d-none")
+    } 
+
   }, [user]);
 
 
@@ -29,21 +32,16 @@ function Sidebar() {
     // Add a listener to respond to URL change
     const urlActual = history.pathname;
        setPath(urlActual)
-    
-    if (urlActual == "/login" || urlActual == "/register" ||urlActual == "/otp" || urlActual == "/reset" || urlActual == "/enterEmail") {
-      document.getElementById("sidebarContainer").style.display = "None";
-    } else {
-      document.getElementById("sidebarContainer").style.display = "block";
-    }
-
-  
+      //  if (urlActual != "/login" && urlActual != "/register" && urlActual != "/otp" && urlActual != "/reset" && urlActual != "/enterEmail") {
+      //   document.getElementById("sidebarContainer").classList.remove("d-none")
+      // }
   }, [history]);
 
   
   return (
   
-  <div id="sidebarContainer"  >
-      <div id="sidebar" className="h-100  vh-100  ">
+  <div id="sidebarContainer"  className="d-none  " >
+      <div id="sidebar" className="h-100  vh-100  position-fixed z-3">
         <div className="bioartTitle w-100 py-2">
           <div className=" logoContainer  d-flex justify-content-center align-items-center    py-1 rounded">
             <img src={logo} alt="" width={60} className="  img-logo  " />

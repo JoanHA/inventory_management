@@ -32,7 +32,7 @@ function DevicesForm() {
   const [isPhone, SetIsPhone] = useState(false);
 
   const [equip, setEquip] = useState({});
-  const [fileQty,setFileQty]=useState(0)
+  const [fileQty, setFileQty] = useState(0);
 
   const {
     register,
@@ -90,70 +90,87 @@ function DevicesForm() {
       console.error("An error occurred:", error);
     }
   };
-  const getFileLength = async()=>{
+  const getFileLength = async () => {
     const res = await getFiles(params.id);
     setFileQty(res.data.length);
-  }
+  };
 
   //Guardar/editar datos
   const onSubmit = async (data) => {
     //Editando
 
-//--- Configurar el campo de dolar
-//If the value is empty it'll save an empty string, but if the value isn't empty and the $ position is higher than -1 (it means the $ is in the string)
-// it'll save just what is next to the $ without saving the $, but if the value doesn't have the $ it will save it just the way it was type
-const dolarPosInit = data.init_value.indexOf("$")
-const dolarPosFinal = data.final_value.indexOf("$")
-data.init_value =  data.init_value== "" ? "" : dolarPosInit <0 ? data.init_value : data.init_value.substring(dolarPosInit +1).trim()
-data.final_value =  data.final_value== "" ? "" : dolarPosFinal <0 ? data.final_value : data.final_value.substring(dolarPosFinal +1).trim()
-//----Configurar el campo de dolar
+    //--- Configurar el campo de dolar
+    //If the value is empty it'll save an empty string, but if the value isn't empty and the $ position is higher than -1 (it means the $ is in the string)
+    // it'll save just what is next to the $ without saving the $, but if the value doesn't have the $ it will save it just the way it was type
+    const dolarPosInit = data.init_value.indexOf("$");
+    const dolarPosFinal = data.final_value.indexOf("$");
+    data.init_value =
+      data.init_value == ""
+        ? ""
+        : dolarPosInit < 0
+        ? data.init_value
+        : data.init_value.substring(dolarPosInit + 1).trim();
+    data.final_value =
+      data.final_value == ""
+        ? ""
+        : dolarPosFinal < 0
+        ? data.final_value
+        : data.final_value.substring(dolarPosFinal + 1).trim();
+    //----Configurar el campo de dolar
 
-data.user = data.user==""? null:data.user; 
-console.log(data)
+    data.user = data.user == "" ? null : data.user;
+    
 
     if (params.id) {
- try {
-  var Editado = false;
-  const res = await update(params.id, data);
-  if (res.status === 200) {
-    Editado = true;
-  } else {
-    Editado = false;
-  }
+      try {
+        var Editado = false;
+        const res = await update(params.id, data);
+        if (res.status === 200) {
+          Editado = true;
+        } else {
+          Editado = false;
+        }
 
-  if (data.files.length > 0) {
-    try {
-      const formData = new FormData();
-      for (let i = 0; i < data.files.length; i++) {
-        formData.append("files", data.files[i]);
-      }
-      const res = await saveFiles(params.id, formData);
+        if (data.files.length > 0) {
+          try {
+            const formData = new FormData();
+            for (let i = 0; i < data.files.length; i++) {
+              formData.append("files", data.files[i]);
+            }
+            const res = await saveFiles(params.id, formData);
 
-      if (res.status == 200) {
-        Editado = true;
-      } else {
-        Editado = false;
+            if (res.status == 200) {
+              Editado = true;
+            } else {
+              Editado = false;
+            }
+          } catch (error) {
+            swal.fire(
+              "El archivo que le agregaste al equipo no se pudo agregar, intenta mas tarde",
+              "",
+              "error"
+            );
+          }
+        }
+        if (Editado) {
+          swal.fire("Datos actualizados", "", "success").then(() => {
+            // window.location.reload();
+            navigate("/equipments");
+          });
+        } else {
+          swal.fire(
+            "No se pudo actualizar los datos , intenta mas tarde",
+            "",
+            "error"
+          );
+        }
+      } catch (error) {
+        swal.fire(
+          "No se pudo actualizar los datos, intenta mas tarde",
+          "",
+          "error"
+        );
       }
-    } catch (error) {
-      swal.fire(
-        "El archivo que le agregaste al equipo no se pudo agregar, intenta mas tarde",
-        "",
-        "error"
-      );
-    }
-  }
-  if (Editado) {
-    swal.fire("Datos actualizados", "", "success").then(() => {
-      // window.location.reload();
-      navigate("/equipments");
-    });
-  } else {
-    swal.fire("No se pudo actualizar los datos , intenta mas tarde", "", "error");
-  }
- } catch (error) {
-  swal.fire("No se pudo actualizar los datos, intenta mas tarde", "", "error");
-  
- }
       //creando
     } else {
       try {
@@ -167,16 +184,11 @@ console.log(data)
             formData.append(key, data[key]);
           }
         }
-  
+
         await createEquip(formData);
       } catch (error) {
-        swal.fire(
-          "No se pudo crear el equipo, intenta mas tarde",
-          "",
-          "error"
-        );
+        swal.fire("No se pudo crear el equipo, intenta mas tarde", "", "error");
       }
-     
     }
   };
 
@@ -232,8 +244,10 @@ console.log(data)
         status: equipData.status,
         bought_at: equipData.bought_at.replaceAll("/", "-"),
         deliver_at: equipData.deliver_at.replaceAll("/", "-"),
-        init_value: equipData.init_value==""? "":"$" + equipData.init_value,
-        final_value: equipData.final_value==""? "":"$" + equipData.final_value,
+        init_value:
+          equipData.init_value == "" ? "" : "$" + equipData.init_value,
+        final_value:
+          equipData.final_value == "" ? "" : "$" + equipData.final_value,
         sub_value: equipData.sub_value,
         phone: equipData.phone,
         location: equipData.location,
@@ -641,7 +655,8 @@ console.log(data)
                         className="mb-5 align-self-center"
                       />
                       <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {fileQty}<span class="visually-hidden">unread messages</span>
+                        {fileQty}
+                        <span class="visually-hidden">unread messages</span>
                       </span>
                     </button>
                   </div>
@@ -716,13 +731,13 @@ console.log(data)
                   className="btn btn-success text-center my-3 btn-sm py-2"
                   disabled={user.rol == 272 ? true : false}
                 >
-                  <span className="">Editar</span>
+                  <span className="">Guardar</span>
                 </button>
                 <Link
                   className="btn btn-dark mx-1 py-2  btn-sm"
                   to={`/AllEvents/${params.id}`}
                 >
-                  Ver eventos de este equipo
+                  Eventos de este equipo
                 </Link>
 
                 {user.rol == 272 ? (

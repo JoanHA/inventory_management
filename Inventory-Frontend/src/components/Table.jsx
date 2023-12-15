@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import { BiLastPage, BiFirstPage } from "react-icons/bi";
 import DownloadButton from "./DownloadButton";
+
+import Adjunto from "./Adjunto";
+
 import {
   useReactTable,
   getCoreRowModel,
@@ -12,7 +15,7 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 
-function Table({ data, columns, editType }) {
+function Table({ data, columns, editType, files }) {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFilteting] = useState("");
   const [pageSize, setPageSize] = useState(window.innerWidth);
@@ -63,25 +66,24 @@ function Table({ data, columns, editType }) {
         <div>
           <DownloadButton filter={filtering} data={data} />
         </div>
-       
 
         <div className="d-flex justify-content-center align-items-center text-center">
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-          style={{
-            width:"100px"
-          }}
-          className="p-2 form-select form-select-sm "
-        >
-          {[5,8, 10, 15, 20].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Mostrar {pageSize}
-            </option>
-          ))}
-        </select>
+          <select
+            value={table.getState().pagination.pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value));
+            }}
+            style={{
+              width: "100px",
+            }}
+            className="p-2 form-select form-select-sm "
+          >
+            {[5, 8, 10, 15, 20].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                Mostrar {pageSize}
+              </option>
+            ))}
+          </select>
           <button
             className="btn"
             onClick={() => {
@@ -127,33 +129,41 @@ function Table({ data, columns, editType }) {
       </div>
 
       <div>
-      
         <table className="table   table-hover py-3 px-4 mt-1">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    onClick={header.column.getToggleSortingHandler()}
-                  >
-                    {header.isPlaceholder ? null : (
-                      <div>
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                  <>
+                    <th
+                      key={header.id}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      {header.isPlaceholder ? null : (
+                        <div>
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
 
-                        {
-                          { asc: "↓", desc: "↑" }[
-                            header.column.getIsSorted() ?? null
-                          ]
-                        }
-                      </div>
-                    )}
-                  </th>
+                          {
+                            { asc: "↓", desc: "↑" }[
+                              header.column.getIsSorted() ?? null
+                            ]
+                          }
+                        </div>
+                      )}
+                    </th>
+                  </>
                 ))}
-                <th colSpan={2}>Opciones</th>
+                {files && (
+                  <th>
+                  Adjunto{" "}
+                
+                </th>
+                )}
+
+                <th colSpan={1}>Opciones</th>
               </tr>
             ))}
           </thead>
@@ -170,6 +180,12 @@ function Table({ data, columns, editType }) {
                     </td>
                   </>
                 ))}
+                {files && (
+                  <td>
+                    <Adjunto id={row.original.id}></Adjunto>
+                  </td>
+                )}
+
                 <td className="" colSpan={2}>
                   {/* These links have to appear */}
                   <Link
@@ -183,7 +199,6 @@ function Table({ data, columns, editType }) {
             ))}
           </tbody>
         </table>
-        
       </div>
     </div>
   );

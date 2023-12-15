@@ -7,6 +7,7 @@ function Header({ children }) {
   const { isAuthenticated, logOut } = useAuth();
   function click(){
     document.getElementById("sidebar").classList.toggle("Clicked");
+    document.getElementById("sidebarContainer").classList.toggle("Clicked2");
   }
   return (
     <>

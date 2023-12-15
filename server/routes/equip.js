@@ -66,6 +66,30 @@ router.get("/equip", (req, res) => {
   }
 });
 
+//Get equip with files
+router.get("/equip/bringFiles", (req, res) => {
+  try {
+
+    //Falta arreglar este sql para que envie el link del archivo 
+    const sql =
+      
+    `SELECT equipments.*, 
+    params.name as paramName,
+    (SELECT name from params where params.id = equipments.status) AS statusName,
+    (select name from workers where workers.id = equipments.user) AS user_name ,
+    f.file_name as fileName
+    FROM equipments 
+    INNER JOIN params on params.id = equipments.mark
+    LEFT JOIN files f on f.equipment = equipments.id
+    WHERE equipments.status <> 3`;
+    db.query(sql, (err, result) => {
+      res.send(result);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 
 //Create equip
 const upload =multer({ storage }).array('files',5)

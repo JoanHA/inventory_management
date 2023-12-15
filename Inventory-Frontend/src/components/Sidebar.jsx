@@ -23,7 +23,11 @@ function Sidebar() {
     setLogUser(user);
     if (user) {
       document.getElementById("sidebarContainer").classList.remove("d-none")
-    } 
+      document.getElementById("sidebarContainer").classList.add("d-block")
+    } else{
+      document.getElementById("sidebarContainer").classList.add("d-none")
+      document.getElementById("sidebarContainer").classList.remove("d-block")
+    }
 
   }, [user]);
 
@@ -40,7 +44,7 @@ function Sidebar() {
   
   return (
   
-  <div id="sidebarContainer"  className="d-none  " >
+  <div id="sidebarContainer"  className="d-none  "  >
       <div id="sidebar" className="h-100  vh-100  position-fixed z-3">
         <div className="bioartTitle w-100 py-2">
           <div className=" logoContainer  d-flex justify-content-center align-items-center    py-1 rounded">

@@ -91,8 +91,8 @@ function DevicesForm() {
     }
   };
   const getFileLength = async () => {
-    const res = await getFiles(params.id);
-    setFileQty(res.data.length);
+      const res = await getFiles(params.id);
+      setFileQty(res.data.length);
   };
 
   //Guardar/editar datos
@@ -222,36 +222,39 @@ function DevicesForm() {
   //LLenanr los campos del equipo
   const getOne = async () => {
     try {
-      const id = params.id;
-      const res = await getOneDevice(id);
-      const equipData = res.data[0];
-      if (equipData.equipment_type == 263) {
-        SetIsPhone(true);
-      }
-      setEquip(res.data[0]); //Darle formato a el valor de ram y disco duro
-      reset({
-        name: equipData.name,
-        model: equipData.model,
-        serial: equipData.serial,
-        user: equipData.user,
-        office: equipData.office,
-        description: equipData.description,
-        proccesor: equipData.proccesor,
-        system: equipData.system,
-        antivirus: equipData.antivirus,
-        ram: equipData.ram,
-        hard_disk: equipData.hard_disk,
-        status: equipData.status,
-        bought_at: equipData.bought_at.replaceAll("/", "-"),
-        deliver_at: equipData.deliver_at.replaceAll("/", "-"),
-        init_value:
-          equipData.init_value == "" ? "" : "$" + equipData.init_value,
-        final_value:
-          equipData.final_value == "" ? "" : "$" + equipData.final_value,
-        sub_value: equipData.sub_value,
-        phone: equipData.phone,
-        location: equipData.location,
-      });
+    
+        const id = params.id;
+        const res = await getOneDevice(id);
+        const equipData = res.data[0];
+        if (equipData.equipment_type == 263) {
+          SetIsPhone(true);
+        }
+        setEquip(res.data[0]); //Darle formato a el valor de ram y disco duro
+        reset({
+          name: equipData.name,
+          model: equipData.model,
+          serial: equipData.serial,
+          user: equipData.user,
+          office: equipData.office,
+          description: equipData.description,
+          proccesor: equipData.proccesor,
+          system: equipData.system,
+          antivirus: equipData.antivirus,
+          ram: equipData.ram,
+          hard_disk: equipData.hard_disk,
+          status: equipData.status,
+          bought_at: equipData.bought_at.replaceAll("/", "-"),
+          deliver_at: equipData.deliver_at.replaceAll("/", "-"),
+          init_value:
+            equipData.init_value == "" ? "" : "$" + equipData.init_value,
+          final_value:
+            equipData.final_value == "" ? "" : "$" + equipData.final_value,
+          sub_value: equipData.sub_value,
+          phone: equipData.phone,
+          location: equipData.location,
+        });
+      
+    
     } catch (error) {
       console.log(error);
     }
@@ -260,12 +263,11 @@ function DevicesForm() {
 
   //UseEffects
   useEffect(() => {
-    getFileLength();
     getWork();
     getParamFunction();
-
     if (params.id) {
       getOne();
+      getFileLength();
     }
   }, []);
 

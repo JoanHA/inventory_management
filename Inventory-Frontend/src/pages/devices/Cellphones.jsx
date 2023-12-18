@@ -13,10 +13,6 @@ function Cellphones() {
       accessorKey: "serial",
     },
     {
-      header: "Descripción",
-      accessorKey: "name",
-    },
-    {
       header: "Responsable",
       accessorKey: "responsible_name",
     },

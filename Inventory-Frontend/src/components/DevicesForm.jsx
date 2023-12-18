@@ -295,7 +295,7 @@ function DevicesForm() {
               <label> Nombre del equipo</label>
               <input
                 type="text"
-                {...register("name", { required: true })}
+                {...register("name")}
                 className="form-control form-control-sm"
                 placeholder="Nombre del producto..."
               />

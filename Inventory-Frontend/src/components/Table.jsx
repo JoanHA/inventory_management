@@ -177,7 +177,7 @@ function Table({ data, columns, editType, files }) {
                           )}
 
                           {
-                            { asc: "↓", desc: "↑" }[
+                            { asc: "↑", desc: "↓" }[
                               header.column.getIsSorted() ?? null
                             ]
                           }
@@ -190,8 +190,8 @@ function Table({ data, columns, editType, files }) {
                   <th>
                     <div>
                       Adjunto
-                      <span className="d-none 1" id="asc">↓</span>
-                      <span className="d-none" id="desc">↑</span>
+                      {/* <span className="d-none 1" id="asc">↓</span>
+                      <span className="d-none" id="desc">↑</span> */}
                     </div>
                   </th>
                 )}

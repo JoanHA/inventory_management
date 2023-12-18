@@ -24,7 +24,6 @@ function EditUser() {
     async function getOne2() {
       const res = await getOne(params.id);
       setEditUser(res.data);
-      console.log(res.data)
       reset({
         name: res.data.username,
         email: res.data.email,

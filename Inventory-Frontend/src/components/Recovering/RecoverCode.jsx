@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { URI } from "../../../config";
 import axios from "axios";
 import "./../../assets/css/recovery.css";
 import { useForm } from "react-hook-form";
+
 function RecoverCode() {
   const { otp, email } = useAuth();
   const [disable, setDisable] = useState(true);
   const [timerCount, setTimer] = React.useState(60);
   const navigate = useNavigate()
+  const btn1 = useRef(null)
+  const btn2 = useRef(null)
+  const btn3 = useRef(null)
+  const btn4 = useRef(null)
   const {
     register,
     handleSubmit,
@@ -36,7 +41,9 @@ function RecoverCode() {
       swal.fire("Error, el codigo no coincide","","error")
     }
   }
-
+const changer =(n)=>{
+ document.getElementById(`p${n}`).focus()
+}
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -58,38 +65,49 @@ function RecoverCode() {
           <h2 style={{fontWeight:"bolder"}}>
             <strong>Verificación de email</strong>
           </h2>
-          <p>Hemos enviado un correro a tu email {email && email}</p>
+          <p>Hemos enviado un correo a tu email {email && email}</p>
         </div>
         <form className="d-flex flex-column justify-content-center align-items-center gap-2" onSubmit={handleSubmit(onSubmit)}>
           <div className="d-flex gap-2">
             <div>
               <input
+               ref={btn1}
                 maxLength={1}
                 type="text"
+               id="p0"
+                onInput={()=>{changer("1")}}
                 {...register("p0", { required: true })}
                 className="form-control otpInput text-center"
               />
             </div>
             <div>
               <input
+                ref={btn2}
                 maxLength={1}
                 type="text"
+                 id="p1"
+                 onInput={()=>{changer("2")}}
                 {...register("p1", { required: true })}
                 className="form-control otpInput text-center"
               />
             </div>
             <div>
               <input
+                ref={btn3}
                 maxLength={1}
                 type="text"
+              id="p2"
+              onInput={()=>{changer("3")}}
                 {...register("p2", { required: true })}
                 className="form-control otpInput text-center"
               />
             </div>
             <div>
               <input
+               ref={btn4}
                 maxLength={1}
                 type="text"
+               id="p3"
                 {...register("p3", { required: true })}
                 className="form-control otpInput text-center"
               />

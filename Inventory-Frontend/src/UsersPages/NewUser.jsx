@@ -133,10 +133,11 @@ function NewUser() {
                   <input
                     id="input-pass"
                     type="password"
-                    {...register("password", { required: true, minLength: 8 })}
+                    {...register("password", { required: true, minLength: 8 ,pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/ })}
                     className="form-control form-control-sm rounded "
                     placeholder="Contraseña..."
                   />
+                   
                   <span
                     className="input-group-text fa fa-eye-slash"
                     id="basic-addon1"
@@ -154,7 +155,11 @@ function NewUser() {
                     </a>
                   </span>
                 </div>
-
+                {
+                      errors.password?.type=="pattern" && (
+                        <p className="errorMsg">La contraseña debe tener Mayúsculas, Minúsculas, Números y carácteres especiales</p>
+                      )
+                    }
                 {errors.password?.type == "required" && (
                   <p className="errorMsg mb-0">Este campo es requerido</p>
                 )}

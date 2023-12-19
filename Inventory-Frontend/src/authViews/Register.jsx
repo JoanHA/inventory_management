@@ -102,8 +102,13 @@ function Register() {
                     type="password"
                     className="form-control form-control-sm inputs"
                     id="floatingPassword"
-                    {...register("password", { required: true, minLength: 8 })}
-                  />
+                    {...register("password", { required: true, minLength: 8, pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/ })}                  />
+                    {
+                      errors.password?.type=="pattern" && (
+                        <p className="errorMsg">La contraseña debe tener Mayúsculas, Minúsculas, Números y carácteres especiales</p>
+                      )
+                    }
+              
                   {errors.password && errors.password.type === "required" ? (
                     <div className="errorMsg">Este campo es requerido</div>
                   ) : null}

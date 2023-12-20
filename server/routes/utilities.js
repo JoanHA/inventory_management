@@ -168,7 +168,10 @@ db.query(
   "SELECT * from users where email = ? ",
   [email],
   async (err, rows) => {
-    if (err) throw new Error(err);
+    if (err) {
+      console.log(err);
+      throw new Error(err);
+    };
     //Validar que hayan usuarios con ese email
     if (rows.length > 0) {
       //Validar si es usuario es administrar o no

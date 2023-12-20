@@ -9,10 +9,12 @@ import {
   editWorkers,
   deleteWorkers,
 } from "../api/workers.controllers";
+import { useAuth } from "../context/AuthContext";
 function Form() {
   const params = useParams(); //ID
   const navigate = useNavigate(); //Navegar a otra pagina
   const [Errors, setErrors] = useState([]); //gestion de errores
+  const { user } = useAuth();
   //Mostrat el formulario de carga masiva
   const masive = () => {
     document.getElementById("modalPage").style.display = "Block";
@@ -50,7 +52,7 @@ function Form() {
         if (result.isConfirmed) {
           try {
             const res = await createWorkers(data);
-          
+
             if (res.status == 200) {
               swal
                 .fire("Colaborador creado con exito!", "", "success")
@@ -115,7 +117,7 @@ function Form() {
           enroll_date: res.data[0].enroll_date.replaceAll("/", "-"),
           branch: res.data[0].branch,
           area: res.data[0].area,
-          occupation: res.data[0].occupation
+          occupation: res.data[0].occupation,
         });
       } catch (error) {
         console.log(error);
@@ -142,7 +144,7 @@ function Form() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           const res = await deleteWorkers(params.id);
-          
+
           if (res.status == 200) {
             swal
               .fire("Colaborador eliminado con exito!", "", "success")
@@ -157,9 +159,9 @@ function Form() {
       setErrors(error.response.data);
     }
   };
-  const open = ()=>{
-    document.getElementById("asignedModal").classList.add("d-block")
-  }
+  const open = () => {
+    document.getElementById("asignedModal").classList.add("d-block");
+  };
   return (
     <div className="">
       <MasiveWorkers />
@@ -270,29 +272,40 @@ function Form() {
                 placeholder="Logistica,IT, Mercadeo.."
               />
             </div>
-            <div className="my-2">
+            <div className="my-2  d-flex gap-1 flex-wrap align-items-center">
               {params.id ? (
                 <>
-                  <button className="btn btn-success btn-sm">Editar</button>
+                  <button className="btn btn-success btn-sm ">Editar</button>
+                  {user?.rol != 272 && (
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm "
+                      onClick={deleteWorker}
+                    >
+                      Borrar
+                    </button>
+                  )}
+
                   <button
+                    className="btn btn-info btn-sm " 
                     type="button"
-                    className="btn btn-danger btn-sm mx-1"
-                    onClick={deleteWorker}
+                    onClick={open}
                   >
-                    Borrar
+                    Equipos asignados
                   </button>
-                  <button className="btn btn-info btn-sm" type="button" onClick={open}>Equipos asignados</button>
                 </>
               ) : (
                 <>
-                   <button className="btn btn-success btn-sm ">
-                    Agregar
+                  <button className="btn btn-success btn-sm  ">Agregar</button>
+                  <button
+                    className="btn btn-dark btn-sm mx-1 my-2"
+                    onClick={masive}
+                    type="button"
+                  >
+                    Carga masiva
                   </button>
-                  <button className="btn btn-dark btn-sm mx-1 my-2" onClick={masive} type="button">Carga masiva</button>
-               
                 </>
               )}
-            
             </div>
           </form>
         </div>

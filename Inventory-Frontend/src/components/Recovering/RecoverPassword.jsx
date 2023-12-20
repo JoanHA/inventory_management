@@ -3,7 +3,7 @@ import "../../assets/css/recovery.css";
 import { useAuth } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 import { changePasswordEmail } from "../../api/user.controller";
-import { useNavigate } from "react-router-dom";
+import { isRouteErrorResponse, useNavigate } from "react-router-dom";
 function RecoverPassword() {
   const {
     register,
@@ -24,9 +24,16 @@ function RecoverPassword() {
         swal.fire("Tu contraseña ha sido cambiada", "", "success").then(() => {
           navigate("/login");
         });
+      }else{
+        swal.fire("Tuvimos un error intenta mas tarde", "", "error").then(() => {
+          navigate("/login");
+        });
       }
     } catch (error) {
-      console.log(error)
+    
+      swal.fire("No pudimos cambiar tu contraseña", ` ${error.response.data}`, "error").then(() => {
+        navigate("/login");
+      });
     }
    
   };
@@ -52,7 +59,7 @@ function RecoverPassword() {
               <label className="align-self-start">Nueva contraseña</label>
               <input
                 type="password"
-                {...register("password", { required: true, minLength: 8 })}
+                {...register("password", { required: true, minLength: 8,pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/  })}
                 className="form-control"
               />
               {errors.password?.type === "required" && (
@@ -86,6 +93,11 @@ function RecoverPassword() {
                   La contraseña debe tener al menos 8 caracteres
                 </p>
               )}
+                {
+                      errors.password?.type=="pattern" && (
+                        <p className="errorMsg">La contraseña debe tener Mayúsculas, Minúsculas, Números y carácteres especiales</p>
+                      )
+                    }
             </div>
             {error && <p className="errorMsg">Las contraseñas no conciden</p>}
             <div className="w-100 mt-2">

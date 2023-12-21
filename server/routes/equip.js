@@ -27,7 +27,7 @@ router.use((req, res, next) => {
 router.get("/equip/cellphones/all",(req,res)=>{
 
   const sql = `SELECT equipments.*, 
-  (SELECT name  from workers where workers.id  = equipments.user) AS user_name,
+  (SELECT name  from workers where workers.id  = equipments.user) AS responsible_name,
   (SELECT name from params where params.id = equipments.status) AS status_name
 
   FROM equipments 

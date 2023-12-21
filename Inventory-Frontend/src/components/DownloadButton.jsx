@@ -28,7 +28,7 @@ function DownloadButton({ data = [], filter }) {
           const data = [];
           datos.forEach((element) => {
   
-            if (pathname == "/equipments" || pathname == "/cellphones") {
+            if (pathname == "/equipments" ) {
               const equipo = {
                 Nombre: element.name,
                 Oficina: element.office,
@@ -83,7 +83,7 @@ function DownloadButton({ data = [], filter }) {
         if (datos.length > 0) {
           const data = [];
           datos.forEach((element) => {
-            if (pathname == "/equipments"|| pathname == "/cellphones")  {
+            if (pathname == "/equipments")  {
               data.push( {
               Nombre: element.name,
               Oficina: element.office,
@@ -114,7 +114,7 @@ function DownloadButton({ data = [], filter }) {
           const doc = new jsPDF("l", "pt", "letter");
           var body = [];
           data.forEach((e, index) => {
-            if (pathname == "/equipments" || pathname == "/cellphones") {
+            if (pathname == "/equipments" ) {
               body.push([
                 e.Nombre,
                 e.Oficina,
@@ -142,7 +142,7 @@ function DownloadButton({ data = [], filter }) {
             }
           });
           var headers = [];
-    if (pathname == "/equipments" || pathname == "/cellphones" ) {
+    if (pathname == "/equipments" ) {
       headers = [
         "Nombre",
         "Oficina",
@@ -238,7 +238,7 @@ function DownloadButton({ data = [], filter }) {
   return (
     <div
       className={
-        pathname == "/equipments" || pathname == "/Workers" || pathname == "/cellphones"
+        pathname == "/equipments" || pathname == "/Workers"
           ? "d-block"
           : "d-none"
       }

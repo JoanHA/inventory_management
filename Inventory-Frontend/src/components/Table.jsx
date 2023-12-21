@@ -19,7 +19,6 @@ function Table({ data, columns, editType, files }) {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFilteting] = useState("");
   const [pageSize, setPageSize] = useState(window.innerWidth);
-
   const table = useReactTable({
     data,
     columns,

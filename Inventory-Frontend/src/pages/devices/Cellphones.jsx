@@ -14,7 +14,7 @@ function Cellphones() {
     },
     {
       header: "Responsable",
-      accessorKey: "responsible_name",
+      accessorKey: "user_name",
     },
     {
       header: "Fecha de compra",

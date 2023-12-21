@@ -28,7 +28,7 @@ function DownloadButton({ data = [], filter }) {
           const data = [];
           datos.forEach((element) => {
   
-            if (pathname == "/equipments") {
+            if (pathname == "/equipments" || pathname == "/cellphones") {
               const equipo = {
                 Nombre: element.name,
                 Oficina: element.office,
@@ -83,7 +83,7 @@ function DownloadButton({ data = [], filter }) {
         if (datos.length > 0) {
           const data = [];
           datos.forEach((element) => {
-            if (pathname == "/equipments") {
+            if (pathname == "/equipments"|| pathname == "/cellphones")  {
               data.push( {
               Nombre: element.name,
               Oficina: element.office,
@@ -114,7 +114,7 @@ function DownloadButton({ data = [], filter }) {
           const doc = new jsPDF("l", "pt", "letter");
           var body = [];
           data.forEach((e, index) => {
-            if (pathname == "/equipments") {
+            if (pathname == "/equipments" || pathname == "/cellphones") {
               body.push([
                 e.Nombre,
                 e.Oficina,

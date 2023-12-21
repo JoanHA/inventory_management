@@ -12,8 +12,6 @@ function DownloadButton({ data = [], filter }) {
   useEffect(() => {
     const path = window.location.pathname;
     SetPathname(path);
-
-  
   }, []);
 
   //Guardar datos
@@ -22,50 +20,53 @@ function DownloadButton({ data = [], filter }) {
       title: "Espera!",
       text: "Recuerda que si estan filtrando los datos, mientras mas especifico seas, mejor 😉",
       icon: "question",
-    }).then(() => {
-      const datos = getData();
-      if (datos.length > 0) {
-        const data = [];
-        datos.forEach((element) => {
-
-          if (pathname == "/equipments") {
-            const equipo = {
-              Id: element.id,
-              Nombre: element.name,
-              Oficina: element.office,
-              Serial: element.serial,
-              Usuario: element.user_name,
-              Ram: element.ram,
-              Disco_duro: element.hard_disk,
-              Procesador: element.proccesor,
-              Sistema_operativo: element.system,
-              Descripcion: element.description,
-              Estado: element.statusName,
-              Marca: element.paramName,
-              Creado: element.created_at.split("T")[0],
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const datos = getData();
+        if (datos.length > 0) {
+          const data = [];
+          datos.forEach((element) => {
+  
+            if (pathname == "/equipments") {
+              const equipo = {
+                Nombre: element.name,
+                Oficina: element.office,
+                Serial: element.serial,
+                Usuario: element.user_name,
+                Ram: element.ram,
+                Disco_duro: element.hard_disk,
+                Sistema_operativo: element.system,
+                Estado: element.statusName,
+                Marca: element.paramName,
+                Celular:element.phone,
+                Ubicacion: element.location,
+                Creado: element.bought_at.split("T")[0],
+              }
+              data.push(equipo);
+            }else{
+              const usuario = {
+                Id: element.id,
+                Identificacion: element.dni,
+                Nombre: element.name,
+                Email: element.email,
+                Area: element.area,
+                Sede: element.branch,
+                Estado: element.status_name,
+                Fecha_ingreso: element.created_at.split("T")[0],
+              }
+              data.push(usuario);
             }
-            data.push(equipo);
-          }else{
-            const usuario = {
-              Id: element.id,
-              Identificacion: element.dni,
-              Nombre: element.name,
-              Email: element.email,
-              Area: element.area,
-              Sede: element.branch,
-              Estado: element.status_name,
-              Fecha_ingreso: element.created_at.split("T")[0],
-            }
-            data.push(usuario);
-          }
-          
-       
-        });
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        XLSX.writeFile(workbook, `Reporte de ${pathname=="/equipments"? "Equipos":"Colaboradores"} filtrados.xlsx`);
+            
+         
+          });
+          const worksheet = XLSX.utils.json_to_sheet(data);
+          const workbook = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+          XLSX.writeFile(workbook, `Reporte de ${pathname=="/equipments"? "Equipos":"Colaboradores"} filtrados.xlsx`);
+        }
       }
+      
     });
   };
 
@@ -84,19 +85,18 @@ function DownloadButton({ data = [], filter }) {
           datos.forEach((element) => {
             if (pathname == "/equipments") {
               data.push( {
-                Id: element.id,
-                Nombre: element.name,
-                Oficina: element.office,
-                Serial: element.serial,
-                Usuario: element.user_name,
-                Ram: element.ram,
-                Disco_duro: element.hard_disk,
-                Procesador: element.proccesor,
-                Sistema_operativo: element.system,
-                Descripcion: element.description,
-                Estado: element.statusName,
-                Marca: element.paramName,
-                Creado: element.created_at.split("T")[0],
+              Nombre: element.name,
+              Oficina: element.office,
+              Serial: element.serial,
+              Usuario: element.user_name,
+              Ram: element.ram,
+              Disco_duro: element.hard_disk, 
+              Sistema_operativo: element.system,
+              Estado: element.statusName,
+              Marca: element.paramName,
+              Celular:element.phone,
+              Ubicacion: element.location,
+              Creado: element.bought_at.split("T")[0],
               });
             }else{
               data.push({
@@ -109,12 +109,9 @@ function DownloadButton({ data = [], filter }) {
                 Estado: element.status_name,
                 Fecha_ingreso: element.created_at.split("T")[0],
               });
-            }
-           
-          
+            } 
           });
           const doc = new jsPDF("l", "pt", "letter");
-
           var body = [];
           data.forEach((e, index) => {
             if (pathname == "/equipments") {
@@ -125,11 +122,11 @@ function DownloadButton({ data = [], filter }) {
                 e.Usuario,
                 e.Ram,
                 e.Disco_duro,
-                e.Procesador,
                 e.Sistema_operativo,
-                e.Descripcion,
                 e.Estado,
                 e.Marca,
+                e.Celular,
+                e.Ubicacion,
                 e.Creado,
               ]);
             }else{
@@ -145,20 +142,20 @@ function DownloadButton({ data = [], filter }) {
             }
           });
           var headers = [];
-    if (pathname == "/equipments") {
+    if (pathname == "/equipments" || pathname == "/cellphones" ) {
       headers = [
         "Nombre",
         "Oficina",
         "Serial",
-        "Usuario",
+        "Nombre del responsable",
         "Ram",
         "Disco Duro",
-        "Procesador",
         "Sistema Operativo",
-        "Descripción",
         "Estado",
         "Marca",
-        "Creación",
+        "Celular",
+        "Ubicación",
+        "Fecha de compra",
       ]
     }else{
       headers =[
@@ -241,7 +238,7 @@ function DownloadButton({ data = [], filter }) {
   return (
     <div
       className={
-        pathname == "/equipments" || pathname == "/Workers"
+        pathname == "/equipments" || pathname == "/Workers" || pathname == "/cellphones"
           ? "d-block"
           : "d-none"
       }

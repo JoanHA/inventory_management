@@ -10,7 +10,6 @@ function ViewAllEquip() {
   useEffect(() => {
     const getAll = async () => {
       try {
-        
         const res = await getAllDevices();
         setDatos(res.data);
       } catch (error) {

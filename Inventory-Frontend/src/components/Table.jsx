@@ -44,37 +44,6 @@ function Table({ data, columns, editType, files }) {
       table.setPageSize(Number(10));
     }
   }, [pageSize]);
-  // const sortColum = () => {
-  //   const asc = document.getElementById("asc");
-  //   const desc= document.getElementById("desc")
-  //   if (asc.classList.contains("1")) {
-  //     asc.classList.remove("d-none")
-  //     asc.classList.remove("1")
-  //   }else{
-  //     asc.classList.add("d-none")
-  //     asc.classList.add("1")
-  //   }
-  //   if (desc.classList.contains("1")) {
-  //     desc.classList.remove("d-none")
-  //     desc.classList.remove("1")
-  //   }else{
-  //     desc.classList.add("d-none")
-  //     desc.classList.add("1")
-  //   }
-  
-
-  // };
-  // const exitSort =()=>{
-  //   const asc = document.getElementById("asc");
-  //   const desc= document.getElementById("desc");
-  //   desc.classList.remove("d-none")
-  //   desc.classList.remove("1")
-  //   asc.classList.remove("d-none")
-  //   asc.classList.remove("1")
-  //   asc.classList.add("d-none")
-  //   desc.classList.add("d-none")
-  //   asc.classList.add("1")
-  // }
   return (
     <div>
       <div

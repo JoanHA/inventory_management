@@ -8,7 +8,7 @@ const { compareSync } = require("bcrypt");
 //traer parametros, ya no me acuerdo que parametros eran
 router.get("/", (req, res) => {
   db.query(
-    "SELECT paramtype_id, name, id, param_state FROM params WHERE paramtype_id = 204 OR paramtype_id = 203 OR paramtype_id = 208 OR paramtype_id = 201  ",
+    "SELECT paramtype_id, name, id, param_state FROM params WHERE paramtype_id = 204 OR paramtype_id = 203 OR paramtype_id = 208 OR paramtype_id = 201 OR paramtype_id = 200",
     (error, result) => {
       res.send(result);
     }

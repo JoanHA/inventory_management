@@ -37,6 +37,7 @@ function View_one_event() {
       const res = await getOneEvent(params.id);
       setEquipo(res.data[0].equip);
 
+
       const datos = res.data[0];
       setData(datos);
       setFileUrl(`${URI}${datos.file}`);
@@ -135,6 +136,8 @@ function View_one_event() {
                 className="form-control form-control-sm"
               />
             </div>
+          
+
           </div>
         </div>
         {/* Equip event */}
@@ -142,6 +145,7 @@ function View_one_event() {
           <div className="event_title ">
             <h2>Evento</h2>
           </div>
+          
 
           <div className="">
             <div className="row mx-auto  w-75">
@@ -345,6 +349,9 @@ function View_one_event() {
                 >
                   Ver eventos de este equipo
                 </Link>
+                <div >
+                <Link to={`/edit/${data.equip}`} className="btn btn-secondary py-2">Ver equipo</Link>
+            </div>
               </div>
             </div>
           </div>

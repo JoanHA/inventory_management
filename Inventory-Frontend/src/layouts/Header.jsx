@@ -1,7 +1,6 @@
-import React from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
+
 
 function Header({ children }) {
   const { isAuthenticated, logOut } = useAuth();
@@ -9,12 +8,14 @@ function Header({ children }) {
     document.getElementById("sidebar").classList.toggle("Clicked");
     document.getElementById("sidebarContainer").classList.toggle("Clicked2");
   }
+
+
   return (
     <>
       <div className="d-flex flex-row">
         <Sidebar></Sidebar>
         <div id="headerContainer" className="w-100 h-100">
-          <nav className="navbar bg-body-tertiary" id="navbar">
+          <nav className="navbar bg-body-tertiary" id="navbar00">
             <button  className={isAuthenticated? "menu-icon": "menu-icon d-none"} onClick={click}>
               <span className="navbar-toggler-icon"></span>
             </button>

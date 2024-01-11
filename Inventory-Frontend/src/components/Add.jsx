@@ -14,7 +14,7 @@ function Add(props) {
   }, [props]);
 
   const onSubmit = async (values) => {
-    saveParam(values);
+   await saveParam(values);
     if (props.OnSaving) {
      await props.OnSaving();
     }

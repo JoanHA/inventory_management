@@ -65,7 +65,7 @@ function Welcome() {
               </div>
             </Link>
 
-            <Link className="GoLink" to={"/create"}>
+            <Link className="GoLink" to={"/equipments"}>
               <div
                 className="card d-flex flex-row text-dark bg-light mb-3 py-2 align-items-center rounded justify-content-evenly "
                 style={{
@@ -78,7 +78,7 @@ function Welcome() {
                 <div className=" ">
                   <h5 className="my-0 text-center">
                     {" "}
-                    <span className="mx-1">Registrar equipos</span>
+                    <span className="mx-1">Ver equipos</span>
                   </h5>
                 </div>
 

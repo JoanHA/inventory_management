@@ -168,18 +168,19 @@ function DownloadButton({ data = [], filter }) {
         "Fecha ingreso"
       ]
     }
-          var y = 30;
+          var y = 20;
           doc.setLineWidth(1);
-          doc.text(240, y - 10, `Reporte de ${pathname=="/equipments"? "Equipos":"Colaboradores"} filtrados`);
+          // doc.text(240, y - 10, `Reporte de ${pathname=="/equipments"? "Equipos":"Colaboradores"} filtrados`);
           doc.autoTable({
             body: body,
             startY: y,
             head: [headers],
             theme: "striped",
             headStyles: {
-              lineWidth: 1,
-              fillColor: [204, 204, 255],
+              lineWidth: 0,
+              fillColor: [223, 222,222],
               textColor: [0, 0, 0],
+            
             },
           });
 
@@ -209,7 +210,6 @@ function DownloadButton({ data = [], filter }) {
       if (data != null) {
        
         const FilteredData = data.filter((equip) => {
-          console.log()
           const map = Object.values(equip).filter(Boolean);
           if (mapear(map)) {
             return true;

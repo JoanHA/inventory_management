@@ -46,7 +46,7 @@ router.post("/params", (req, res) => {
 //Obtener los tipos de eventos 
 router.get("/events_type", (req, res) => {
   db.query(
-    "SELECT id, name FROM params where paramtype_id=200",
+    "SELECT id, name FROM params where paramtype_id=200 AND param_state=1",
     (error, result) => {
       res.send(result);
       console.log(result);

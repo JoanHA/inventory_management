@@ -4,9 +4,12 @@ import { bringAllFiles, getAllDevices } from "../api/devices.controller";
 import { Helmet } from "react-helmet";
 
 import { Link } from "react-router-dom";
+
 function ViewAllEquip() {
   const [datos, setDatos] = useState([]);
-
+const descargar = async ()=>{
+ 
+}
   useEffect(() => {
     const getAll = async () => {
       try {

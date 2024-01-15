@@ -4,6 +4,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Add from "./Add";
 import Masive from "./Masive";
 import { useAuth } from "../context/AuthContext";
+import { FaDownload } from "react-icons/fa6";
+import { URI } from "../../config";
+
+import { editPDF } from "../api/devices.controller";
 import {
   getParameters,
   getOneDevice,
@@ -17,6 +21,8 @@ import { MdOutlineFileDownload, MdDelete } from "react-icons/md";
 import { createEquip, update } from "../api/devices.controller";
 import FileList from "./FileList";
 import { saveFiles } from "../api/devices.controller";
+import { handleDownload } from "../lib/sendOtp";
+import { getOneWorker } from "../api/workers.controllers";
 function DevicesForm() {
   //Constantes
   const params = useParams();
@@ -43,6 +49,26 @@ function DevicesForm() {
   } = useForm();
 
   //Funciones -----------------
+
+  const downloadActa = async () => {
+    try {
+      const resWorker = await getOneWorker(equip.user);
+      const username = resWorker.data[0].name + " CC- " + resWorker.data[0].dni;
+
+      const data = {
+        producto: equip.equipment_type_name + " " + equip.model,
+        serial: equip.serial,
+        para: username,
+        fecha: equip.deliver_at,
+      };
+
+      const res = await editPDF(data);
+      handleDownload(`${URI}${res.data}`, `${equip.serial}.pdf`);
+    } catch (error) {
+      console.log(error);
+      swal.fire("No pudimos descargar el acta, intenta mas tarde", "", "error");
+    }
+  };
   const openView = (value, id) => {
     setParametro([value, id]);
     document.querySelector("#addModal").classList.remove("inactive");
@@ -91,8 +117,8 @@ function DevicesForm() {
     }
   };
   const getFileLength = async () => {
-      const res = await getFiles(params.id);
-      setFileQty(res.data.length);
+    const res = await getFiles(params.id);
+    setFileQty(res.data.length);
   };
 
   //Guardar/editar datos
@@ -119,7 +145,6 @@ function DevicesForm() {
     //----Configurar el campo de dolar
 
     data.user = data.user == "" ? null : data.user;
-    
 
     if (params.id) {
       try {
@@ -222,39 +247,36 @@ function DevicesForm() {
   //LLenanr los campos del equipo
   const getOne = async () => {
     try {
-    
-        const id = params.id;
-        const res = await getOneDevice(id);
-        const equipData = res.data[0];
-        if (equipData.equipment_type == 263) {
-          SetIsPhone(true);
-        }
-        setEquip(res.data[0]); //Darle formato a el valor de ram y disco duro
-        reset({
-          name: equipData.name,
-          model: equipData.model,
-          serial: equipData.serial,
-          user: equipData.user,
-          office: equipData.office,
-          description: equipData.description,
-          proccesor: equipData.proccesor,
-          system: equipData.system,
-          antivirus: equipData.antivirus,
-          ram: equipData.ram,
-          hard_disk: equipData.hard_disk,
-          status: equipData.status,
-          bought_at: equipData.bought_at.replaceAll("/", "-"),
-          deliver_at: equipData.deliver_at.replaceAll("/", "-"),
-          init_value:
-            equipData.init_value == "" ? "" : "$" + equipData.init_value,
-          final_value:
-            equipData.final_value == "" ? "" : "$" + equipData.final_value,
-          sub_value: equipData.sub_value,
-          phone: equipData.phone,
-          location: equipData.location,
-        });
-      
-    
+      const id = params.id;
+      const res = await getOneDevice(id);
+      const equipData = res.data[0];
+      if (equipData.equipment_type == 263) {
+        SetIsPhone(true);
+      }
+      setEquip(res.data[0]); //Darle formato a el valor de ram y disco duro
+      reset({
+        name: equipData.name,
+        model: equipData.model,
+        serial: equipData.serial,
+        user: equipData.user,
+        office: equipData.office,
+        description: equipData.description,
+        proccesor: equipData.proccesor,
+        system: equipData.system,
+        antivirus: equipData.antivirus,
+        ram: equipData.ram,
+        hard_disk: equipData.hard_disk,
+        status: equipData.status,
+        bought_at: equipData.bought_at.replaceAll("/", "-"),
+        deliver_at: equipData.deliver_at.replaceAll("/", "-"),
+        init_value:
+          equipData.init_value == "" ? "" : "$" + equipData.init_value,
+        final_value:
+          equipData.final_value == "" ? "" : "$" + equipData.final_value,
+        sub_value: equipData.sub_value,
+        phone: equipData.phone,
+        location: equipData.location,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -656,9 +678,9 @@ function DevicesForm() {
                         size={"1.5rem"}
                         className="mb-5 align-self-center"
                       />
-                      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {fileQty}
-                        <span class="visually-hidden">unread messages</span>
+                        <span className="visually-hidden">unread messages</span>
                       </span>
                     </button>
                   </div>
@@ -728,7 +750,7 @@ function DevicesForm() {
 
             {/* Boton de envio */}
             {params.id ? (
-              <div className="col-md-12">
+              <div className="col-md-12 ">
                 <button
                   className="btn btn-success text-center my-3 btn-sm py-2"
                   disabled={user.rol == 272 ? true : false}
@@ -771,7 +793,16 @@ function DevicesForm() {
                     )}
                   </>
                 )}
-                <DownloadHistorical id={params.id} />
+                <div className="d-flex flex-row flex-wrap gap-2">
+                  <DownloadHistorical id={params.id} />
+                  <button
+                    className="btn btn-sm btn-dark d-flex flex-row gap-1 align-items-center "
+                    onClick={downloadActa}
+                    type="button"
+                  >
+                    Descargar acta <FaDownload size={"18px"}></FaDownload>
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="col-md-12">

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getFiles, deleteFiles } from "../api/devices.controller";
 import axios from "axios";
-import fileDownload from "js-file-download";
+
 import { URI } from "../../config";
 import { useNavigate } from "react-router-dom";
-
+import { handleDownload } from "../lib/sendOtp";
 function FileList({ id }) {
   const [datos, setDatos] = useState([]);
   const navigate = useNavigate();
@@ -47,16 +47,7 @@ function FileList({ id }) {
       }
     });
   };
-  const handleDownload = (url, filename) => {
-    // console.log(filename)
-    axios
-      .get(url, {
-        responseType: "blob",
-      })
-      .then((res) => {
-        fileDownload(res.data, filename);
-      });
-  };
+ 
   return (
     <div
       id="addModal2"

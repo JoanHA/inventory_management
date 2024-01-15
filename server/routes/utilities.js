@@ -4,7 +4,43 @@ const db = require("../db.js");
 const helper = require("./../lib/helpers.js");
 const jwt = require("jsonwebtoken");
 const { compareSync } = require("bcrypt");
+const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
+const fs = require("fs");
+const path = require("path");
 
+//editar PDF
+
+router.post("/editPDF", async (req, res) => {
+  const { producto, serial, para, fecha } = req.body;
+  const URLPDF = path.join(
+    __dirname + "/../public/uploads/R-IT03 Plantilla de entrega.pdf"
+  );
+  try {
+    const existingPdfBytes = fs.readFileSync(URLPDF);
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const form = pdfDoc.getForm();
+
+    form.getTextField("para").setText(para);
+    form.getTextField("producto").setText(producto);
+    form.getTextField("serial").setText(serial);
+    form.getTextField("fecha").setText(fecha);
+
+    const modifiedPdfBytes = await pdfDoc.save();
+    const PDFname = `${Date.now()}-${serial}.pdf` ;
+    // Ruta donde se guardará el PDF modificado en la carpeta "public/uploads"
+    const modifiedPDFPath = path.join(
+      __dirname,
+      `/../public/uploads/${PDFname}`
+    );
+
+    // Guarda el PDF modificado en la carpeta pública
+    fs.writeFileSync(modifiedPDFPath, modifiedPdfBytes);
+    res.send(PDFname);
+  } catch (error) {
+    console.error("Error al generar el PDF:", error);
+    res.status(500).send("Error al generar el PDF");
+  }
+});
 //traer parametros, ya no me acuerdo que parametros eran
 router.get("/", (req, res) => {
   db.query(
@@ -14,7 +50,6 @@ router.get("/", (req, res) => {
     }
   );
 });
-
 
 //Guardar un parametro
 router.post("/params", (req, res) => {
@@ -28,8 +63,8 @@ router.post("/params", (req, res) => {
       });
       const lastId = idRows[idRows.length - 1];
       db.query(
-        `INSERT INTO params(paramtype_id,name,param_state,id) VALUES(${paramType_Id},'${value}',1,${143 +
-          lastId + 1
+        `INSERT INTO params(paramtype_id,name,param_state,id) VALUES(${paramType_Id},'${value}',1,${
+          143 + lastId + 1
         })`,
         (error, result) => {
           if (error) {
@@ -43,7 +78,7 @@ router.post("/params", (req, res) => {
     }
   );
 });
-//Obtener los tipos de eventos 
+//Obtener los tipos de eventos
 router.get("/events_type", (req, res) => {
   db.query(
     "SELECT id, name FROM params where paramtype_id=200 AND param_state=1",
@@ -82,7 +117,7 @@ router.post("/verifyToken", async (req, res) => {
 //Cambiar contraseña para usuario
 router.post("/changePassword", (req, res) => {
   const { id } = req.body;
-//Buscat el usuario que tenga ese id
+  //Buscat el usuario que tenga ese id
   db.query(
     "SELECT password,rol from users where id = ? ",
     [id],
@@ -121,115 +156,111 @@ router.post("/changePassword", (req, res) => {
         } else {
           //Validar si la contraseña actual es la misma que envió
           const Password = req.body.Password;
-        
-          const isMatch =  await helper.compare(Password, oldpassword);
-          console.log(isMatch)
+
+          const isMatch = await helper.compare(Password, oldpassword);
+          console.log(isMatch);
           //Si es igual
           if (isMatch == true) {
-
             const newPassword = req.body.Newpassword;
             const confirmPassword = req.body.Confirmpassword;
             if (newPassword === confirmPassword) {
-                const hashPassword = await helper.encypt(newPassword); //Si son iguales encriptar la contraseña nueva
-                //Actualizar usuario
-                db.query(
-                  "UPDATE users SET password = ? where id = ?",
-                  [hashPassword, id],
-                  (error, result) => {
-                    if (error) throw new Error(error);
-                    console.log(result);
-                    res.send("Usuario actualizado Correctamente!"); //Usuario  Actualizado
-                  }
-                );
-                //Si son diferentes Enviar el error
-              } else {
+              const hashPassword = await helper.encypt(newPassword); //Si son iguales encriptar la contraseña nueva
+              //Actualizar usuario
+              db.query(
+                "UPDATE users SET password = ? where id = ?",
+                [hashPassword, id],
+                (error, result) => {
+                  if (error) throw new Error(error);
+                  console.log(result);
+                  res.send("Usuario actualizado Correctamente!"); //Usuario  Actualizado
+                }
+              );
+              //Si son diferentes Enviar el error
+            } else {
+              res.status(300).send(["Las contraseñas no son iguales..."]);
+            }
 
-                res.status(300).send(["Las contraseñas no son iguales..."]);
-              }
-
-              //Si la contraseña actual es erronea
-          }else{
-
-                res.status(300).send(["La contraseña actual es incorrecta..."])
+            //Si la contraseña actual es erronea
+          } else {
+            res.status(300).send(["La contraseña actual es incorrecta..."]);
           }
         }
       }
     }
   );
-
 });
-
 
 //cambiar contraseña con email
 router.put("/changePassword/email", (req, res) => {
-  const { email,password } = req.body;
-//Buscar el usuario que tenga ese email
-db.query(
-  "SELECT * from users where email = ? ",
-  [email],
-  async (err, rows) => {
-    if (err) {
-      console.log(err);
-      throw new Error(err);
-    };
-    //Validar que hayan usuarios con ese email
-    if (rows.length > 0) {
-      //Validar si es usuario es administrar o no
-          const hashPassword = await helper.encypt(password); //Si son iguales encriptar la contraseña nueva
-          //Actualizar usuario
-          db.query(
-            "UPDATE users SET password = ? where email = ?",
-            [hashPassword, email],
-            (error, result) => {
-              if (error) throw new Error(error);
-              console.log(result);
-              res.send("Usuario actualizado Correctamente!"); //Usuario  Actualizado
-            }
-          );
-    }else {
-      res.status(300).send(["No hay usuarios con ese email"]);
+  const { email, password } = req.body;
+  //Buscar el usuario que tenga ese email
+  db.query(
+    "SELECT * from users where email = ? ",
+    [email],
+    async (err, rows) => {
+      if (err) {
+        console.log(err);
+        throw new Error(err);
+      }
+      //Validar que hayan usuarios con ese email
+      if (rows.length > 0) {
+        //Validar si es usuario es administrar o no
+        const hashPassword = await helper.encypt(password); //Si son iguales encriptar la contraseña nueva
+        //Actualizar usuario
+        db.query(
+          "UPDATE users SET password = ? where email = ?",
+          [hashPassword, email],
+          (error, result) => {
+            if (error) throw new Error(error);
+            console.log(result);
+            res.send("Usuario actualizado Correctamente!"); //Usuario  Actualizado
+          }
+        );
+      } else {
+        res.status(300).send(["No hay usuarios con ese email"]);
+      }
     }
-  }
-);
-
+  );
 });
 
-
-
 //editar de parametros
-router.put("/editParams/:id",(req,res)=>{
+router.put("/editParams/:id", (req, res) => {
   const id = req.params.id;
-  const{ name}  =req.body
-  const año  =   new Date().getFullYear()
-  const dia  =   new Date().getDay()
-  const mes  =   new Date().getMonth()
+  const { name } = req.body;
+  const año = new Date().getFullYear();
+  const dia = new Date().getDay();
+  const mes = new Date().getMonth();
 
-   db.query(`UPDATE params SET name = ? WHERE id = ? `,[name,id],(error,result)=>{
-    if(error){
-      console.log(error)
-      return  res.status(500).send("Tuvimos un error")
+  db.query(
+    `UPDATE params SET name = ? WHERE id = ? `,
+    [name, id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Tuvimos un error");
+      }
+      res.send("Editado Correctamente");
     }
-        res.send("Editado Correctamente")
-
-   })
-
-
-})
+  );
+});
 
 //eliminar parametro
-router.delete("/deleteParams/:id",(req,res)=>{
+router.delete("/deleteParams/:id", (req, res) => {
   const id = req.params.id;
-  const año  =   new Date().getFullYear()
-  const dia  =   new Date().getDay()
-  const mes  =   new Date().getMonth()
-  db.query(`UPDATE params SET param_state = 3 WHERE id = ? `,[id],(error,result)=>{
-    if(error){
-      console.log(error)
-      return  res.status(500).send("Tuvimos un error")
+  const año = new Date().getFullYear();
+  const dia = new Date().getDay();
+  const mes = new Date().getMonth();
+  db.query(
+    `UPDATE params SET param_state = 3 WHERE id = ? `,
+    [id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Tuvimos un error");
+      }
+      res.send("Eliminado Correctamente");
     }
-        res.send("Eliminado Correctamente")
-
-   })
-})
+  );
+});
 
 module.exports = router;

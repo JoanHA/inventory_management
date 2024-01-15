@@ -201,6 +201,9 @@ function Table({ data, columns, editType, files }) {
           </tbody>
         </table>
       </div>
+      <label htmlFor="">
+        <strong>Cantidad total: {data.length}</strong>{" "}
+      </label>
     </div>
   );
 }

@@ -231,6 +231,9 @@ function DevicesForm() {
     try {
       const res = await getWorkers();
       setWorkers(res.data);
+      if (params.id) {
+        getOne();
+      }
     } catch (error) {
       console.log(error);
     }

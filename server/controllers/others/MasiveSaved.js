@@ -109,7 +109,7 @@ async function saveInDb(exFile) {
         campos.hard_type = element[13];
         campos.proccesor = element[14];
         campos.system = element[15];
-        campos.status = element[16] == "Activo" ? 1 : 2;
+        campos.status = element[16].toUpperCase() == "ACTIVO" ? 1 : 2;
         campos.antivirus = element[17];
         campos.bought_at = helper.convertTime(element[18]);
         campos.init_value = element[19];
